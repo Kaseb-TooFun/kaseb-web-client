@@ -10,7 +10,7 @@ stages:
   - package
   - deploy
 
-yarn-build:
+pages:
   image: mhart/alpine-node:11
   stage: build
   script: 

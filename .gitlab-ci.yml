@@ -10,9 +10,6 @@ cache:
   key: "$CI_PROJECT_ID"
   paths:
    - node_modules/
-   - _site/vendor/
-   - .bundled/
-   - .yarn
     
 stages:
   - build
@@ -23,8 +20,6 @@ pages:
   image: mhart/alpine-node:11
   stage: build
   script:
-   - ls -l
-   - yarn config set cache-folder .yarn
    - yarn install
    - yarn test
    - yarn build
@@ -33,8 +28,8 @@ pages:
   artifacts:
     paths:
       - public
-#  rules:
-#    - if: $CI_COMMIT_TAG
+  rules:
+    - if: $CI_COMMIT_TAG
 
 
 docker-build:

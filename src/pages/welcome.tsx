@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { RouteComponentProps, Link } from "@reach/router";
-import { Button, Row, Typography, Layout } from 'antd/es';
+import { Button, Row, Typography, Layout } from 'antd';
 import { UnlockOutlined } from '@ant-design/icons';
 const { Content } = Layout;
 const { Title } = Typography;

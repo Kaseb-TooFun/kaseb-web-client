@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Row, Form, Input, message, Alert } from "antd/es";
+import { Button, Row, Form, Input, message, Alert } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { RouteComponentProps, Link, useNavigate } from "@reach/router";
 import Api from "../../api";

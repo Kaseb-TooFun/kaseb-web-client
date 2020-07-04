@@ -9,7 +9,7 @@ import {
 	Switch,
 	Button,
 	Input,
-} from "antd/es";
+} from "antd";
 const { Title } = Typography;
 
 const BannerForm = () => {

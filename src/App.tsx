@@ -1,23 +1,18 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { Router } from "@reach/router";
+import Welcome from "./pages/welcome";
+import Login from "./pages/auth/login";
+import SignUp from "./pages/auth/sign-up";
+import Dashboard from "./pages/dashboard";
 
 function App() {
 	return (
-		<div className="App">
-			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<p>Kaseb Web Client</p>
-				<a
-					className="App-link"
-					href="#/"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Kaseb.io
-				</a>
-			</header>
-		</div>
+		<Router basepath="/kaseb-web-client">
+			<Welcome path="/" />
+			<Login path="/login" />
+			<SignUp path="/sign-up" />
+			<Dashboard path="/dashboard/*" />
+		</Router>
 	);
 }
 

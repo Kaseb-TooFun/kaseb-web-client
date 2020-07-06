@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Row, Form, Input, message } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import { RouteComponentProps, Link, useNavigate } from "@reach/router";
-import Api from "../../api";
+import Api from "_src/api";
 
 const formItemLayout = {
 	labelCol: { span: 8 },

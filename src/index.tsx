@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/tailwind.generated.css';
-import './styles/index.scss';
-import App from './app';
-import * as serviceWorker from './serviceWorker';
+import '_styles/tailwind.generated.css';
+import '_styles/index.scss';
+import App from '_src/app';
+import * as serviceWorker from '_src/serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>

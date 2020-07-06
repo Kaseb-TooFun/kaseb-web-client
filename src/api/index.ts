@@ -1,9 +1,9 @@
-import { instance } from './axios-instance';
-import * as server from './server';
+import { instance } from "_src/api/axios-instance";
+import * as server from "_src/api/server";
 
 const Api = {
 	axiosInstance: instance,
-	server
+	server,
 };
 
 export default Api;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { RouteComponentProps, Link, Router } from "@reach/router";
 import { Row, Menu, Layout, Typography } from "antd";
-import Actions from "./actions";
+import Actions from "_pages/dashboard/actions";
 const { Content } = Layout;
 const { Title } = Typography;
 

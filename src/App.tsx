@@ -1,9 +1,9 @@
 import React from "react";
 import { Router } from "@reach/router";
-import Welcome from "./pages/welcome";
-import Login from "./pages/auth/login";
-import SignUp from "./pages/auth/sign-up";
-import Dashboard from "./pages/dashboard";
+import Welcome from "_pages/welcome";
+import Login from "_pages/auth/login";
+import SignUp from "_pages/auth/sign-up";
+import Dashboard from "_pages/dashboard";
 
 function App() {
 	return (

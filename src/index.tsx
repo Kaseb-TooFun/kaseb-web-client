@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '_styles/tailwind.generated.css';
 import '_styles/index.scss';
-import App from '_src/app';
+import App from '_src/App';
 import * as serviceWorker from '_src/serviceWorker';
 
 ReactDOM.render(

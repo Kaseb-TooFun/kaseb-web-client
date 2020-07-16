@@ -7,7 +7,7 @@ import Dashboard from "_pages/dashboard";
 
 function App() {
 	return (
-		<Router basepath="/kaseb-web-client">
+		<Router basepath="/">
 			<Welcome path="/" />
 			<Login path="/login" />
 			<SignUp path="/sign-up" />

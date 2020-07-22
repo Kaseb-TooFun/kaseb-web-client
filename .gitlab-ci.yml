@@ -45,19 +45,15 @@ docker-build:
     - if: '$CI_PIPELINE_SOURCE == "web"'
     - if: '$CI_PIPELINE_SOURCE == "chat"'
 
-#arvan-deploy:
-#  image: mormoroth/arvancli
-#  stage: deploy
-#  script:
-#  - echo "$ARVAN_CLI_TOKEN\n" | arvan login
-#  - arvan paas status
-#  - gcloud auth activate-service-account --key-file key.json
-#  - gcloud config set compute/zone europe-west1-c
-#  - gcloud config set project actuator-sample
-#  - gcloud config set container/use_client_certificate True
-#  - gcloud container clusters get-credentials actuator-sample
-#  - kubectl delete secret registry.gitlab.com
-#  - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=marcolenzo --docker-password=$REGISTRY_PASSWD --docker-email=lenzo.marco@gmail.com
-#  - kubectl apply -f deployment.yml
-#  rules:
-#    - if: $CI_COMMIT_TAG
+nl-deploy:
+  stage: deploy
+  script:
+    - whoami
+    - sudo docker-compose -f /docker-compose.yml pull client
+    - sudo docker-compose -f /docker-compose.yml up -d
+  rules:
+    - if: $CI_COMMIT_TAG
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+    - if: '$CI_PIPELINE_SOURCE == "chat"'
+  tags:
+    - nl1

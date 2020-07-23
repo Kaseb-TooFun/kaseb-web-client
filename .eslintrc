@@ -1,0 +1,22 @@
+{
+	"extends": ["react-app", "plugin:jsx-a11y/recommended"],
+	"plugins": ["jsx-a11y"],
+	"env": {
+		"browser": true,
+		"node": true,
+		"es6": true
+	},
+	"parser": "babel-eslint",
+	"parserOptions": {
+		"project": "tsconfig.json",
+		"tsconfigRootDir": "./",
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": 2018
+	},
+	"rules": {
+		"@typescript-eslint/no-unused-vars": "off",
+		"eqeqeq": "off"
+	}
+}

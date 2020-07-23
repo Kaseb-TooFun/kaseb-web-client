@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Row, Form, Input, message, Alert } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { RouteComponentProps, Link, useNavigate } from "@reach/router";
-import Api from "_src/api";
+import Api, { setAuthHeader }  from "_src/api";
 
 const formItemLayout = {
 	labelCol: { span: 8 },
@@ -22,39 +22,23 @@ const Login = (props: RouteComponentProps) => {
 	const onFinish = () => {
 		setBtnLoading(true);
 		const { email, password } = form.getFieldsValue(["email", "password"]);
-		if (
-			email.toLocaleLowerCase() == "admin@demo.com" &&
-			password == "demo"
-		) {
-			message.success("successful login", 2).then(
-				() => {
-					message.loading("redirecting to dashboard…", 1);
-					setTimeout(() => {
-						navigate("dashboard", { replace: true });
-					}, 1000);
-				},
-				() => {}
-			);
-		} else {
-			message.error("username or password is incorrect");
-			setBtnLoading(false);
-		}
-		// Api.server.login(email, password).then((resposnse) => {
-		// 	if (resposnse.status == 200) {
-		// 		message.success("successful login", 2).then(
-		// 			() => {
-		// 				message.loading("redirecting to dashboard…", 1);
-		// 				setTimeout(() => {
-		// 					navigate("dashboard", { replace: true });
-		// 				}, 1000);
-		// 			},
-		// 			() => {}
-		// 		);
-		// 	} else {
-		// 		message.error("username or password is incorrect");
-		// 		setBtnLoading(false);
-		// 	}
-		// });
+		Api.auth.login(email, password).then((resposnse) => {
+			setAuthHeader(resposnse.headers.authorization);
+			if (resposnse.status == 200) {
+				message.success("successful login", 2).then(
+					() => {
+						message.loading("redirecting to dashboard…", 1);
+						setTimeout(() => {
+							navigate("dashboard", { replace: true });
+						}, 1000);
+					},
+					() => {}
+				);
+			} else {
+				message.error("username or password is incorrect");
+				setBtnLoading(false);
+			}
+		});
 	};
 
 	const onFinishFailed = () => {

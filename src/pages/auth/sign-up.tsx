@@ -22,7 +22,7 @@ const Login = (props: RouteComponentProps) => {
 	const onFinish = () => {
 		setBtnLoading(true);
 		const { email, password } = form.getFieldsValue(["email", "password"]);
-		Api.server.login(email, password).then((resposnse) => {
+		Api.auth.login(email, password).then((resposnse) => {
 			if (resposnse.status == 200) {
 				message.success("successful login", 2).then(
 					() => {

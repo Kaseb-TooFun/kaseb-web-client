@@ -1,24 +1,25 @@
-import axios from 'axios';
+import axios from "axios";
 const AXIOS_LOG_RESPONSE = true;
 const AXIOS_LOG_REQUEST = true;
-const AXIOS_BASE_URL = 'http://localhost:8000';
+const AXIOS_BASE_URL = process.env.REACT_APP_BASE_URL;
+const storage = window.localStorage;
 
 export const instance = axios.create({
 	baseURL: AXIOS_BASE_URL,
 	timeout: 30000,
 	headers: {
-		'Content-Type': 'application/json',
-		Accept: 'application/json'
-	}
+		"Content-Type": "application/json",
+		Accept: "application/json",
+	},
 });
 
 instance.interceptors.request.use(
 	(config) => {
-		if (AXIOS_LOG_REQUEST) console.log('axios request:', config);
+		if (AXIOS_LOG_REQUEST) console.log("axios request:", config);
 		return config;
 	},
 	(error) => {
-		if (AXIOS_LOG_REQUEST) console.log('axios request catch:', error);
+		if (AXIOS_LOG_REQUEST) console.log("axios request catch:", error);
 		return Promise.reject(error);
 	}
 );
@@ -33,9 +34,9 @@ instance.interceptors.response.use(
 	(error) => {
 		if (axios.isCancel(error)) {
 			if (AXIOS_LOG_RESPONSE) {
-				console.log('Request canceled');
+				console.log("Request canceled");
 			}
-			return { status: -1, message: 'Request canceled' };
+			return { status: -1, message: "Request canceled" };
 		}
 		if (AXIOS_LOG_RESPONSE) {
 			console.log(`axios response catch ${error.request.status}:`, error);
@@ -46,7 +47,7 @@ instance.interceptors.response.use(
 		return {
 			status: error.request.status,
 			code: error.code,
-			message: error.message
+			message: error.message,
 		};
 	}
 );

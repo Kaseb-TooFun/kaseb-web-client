@@ -23,8 +23,8 @@ const Login = (props: RouteComponentProps) => {
 		setBtnLoading(true);
 		const { email, password } = form.getFieldsValue(["email", "password"]);
 		Api.auth.login(email, password).then((resposnse) => {
-			setAuthHeader(resposnse.headers.authorization);
 			if (resposnse.status == 200) {
+				setAuthHeader(resposnse.data.token);
 				message.success("successful login", 2).then(
 					() => {
 						message.loading("redirecting to dashboard…", 1);

@@ -8,10 +8,13 @@ import {
 	Form,
 	Button,
 	Input,
-	Space,
 	Table,
 	Popconfirm,
 } from "antd";
+import {
+	ControlOutlined,
+	DeleteOutlined,
+} from "@ant-design/icons";
 const { Column } = Table;
 const { Title } = Typography;
 import Api from "_src/api";
@@ -46,7 +49,11 @@ const WebsiteTable = ({
 				render={(value) => (
 					<>
 						<Link to={`${value.id}/actions`}>
-							<Button className="mr-3" type="primary">
+							<Button
+								className="mr-3"
+								type="primary"
+								icon={<ControlOutlined />}
+							>
 								Actions
 							</Button>
 						</Link>
@@ -56,7 +63,7 @@ const WebsiteTable = ({
 							okText="Yes"
 							cancelText="No"
 						>
-							<a href="#">Delete</a>
+							<Button icon={<DeleteOutlined />}>Delete</Button>
 						</Popconfirm>
 					</>
 				)}

@@ -5,7 +5,7 @@ const storage = window.localStorage;
 
 export const setAuthHeader = (token: string) => {
 	storage.setItem("authorization", token);
-	instance.defaults.headers.common['Authorization'] = token;
+	instance.defaults.headers.common["Authorization"] = `bearer ${token}`;
 };
 
 const Api = {

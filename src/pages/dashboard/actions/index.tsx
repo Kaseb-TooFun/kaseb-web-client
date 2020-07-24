@@ -49,7 +49,7 @@ const BannerForm = ({ id }: { id: string }) => {
 		setBtnLoading(true);
 		const { config } = form.getFieldsValue(["config"]);
 		message.loading("saving configs…");
-		Api.website.setConfig(id, `[${config}]`).then((resposnse) => {
+		Api.website.setConfigs(id, [config]).then((resposnse) => {
 			if (resposnse.status == 200) {
 				message.success("configs saved successfully");
 			} else if (resposnse.status == 400) {
@@ -160,7 +160,7 @@ const ReactionForm = ({ id }: { id: string }) => {
 		setBtnLoading(true);
 		const { config } = form.getFieldsValue(["config"]);
 		message.loading("saving configs…");
-		Api.website.setConfig(id, `[${config}]`).then((resposnse) => {
+		Api.website.setConfigs(id, [config]).then((resposnse) => {
 			if (resposnse.status == 200) {
 				message.success("configs saved successfully");
 			} else if (resposnse.status == 400) {

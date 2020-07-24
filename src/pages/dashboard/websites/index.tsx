@@ -12,7 +12,7 @@ import {
 	Table,
 	Popconfirm,
 } from "antd";
-const { Column, ColumnGroup } = Table;
+const { Column } = Table;
 const { Title } = Typography;
 import Api from "_src/api";
 
@@ -131,7 +131,7 @@ const Websites = (props: RouteComponentProps) => {
 	const fetchWebsiteList = () => {
 		Api.website.getList().then((response) => {
 			if (response.status == 200) {
-				setData(response.data.websistes);
+				setData(response.data.websites);
 			}
 		});
 	};

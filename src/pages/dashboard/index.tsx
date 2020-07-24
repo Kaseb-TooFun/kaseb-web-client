@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { RouteComponentProps, Link, Router } from "@reach/router";
 import { Row, Menu, Layout, Typography } from "antd";
 import Actions from "_src/pages/dashboard/actions";
+import Websites from "_src/pages/dashboard/websites";
 const { Content } = Layout;
 const { Title } = Typography;
 
@@ -29,9 +30,9 @@ class Dashboard extends Component<RouteComponentProps> {
 						Dashboard
 						<Link to="." />
 					</Menu.Item>
-					<Menu.Item key="actions">
-						Actions
-						<Link to="actions" />
+					<Menu.Item key="websites">
+						Websites
+						<Link to="websites" />
 					</Menu.Item>
 					<Menu.Item key="home">
 						logout
@@ -40,7 +41,8 @@ class Dashboard extends Component<RouteComponentProps> {
 				</Menu>
 				<Router>
 					<DashboardContent path="/" />
-					<Actions path="/actions" />
+					<Actions path="/websites/:websiteId/actions" />
+					<Websites path="/websites" />
 				</Router>
 			</Row>
 		);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, useParams } from "@reach/router";
 import {
 	Row,
 	Card,
@@ -8,13 +8,15 @@ import {
 	Form,
 	Switch,
 	Button,
+	message,
 	Input,
 } from "antd";
 const { Title } = Typography;
 import Api from "_src/api";
 
-const BannerForm = () => {
+const BannerForm = ({ id }: { id: string }) => {
 	const [form] = Form.useForm();
+	const [btnLoading, setBtnLoading] = useState(false);
 	const onFormChange = () => {
 		const {
 			description,
@@ -42,9 +44,23 @@ const BannerForm = () => {
 			}),
 		});
 	};
-	useEffect(() => {
-		Api.website.getList();
-	}, []);
+
+	const onFormSubmit = () => {
+		setBtnLoading(true);
+		const { config } = form.getFieldsValue(["config"]);
+		message.loading("saving configs…");
+		Api.website.setConfig(id, config).then((resposnse) => {
+			if (resposnse.status == 200) {
+				message.success("configs saved successfully");
+			} else if (resposnse.status == 400) {
+				message.warning(resposnse.data.errorMessage);
+			} else {
+				message.error("faild to save website configs");
+			}
+		});
+		setBtnLoading(false);
+	};
+
 	return (
 		<Form
 			form={form}
@@ -57,6 +73,7 @@ const BannerForm = () => {
 				isCloseable: true,
 			}}
 			onChange={onFormChange}
+			onSubmitCapture={onFormSubmit}
 		>
 			<Form.Item label="description" name="description">
 				<Input placeholder="banner description" />
@@ -96,17 +113,26 @@ const BannerForm = () => {
 			<Form.Item name="config">
 				<Input.TextArea rows={2} />
 			</Form.Item>
-			<Form.Item label=" " colon={false}>
-				<Button type="primary" htmlType="submit">
-					Save
-				</Button>
+			<Form.Item shouldUpdate={true}>
+				{() => (
+					<Button
+						type="primary"
+						htmlType="submit"
+						loading={btnLoading}
+						disabled={btnLoading}
+					>
+						Save
+					</Button>
+				)}
 			</Form.Item>
 		</Form>
 	);
 };
 
-const ReactionForm = () => {
+const ReactionForm = ({ id }: { id: string }) => {
 	const [form] = Form.useForm();
+	const [btnLoading, setBtnLoading] = useState(false);
+
 	const onFormChange = () => {
 		const { selector, type, effect } = form.getFieldsValue([
 			"selector",
@@ -129,9 +155,23 @@ const ReactionForm = () => {
 			el.classList.add("animate__animated", effect);
 		}
 	};
-	useEffect(() => {
-		Api.website.getList();
-	}, []);
+
+	const onFormSubmit = () => {
+		setBtnLoading(true);
+		const { config } = form.getFieldsValue(["config"]);
+		message.loading("saving configs…");
+		Api.website.setConfig(id, config).then((resposnse) => {
+			if (resposnse.status == 200) {
+				message.success("configs saved successfully");
+			} else if (resposnse.status == 400) {
+				message.warning(resposnse.data.errorMessage);
+			} else {
+				message.error("faild to save website configs");
+			}
+		});
+		setBtnLoading(false);
+	};
+
 	return (
 		<Form
 			form={form}
@@ -142,6 +182,7 @@ const ReactionForm = () => {
 				effect: "animate__headShake",
 			}}
 			onChange={onFormChange}
+			onSubmitCapture={onFormSubmit}
 		>
 			<Form.Item label="reaction type" name="type">
 				<Select onChange={onFormChange}>
@@ -167,7 +208,9 @@ const ReactionForm = () => {
 					</Select.Option>
 					<Select.Option value="animate__swing">Swing</Select.Option>
 					<Select.Option value="animate__tada">Tada</Select.Option>
-					<Select.Option value="animate__wobble">Wobble</Select.Option>
+					<Select.Option value="animate__wobble">
+						Wobble
+					</Select.Option>
 					<Select.Option value="animate__jello">Jello</Select.Option>
 				</Select>
 			</Form.Item>
@@ -177,10 +220,17 @@ const ReactionForm = () => {
 			<Form.Item name="config">
 				<Input.TextArea rows={2} />
 			</Form.Item>
-			<Form.Item label=" " colon={false}>
-				<Button type="primary" htmlType="submit">
-					Save
-				</Button>
+			<Form.Item shouldUpdate={true}>
+				{() => (
+					<Button
+						type="primary"
+						htmlType="submit"
+						loading={btnLoading}
+						disabled={btnLoading}
+					>
+						Save
+					</Button>
+				)}
 			</Form.Item>
 		</Form>
 	);
@@ -188,6 +238,12 @@ const ReactionForm = () => {
 
 const Actions = (props: RouteComponentProps) => {
 	const [type, setType] = useState("banner");
+	const params = useParams();
+
+	useEffect(() => {
+		Api.website.getConfig("www.hexboy.ir");
+	}, []);
+
 	return (
 		<div className="flex flex-col w-screen pt-10 items-center">
 			<Row justify="center">
@@ -207,8 +263,8 @@ const Actions = (props: RouteComponentProps) => {
 				}
 				className="w-10/12"
 			>
-				{type == "banner" && <BannerForm />}
-				{type == "reaction" && <ReactionForm />}
+				{type == "banner" && <BannerForm id={params.websiteId} />}
+				{type == "reaction" && <ReactionForm id={params.websiteId} />}
 			</Card>
 		</div>
 	);

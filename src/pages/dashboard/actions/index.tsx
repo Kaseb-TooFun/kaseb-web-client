@@ -21,12 +21,14 @@ const BannerForm = ({ id }: { id: string }) => {
 		const {
 			description,
 			btnText,
+			url,
 			condition,
 			template,
 			isCloseable,
 		} = form.getFieldsValue([
 			"description",
 			"btnText",
+			"url",
 			"condition",
 			"template",
 			"isCloseable",
@@ -37,6 +39,7 @@ const BannerForm = ({ id }: { id: string }) => {
 				data: {
 					template,
 					description,
+					url,
 					btnText,
 					condition,
 					isCloseable,
@@ -80,6 +83,9 @@ const BannerForm = ({ id }: { id: string }) => {
 			</Form.Item>
 			<Form.Item label="Button Text" name="btnText">
 				<Input placeholder="click me!" />
+			</Form.Item>
+			<Form.Item label="Button Link" name="url">
+				<Input placeholder="https://test.com" />
 			</Form.Item>
 			<Form.Item label="Template" name="template">
 				<Select onChange={onFormChange}>

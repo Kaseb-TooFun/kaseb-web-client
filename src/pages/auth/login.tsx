@@ -123,7 +123,7 @@ const Login = (props: RouteComponentProps) => {
 									Log in
 								</Button>
 								<Link to="../sign-up">
-									<span>back to login</span>
+									<span>sign up</span>
 								</Link>
 							</Row>
 						)}

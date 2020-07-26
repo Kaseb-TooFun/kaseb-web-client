@@ -2,7 +2,6 @@ import axios from "axios";
 const AXIOS_LOG_RESPONSE = true;
 const AXIOS_LOG_REQUEST = true;
 const AXIOS_BASE_URL = process.env.REACT_APP_BASE_URL;
-const storage = window.localStorage;
 
 export const instance = axios.create({
 	baseURL: AXIOS_BASE_URL,
@@ -12,6 +11,15 @@ export const instance = axios.create({
 		Accept: "application/json",
 	},
 });
+
+// @ts-ignore
+if (window._env_) {
+	// @ts-ignore
+	if (window._env_.BASE_URL != "__BASE_URL__") {
+		// @ts-ignore
+		instance.defaults.baseURL = window._env_.BASE_URL;
+	}
+}
 
 instance.interceptors.request.use(
 	(config) => {

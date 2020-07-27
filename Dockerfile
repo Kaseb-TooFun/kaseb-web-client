@@ -1,5 +1,5 @@
 FROM mhart/alpine-node
-COPY public .
+COPY build build
 COPY serve.js .
 RUN yarn init -y
 RUN yarn add express

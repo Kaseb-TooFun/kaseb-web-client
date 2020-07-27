@@ -1,4 +1,8 @@
 FROM mhart/alpine-node
-RUN yarn global add serve
 COPY public .
-CMD ["serve", "-p", "80", "-s", "."]
+COPY serve.js .
+RUN yarn global add express
+ENV BASE_URL=https://dev-api.mykaseb.ir
+ENV PUBLIC_URL=http://localhost:80
+ENV PORT=80
+CMD ["node", "serve.js"]

@@ -23,11 +23,9 @@ pages:
    - yarn install
    - yarn test
    - CI=false yarn build
-   - rm -rf public
-   - mv build public
   artifacts:
     paths:
-      - public
+      - build
   rules:
     - if: $CI_COMMIT_TAG
     - if: '$CI_PIPELINE_SOURCE == "web"'

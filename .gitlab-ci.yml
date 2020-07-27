@@ -16,7 +16,7 @@ stages:
   - package
   - deploy
 
-uarn-build:
+yarn-build:
   image: mhart/alpine-node:11
   stage: build
   script:

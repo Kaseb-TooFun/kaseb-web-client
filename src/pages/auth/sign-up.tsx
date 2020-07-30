@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Row, Form, Input, message } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import { RouteComponentProps, Link, useNavigate } from "@reach/router";
-import Api, { setAuthHeader } from "_src/api";
+import Api from "_src/api";
 
 const formItemLayout = {
 	labelCol: { span: 8 },
@@ -22,7 +22,7 @@ const SignUp = (props: RouteComponentProps) => {
 	const login = (username: string, password: string) => {
 		Api.auth.login(username, password).then((resposnse) => {
 			if (resposnse.status == 200) {
-				setAuthHeader(resposnse.data.token);
+				Api.setAuthHeader(resposnse.data.token);
 				message.success("successful login", 1);
 				message.loading("redirecting to dashboard…", 1).then(
 					() => {

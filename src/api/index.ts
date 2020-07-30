@@ -1,17 +1,26 @@
 import { instance } from "_src/api/axios-instance";
-import * as auth from "_src/api/auth";
-import * as website from "_src/api/website";
+import auth from "_src/api/auth";
+import config from "_src/api/config";
+import website from "_src/api/website";
 const storage = window.localStorage;
 
-export const setAuthHeader = (token: string) => {
-	storage.setItem("authorization", token);
-	instance.defaults.headers.common["Authorization"] = `bearer ${token}`;
-};
+class Api {
+	constructor() {
+		const bearer = storage.getItem("authorization");
+		this.setAuthHeader(bearer || "");
+		console.log({ bearer });
+	}
 
-const Api = {
-	axiosInstance: instance,
-	website,
-	auth,
-};
+	setAuthHeader = (token: string) => {
+		storage.setItem("authorization", token);
+		instance.defaults.headers.common["Authorization"] = `bearer ${token}`;
+	};
 
-export default Api;
+	auth = auth;
+	config = config;
+	website = website;
+}
+
+// const x = new Api();
+
+export default new Api();

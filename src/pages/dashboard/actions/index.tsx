@@ -52,7 +52,7 @@ const BannerForm = ({ id }: { id: string }) => {
 		setBtnLoading(true);
 		const { config } = form.getFieldsValue(["config"]);
 		message.loading("saving configs…");
-		Api.website.setConfigs(id, [config]).then((resposnse) => {
+		Api.config.add(id, config).then((resposnse) => {
 			if (resposnse.status == 200) {
 				message.success("configs saved successfully");
 			} else if (resposnse.status == 400) {
@@ -67,7 +67,7 @@ const BannerForm = ({ id }: { id: string }) => {
 	return (
 		<Form
 			form={form}
-			layout="vertical"
+			layout="horizontal"
 			initialValues={{
 				description: "",
 				btnText: "",
@@ -108,7 +108,11 @@ const BannerForm = ({ id }: { id: string }) => {
 					</Select.Option>
 				</Select>
 			</Form.Item>
-			<Form.Item label="is closable?" name="isCloseable">
+			<Form.Item
+				label="is closable"
+				name="isCloseable"
+				valuePropName="checked"
+			>
 				<Switch
 					onChange={onFormChange}
 					defaultChecked
@@ -166,7 +170,7 @@ const ReactionForm = ({ id }: { id: string }) => {
 		setBtnLoading(true);
 		const { config } = form.getFieldsValue(["config"]);
 		message.loading("saving configs…");
-		Api.website.setConfigs(id, [config]).then((resposnse) => {
+		Api.config.add(id, config).then((resposnse) => {
 			if (resposnse.status == 200) {
 				message.success("configs saved successfully");
 			} else if (resposnse.status == 400) {
@@ -181,7 +185,7 @@ const ReactionForm = ({ id }: { id: string }) => {
 	return (
 		<Form
 			form={form}
-			layout="vertical"
+			layout="horizontal"
 			initialValues={{
 				selector: "",
 				type: "hover",
@@ -245,10 +249,12 @@ const ReactionForm = ({ id }: { id: string }) => {
 const Actions = (props: RouteComponentProps) => {
 	const [type, setType] = useState("banner");
 	const params = useParams();
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
 
 	useEffect(() => {
-		Api.website.getConfig("www.hexboy.ir");
-	}, []);
+		Api.config.getList(params.websiteId, urlParams.get("url") || "");
+	});
 
 	return (
 		<div className="flex flex-col w-screen pt-10 items-center">

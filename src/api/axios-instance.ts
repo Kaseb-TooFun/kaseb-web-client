@@ -1,6 +1,6 @@
 import axios from "axios";
-const AXIOS_LOG_RESPONSE = true;
-const AXIOS_LOG_REQUEST = true;
+const AXIOS_LOG_RESPONSE = process.env.NODE_ENV !== 'production';
+const AXIOS_LOG_REQUEST = process.env.NODE_ENV !== 'production';
 const AXIOS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const instance = axios.create({

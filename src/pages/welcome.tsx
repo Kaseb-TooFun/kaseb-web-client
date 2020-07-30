@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, RouteComponentProps, useNavigate } from "@reach/router";
 import { Button, Row, Typography, Layout } from "antd";
 import { UnlockOutlined } from "@ant-design/icons";
-import Api, { setAuthHeader } from "_src/api";
+import Api from "_src/api";
 const storage = window.localStorage;
 
 const { Content } = Layout;
@@ -18,7 +18,7 @@ const welcome = (props: IProps) => {
 
 	useEffect(() => {
 		if (props.path == "/logout") {
-			setAuthHeader("");
+			Api.setAuthHeader("");
 			setBtnLoading(false);
 		} else {
 			const token = storage.getItem("authorization") || "";

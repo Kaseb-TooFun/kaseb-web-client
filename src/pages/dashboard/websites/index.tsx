@@ -11,19 +11,18 @@ import {
 	Table,
 	Popconfirm,
 } from "antd";
-import {
-	ControlOutlined,
-	DeleteOutlined,
-} from "@ant-design/icons";
+import { ControlOutlined, DeleteOutlined } from "@ant-design/icons";
 const { Column } = Table;
 const { Title } = Typography;
 import Api from "_src/api";
 
 const WebsiteTable = ({
 	data,
+	loading,
 	fetchWebsiteList,
 }: {
 	data: { id: string; title: string; url: string }[];
+	loading: boolean;
 	fetchWebsiteList: () => void;
 }) => {
 	const confirmDelete = (id: string) => {
@@ -40,7 +39,7 @@ const WebsiteTable = ({
 		});
 	};
 	return (
-		<Table dataSource={data}>
+		<Table dataSource={data} loading={loading}>
 			<Column title="title" dataIndex="title" key="title" />
 			<Column title="url" dataIndex="url" key="url" />
 			<Column
@@ -48,7 +47,7 @@ const WebsiteTable = ({
 				key="action"
 				render={(value) => (
 					<>
-						<Link to={`${value.id}/actions`}>
+						<Link to={`${value.id}/actions?url=${value.url}`}>
 							<Button
 								className="mr-3"
 								type="primary"
@@ -133,6 +132,7 @@ const AddSiteForm = ({
 };
 
 const Websites = (props: RouteComponentProps) => {
+	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState([]);
 
 	const fetchWebsiteList = () => {
@@ -140,6 +140,7 @@ const Websites = (props: RouteComponentProps) => {
 			if (response.status == 200) {
 				setData(response.data.websites);
 			}
+			setLoading(false);
 		});
 	};
 
@@ -153,7 +154,11 @@ const Websites = (props: RouteComponentProps) => {
 				<Title level={2}>websites</Title>
 			</Row>
 			<Card className="w-10/12">
-				<WebsiteTable data={data} fetchWebsiteList={fetchWebsiteList} />
+				<WebsiteTable
+					data={data}
+					loading={loading}
+					fetchWebsiteList={fetchWebsiteList}
+				/>
 				<AddSiteForm fetchWebsiteList={fetchWebsiteList} />
 			</Card>
 		</div>

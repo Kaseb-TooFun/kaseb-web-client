@@ -39,11 +39,11 @@
   },
   "scripts": {
     "start": "craco start",
-    "prebuild": "npm run build:tailwind",
-    "build": "npm run build:tailwind && craco build",
+    "prebuild": "yarn run build:tailwind",
+    "build": "yarn run build:tailwind && craco build",
     "test": "craco test",
     "eject": "craco eject",
-    "build:tailwind": "postcss src/styles/tailwind.css -o src/styles/tailwind.generated.css",
+    "build:tailwind": "postcss src/styles/tailwind.css -o src/styles/tailwind.generated.css --map false",
     "watch:tailwind": "postcss src/styles/tailwind.css -o src/styles/tailwind.generated.css"
   },
   "eslintConfig": {

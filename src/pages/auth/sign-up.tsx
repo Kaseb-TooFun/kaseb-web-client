@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Row, Form, Input, message } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import { RouteComponentProps, Link, useNavigate } from "@reach/router";
-import Api from "_src/api";
+import Api, { setAuthHeader } from "_src/api";
 
 const formItemLayout = {
 	labelCol: { span: 8 },
@@ -14,27 +14,44 @@ const formTailLayout = {
 	wrapperCol: { span: 8, offset: 0, md: { offset: 8 } },
 };
 
-const Login = (props: RouteComponentProps) => {
+const SignUp = (props: RouteComponentProps) => {
 	const [form] = Form.useForm();
 	const [btnLoading, setBtnLoading] = useState(false);
 	const navigate = useNavigate();
 
-	const onFinish = () => {
-		setBtnLoading(true);
-		const { email, password } = form.getFieldsValue(["email", "password"]);
-		Api.auth.login(email, password).then((resposnse) => {
+	const login = (username: string, password: string) => {
+		Api.auth.login(username, password).then((resposnse) => {
 			if (resposnse.status == 200) {
-				message.success("successful login", 2).then(
+				setAuthHeader(resposnse.data.token);
+				message.success("successful login", 1);
+				message.loading("redirecting to dashboard…", 1).then(
 					() => {
-						message.loading("redirecting to dashboard…", 1);
-						setTimeout(() => {
-							navigate("dashboard", { replace: true });
-						}, 1000);
+						navigate("dashboard", { replace: true });
 					},
 					() => {}
 				);
 			} else {
 				message.error("username or password is incorrect");
+				setBtnLoading(false);
+			}
+		});
+	};
+
+	const onFinish = () => {
+		setBtnLoading(true);
+		const { username, password } = form.getFieldsValue([
+			"username",
+			"password",
+		]);
+
+		Api.auth.signup(username, password).then((resposnse) => {
+			if (resposnse.status == 200) {
+				message.success("successful register", 2).then(
+					() => login(username, password),
+					() => {}
+				);
+			} else {
+				message.error("failed to register");
 				setBtnLoading(false);
 			}
 		});
@@ -49,33 +66,15 @@ const Login = (props: RouteComponentProps) => {
 			<Form
 				name="login-form"
 				form={form}
-				initialValues={{ remember: true }}
 				onFinish={onFinish}
 				onFinishFailed={onFinishFailed}
 				className="w-full"
 			>
 				<Form.Item
 					{...formItemLayout}
-					label="Name"
-					name="name"
-					rules={[
-						{
-							required: true,
-							message: "Please input your name",
-						},
-					]}
-				>
-					<Input
-						prefix={
-							<UserOutlined className="site-form-item-icon" />
-						}
-					/>
-				</Form.Item>
-
-				<Form.Item
-					{...formItemLayout}
 					label="Email"
-					name="email"
+					name="username"
+					validateTrigger="onBlur"
 					rules={[
 						{
 							required: true,
@@ -89,7 +88,7 @@ const Login = (props: RouteComponentProps) => {
 				>
 					<Input
 						prefix={
-							<MailOutlined className="site-form-item-icon" />
+							<UserOutlined className="site-form-item-icon" />
 						}
 					/>
 				</Form.Item>
@@ -174,4 +173,4 @@ const Login = (props: RouteComponentProps) => {
 	);
 };
 
-export default Login;
+export default SignUp;

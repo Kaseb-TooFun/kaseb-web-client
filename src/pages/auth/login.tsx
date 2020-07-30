@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Button, Row, Form, Input, message, Alert } from "antd";
+import { Button, Row, Form, Input, message } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { RouteComponentProps, Link, useNavigate } from "@reach/router";
-import Api, { setAuthHeader }  from "_src/api";
+import Api, { setAuthHeader } from "_src/api";
 
 const formItemLayout = {
 	labelCol: { span: 8 },
@@ -25,12 +25,10 @@ const Login = (props: RouteComponentProps) => {
 		Api.auth.login(email, password).then((resposnse) => {
 			if (resposnse.status == 200) {
 				setAuthHeader(resposnse.data.token);
-				message.success("successful login", 2).then(
+				message.success("successful login", 1);
+				message.loading("redirecting to dashboard…", 1).then(
 					() => {
-						message.loading("redirecting to dashboard…", 1);
-						setTimeout(() => {
-							navigate("dashboard", { replace: true });
-						}, 1000);
+						navigate("dashboard", { replace: true });
 					},
 					() => {}
 				);
@@ -46,91 +44,81 @@ const Login = (props: RouteComponentProps) => {
 	};
 
 	return (
-		<>
-			<Alert
-				type="info"
-				closable
-				message="email: admin@demo.com"
-				banner
-			/>
-			<Alert type="info" closable message="password: demo" banner />
-			<Row className="w-screen p-5 pt-10 justify-center items-center">
-				<Form
-					name="login-form"
-					form={form}
-					initialValues={{ remember: true }}
-					onFinish={onFinish}
-					onFinishFailed={onFinishFailed}
-					className="w-full"
+		<Row className="w-screen p-5 pt-10 justify-center items-center">
+			<Form
+				name="login-form"
+				form={form}
+				onFinish={onFinish}
+				onFinishFailed={onFinishFailed}
+				className="w-full"
+			>
+				<Form.Item
+					{...formItemLayout}
+					label="Email"
+					name="email"
+					validateTrigger="onBlur"
+					rules={[
+						{
+							required: true,
+							message: "Please input your email!",
+						},
+						{
+							type: "email",
+							message: "email not valid",
+						},
+					]}
 				>
-					<Form.Item
-						{...formItemLayout}
-						label="Email"
-						name="email"
-						rules={[
-							{
-								required: true,
-								message: "Please input your email!",
-							},
-							{
-								type: "email",
-								message: "email not valid",
-							},
-						]}
-					>
-						<Input
-							prefix={
-								<MailOutlined className="site-form-item-icon" />
-							}
-						/>
-					</Form.Item>
+					<Input
+						prefix={
+							<MailOutlined className="site-form-item-icon" />
+						}
+					/>
+				</Form.Item>
 
-					<Form.Item
-						{...formItemLayout}
-						label="Password"
-						name="password"
-						rules={[
-							{
-								required: true,
-								message: "Please input your password!",
-							},
-						]}
-					>
-						<Input.Password
-							prefix={
-								<LockOutlined className="site-form-item-icon" />
-							}
-						/>
-					</Form.Item>
+				<Form.Item
+					{...formItemLayout}
+					label="Password"
+					name="password"
+					rules={[
+						{
+							required: true,
+							message: "Please input your password!",
+						},
+					]}
+				>
+					<Input.Password
+						prefix={
+							<LockOutlined className="site-form-item-icon" />
+						}
+					/>
+				</Form.Item>
 
-					<Form.Item {...formTailLayout} shouldUpdate={true}>
-						{() => (
-							<Row className="justify-between items-center">
-								<Button
-									type="primary"
-									htmlType="submit"
-									loading={btnLoading}
-									disabled={
-										!form.isFieldsTouched(true) ||
-										form
-											.getFieldsError()
-											.filter(
-												({ errors }) => errors.length
-											).length > 0
-									}
-									className="login-form-button"
-								>
-									Log in
-								</Button>
-								<Link to="../sign-up">
-									<span>sign up</span>
-								</Link>
-							</Row>
-						)}
-					</Form.Item>
-				</Form>
-			</Row>
-		</>
+				<Form.Item {...formTailLayout} shouldUpdate={true}>
+					{() => (
+						<Row className="justify-between items-center">
+							<Button
+								type="primary"
+								htmlType="submit"
+								loading={btnLoading}
+								disabled={
+									!form.isFieldsTouched(true) ||
+									form
+										.getFieldsError()
+										.filter(({ errors }) => errors.length)
+										.length > 0
+								}
+								className="login-form-button"
+							>
+								Log in
+							</Button>
+							<Link to="../sign-up">
+								<span>sign up</span>
+							</Link>
+						</Row>
+					)}
+				</Form.Item>
+			</Form>
+		</Row>
 	);
 };
 

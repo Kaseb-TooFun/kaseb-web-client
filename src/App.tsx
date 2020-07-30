@@ -12,9 +12,11 @@ function App() {
 		const bearer = storage.getItem("authorization");
 		setAuthHeader(bearer || '');
 	}, []);
+
 	return (
 		<Router basepath="/">
 			<Welcome path="/" />
+			<Welcome path="/logout" />
 			<Login path="/login" />
 			<SignUp path="/sign-up" />
 			<Dashboard path="/dashboard/*" />

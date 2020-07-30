@@ -1,4 +1,4 @@
-// BASE_URL=https://hexboy.ir OLD_PUBLIC_URL="https://dev.mykaseb.ir" PUBLIC_URL="http://localhost:3000" PORT=3000 node serve.js
+// BASE_URL=https://hexboy.ir PUBLIC_URL="https://dev.mykaseb.ir" PORT=3000 node serve.js
 
 const express = require("express");
 const path = require("path");
@@ -10,11 +10,10 @@ let content = fs
 	.toString();
 
 const baseUrl = process.env.BASE_URL || "https://dev-api.mykaseb.ir";
-const oldPublicUrl = process.env.OLD_PUBLIC_URL || "https://dev.mykaseb.ir";
-const newPublicUrl = process.env.PUBLIC_URL || "https://dev.mykaseb.ir";
+const publicUrl = process.env.PUBLIC_URL || "http://localhost:3000";
 
 content = content
-	.replace(new RegExp(oldPublicUrl, "g"), newPublicUrl)
+	.replace(new RegExp("http://localhost:3000", "g"), publicUrl)
 	.replace("__BASE_URL__", baseUrl);
 
 app.use(express.static(path.join(__dirname, "build")));

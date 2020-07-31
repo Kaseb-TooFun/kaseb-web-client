@@ -1,4 +1,4 @@
-// BASE_URL=https://hexboy.ir PUBLIC_URL="https://dev.mykaseb.ir" PORT=3000 node serve.js
+// BASE_URL=https://hexboy.ir PUBLIC_URL=https://dev.mykaseb.ir PORT=3000 node serve.js
 
 const express = require("express");
 const path = require("path");
@@ -15,6 +15,8 @@ const publicUrl = process.env.PUBLIC_URL || "http://localhost:3000";
 content = content
 	.replace(new RegExp("http://localhost:3000", "g"), publicUrl)
 	.replace("__BASE_URL__", baseUrl);
+
+console.log({content, baseUrl, publicUrl});
 
 app.use(express.static(path.join(__dirname, "build")));
 

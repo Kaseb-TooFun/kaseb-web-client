@@ -33,7 +33,7 @@ const welcome = (props: IProps) => {
 				setBtnLoading(false);
 			});
 		}
-	});
+	}, []);
 
 	return (
 		<Row justify="center" align="middle" style={{ height: "100vh" }}>

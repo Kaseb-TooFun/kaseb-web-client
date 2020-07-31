@@ -19,24 +19,6 @@ const SignUp = (props: RouteComponentProps) => {
 	const [btnLoading, setBtnLoading] = useState(false);
 	const navigate = useNavigate();
 
-	const login = (username: string, password: string) => {
-		Api.auth.login(username, password).then((resposnse) => {
-			if (resposnse.status == 200) {
-				Api.setAuthHeader(resposnse.data.token);
-				message.success("successful login", 1);
-				message.loading("redirecting to dashboard…", 1).then(
-					() => {
-						navigate("dashboard", { replace: true });
-					},
-					() => {}
-				);
-			} else {
-				message.error("username or password is incorrect");
-				setBtnLoading(false);
-			}
-		});
-	};
-
 	const onFinish = () => {
 		setBtnLoading(true);
 		const { username, password } = form.getFieldsValue([
@@ -46,10 +28,17 @@ const SignUp = (props: RouteComponentProps) => {
 
 		Api.auth.signup(username, password).then((resposnse) => {
 			if (resposnse.status == 200) {
-				message.success("successful register", 2).then(
-					() => login(username, password),
+				Api.setAuthHeader(resposnse.data.token);
+				message.success("successful register", 1);
+				message.loading("redirecting to dashboard…", 1).then(
+					() => {
+						navigate("dashboard", { replace: true });
+					},
 					() => {}
 				);
+			} else if (resposnse.status == 404) {
+				message.error(resposnse.data.errorMessage);
+				setBtnLoading(false);
 			} else {
 				message.error("failed to register");
 				setBtnLoading(false);

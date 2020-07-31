@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Button, Row, Form, Input, message } from "antd";
-import { LockOutlined, MailOutlined } from "@ant-design/icons";
-import { RouteComponentProps, Link, useNavigate } from "@reach/router";
-import Api from "_src/api";
+import React, { useState } from 'react';
+import { Button, Row, Form, Input, message } from 'antd';
+import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { RouteComponentProps, Link, useNavigate } from '@reach/router';
+import Api from '_src/api';
 
 const formItemLayout = {
 	labelCol: { span: 8 },
@@ -21,26 +21,29 @@ const Login = (props: RouteComponentProps) => {
 
 	const onFinish = () => {
 		setBtnLoading(true);
-		const { email, password } = form.getFieldsValue(["email", "password"]);
+		const { email, password } = form.getFieldsValue(['email', 'password']);
 		Api.auth.login(email, password).then((resposnse) => {
 			if (resposnse.status == 200) {
 				Api.setAuthHeader(resposnse.data.token);
-				message.success("successful login", 1);
-				message.loading("redirecting to dashboard…", 1).then(
+				message.success('successful login', 1);
+				message.loading('redirecting to dashboard…', 1).then(
 					() => {
-						navigate("dashboard", { replace: true });
+						navigate('dashboard', { replace: true });
 					},
 					() => {}
 				);
+			} else if (resposnse.status == 404) {
+				message.error(resposnse.data.errorMessage);
+				setBtnLoading(false);
 			} else {
-				message.error("username or password is incorrect");
+				message.error('username or password is incorrect');
 				setBtnLoading(false);
 			}
 		});
 	};
 
 	const onFinishFailed = () => {
-		message.error("please fill the form with valid data");
+		message.error('please fill the form with valid data');
 	};
 
 	return (
@@ -60,11 +63,11 @@ const Login = (props: RouteComponentProps) => {
 					rules={[
 						{
 							required: true,
-							message: "Please input your email!",
+							message: 'Please input your email!',
 						},
 						{
-							type: "email",
-							message: "email not valid",
+							type: 'email',
+							message: 'email not valid',
 						},
 					]}
 				>
@@ -82,7 +85,7 @@ const Login = (props: RouteComponentProps) => {
 					rules={[
 						{
 							required: true,
-							message: "Please input your password!",
+							message: 'Please input your password!',
 						},
 					]}
 				>

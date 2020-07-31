@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { RouteComponentProps, Link } from "@reach/router";
+import React, { useState, useEffect } from 'react';
+import { RouteComponentProps, Link } from '@reach/router';
 import {
 	Row,
 	Card,
@@ -9,32 +9,32 @@ import {
 	Button,
 	Input,
 	Table,
-	Popconfirm,
-} from "antd";
-import { ControlOutlined, DeleteOutlined } from "@ant-design/icons";
+	Popconfirm
+} from 'antd';
+import { ControlOutlined, DeleteOutlined } from '@ant-design/icons';
 const { Column } = Table;
 const { Title } = Typography;
-import Api from "_src/api";
+import Api from '_src/api';
 
 const WebsiteTable = ({
 	data,
 	loading,
-	fetchWebsiteList,
+	fetchWebsiteList
 }: {
 	data: { id: string; title: string; url: string }[];
 	loading: boolean;
 	fetchWebsiteList: () => void;
 }) => {
 	const confirmDelete = (id: string) => {
-		message.loading("deleting website…");
+		message.loading('deleting website…');
 		Api.website.remove(id).then((resposnse) => {
 			if (resposnse.status == 200) {
-				message.success("website deleted successfully");
+				message.success('website deleted successfully');
 				fetchWebsiteList();
 			} else if (resposnse.status == 400) {
 				message.warning(resposnse.data.errorMessage);
 			} else {
-				message.error("faild to delete website");
+				message.error('faild to delete website');
 			}
 		});
 	};
@@ -72,7 +72,7 @@ const WebsiteTable = ({
 };
 
 const AddSiteForm = ({
-	fetchWebsiteList,
+	fetchWebsiteList
 }: {
 	fetchWebsiteList: () => void;
 }) => {
@@ -80,20 +80,20 @@ const AddSiteForm = ({
 	const [btnLoading, setBtnLoading] = useState(false);
 	const onFormSubmit = () => {
 		setBtnLoading(true);
-		const { title, url } = form.getFieldsValue(["title", "url"]);
-		message.loading("adding website…");
+		const { title, url } = form.getFieldsValue(['title', 'url']);
+		message.loading('adding website…');
 		Api.website.add(title, url).then((resposnse) => {
 			if (resposnse.status == 200) {
-				message.success("website saved successfully");
+				message.success('website saved successfully');
 				fetchWebsiteList();
 				form.setFieldsValue({
-					url: "",
-					title: "",
+					url: '',
+					title: ''
 				});
-			} else if (resposnse.status == 400) {
-				message.warning(resposnse.data.errorMessage);
+			} else if (resposnse.status == 404) {
+				message.error(resposnse.data.errorMessage);
 			} else {
-				message.error("faild to save website");
+				message.error('faild to save website');
 			}
 		});
 		setBtnLoading(false);
@@ -104,8 +104,8 @@ const AddSiteForm = ({
 			form={form}
 			layout="horizontal"
 			initialValues={{
-				title: "",
-				url: "",
+				title: '',
+				url: ''
 			}}
 			onSubmitCapture={onFormSubmit}
 		>
@@ -113,7 +113,7 @@ const AddSiteForm = ({
 				<Input placeholder="website title" />
 			</Form.Item>
 			<Form.Item label="url" name="url">
-				<Input placeholder="www.demo.com" />
+				<Input placeholder="http://www.example.com" type="url" />
 			</Form.Item>
 			<Form.Item shouldUpdate={true}>
 				{() => (

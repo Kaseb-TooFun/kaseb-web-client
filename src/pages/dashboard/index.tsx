@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { RouteComponentProps, Link, Router, useNavigate } from "@reach/router";
 import { Row, Menu, Layout, Typography } from "antd";
-import Actions from "_src/pages/dashboard/actions";
 import Websites from "_src/pages/dashboard/websites";
 const { Content } = Layout;
 const { Title } = Typography;
@@ -20,7 +19,7 @@ const Dashboard = (props: RouteComponentProps) => {
 	const navigate = useNavigate();
 
 	const logout = () => {
-		navigate("../logout", { replace: true });
+		navigate("/logout", { replace: true });
 	};
 
 	return (
@@ -45,7 +44,6 @@ const Dashboard = (props: RouteComponentProps) => {
 			</Menu>
 			<Router>
 				<DashboardContent path="/" />
-				<Actions path="/websites/:websiteId/actions" />
 				<Websites path="/websites" />
 			</Router>
 		</Row>

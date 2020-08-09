@@ -14,7 +14,8 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "tailwindcss": "^1.5.1",
-    "typescript": "~3.9.7"
+    "typescript": "~3.9.7",
+    "uglify-js": "^3.10.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.1",
@@ -39,7 +40,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "prebuild": "yarn run build:tailwind",
+    "prebuild": "yarn run build:tailwind && uglifyjs -c -m -o build/kio.js -- src/kio.js",
     "build": "yarn run build:tailwind && craco build",
     "test": "craco test",
     "eject": "craco eject",

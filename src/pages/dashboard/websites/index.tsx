@@ -9,7 +9,8 @@ import {
 	Button,
 	Input,
 	Table,
-	Popconfirm
+	Popconfirm,
+	Modal
 } from 'antd';
 import { ControlOutlined, DeleteOutlined } from '@ant-design/icons';
 const { Column } = Table;
@@ -25,6 +26,9 @@ const WebsiteTable = ({
 	loading: boolean;
 	fetchWebsiteList: () => void;
 }) => {
+	const [isVisible, setVisible] = useState(false);
+	const [websiteId, setWebsiteId] = useState('');
+
 	const confirmDelete = (id: string) => {
 		message.loading('deleting website…');
 		Api.website.remove(id).then((resposnse) => {
@@ -38,36 +42,77 @@ const WebsiteTable = ({
 			}
 		});
 	};
+
+	const copy = () => {
+		const copyText = document.getElementById(
+			'my-script'
+		) as HTMLTextAreaElement;
+		copyText.select();
+		copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+		document.execCommand('copy');
+	};
+
 	return (
-		<Table dataSource={data} loading={loading}>
-			<Column title="title" dataIndex="title" key="title" />
-			<Column title="url" dataIndex="url" key="url" />
-			<Column
-				title="Action"
-				key="action"
-				render={(value) => (
-					<>
-						<Link to={`${value.id}/actions?url=${value.url}`}>
+		<>
+			<Modal
+				title="Script"
+				visible={isVisible}
+				onOk={() => setVisible(false)}
+				onCancel={() => setVisible(false)}
+			>
+				<textarea id="my-script" style={{ width: '100%' }} rows={5}>
+					{`<!-- KESEB.IO -->
+<meta name="kio-verification" content="${websiteId}" />
+<script src="${document.location.href.replace(
+						document.location.pathname,
+						'/kio.js'
+					)}" defer></script>
+<!-- KESEB.IO -->`}
+				</textarea>
+				<Button onClick={copy}>Copy</Button>
+			</Modal>
+			<Table dataSource={data} loading={loading}>
+				<Column title="title" dataIndex="title" key="title" />
+				<Column title="url" dataIndex="url" key="url" />
+				<Column
+					title="Action"
+					key="action"
+					render={(value) => (
+						<>
+							<Link to={`/studio/${value.id}?url=${value.url}`}>
+								<Button
+									className="mr-3"
+									type="primary"
+									icon={<ControlOutlined />}
+								>
+									Studio
+								</Button>
+							</Link>
 							<Button
 								className="mr-3"
 								type="primary"
-								icon={<ControlOutlined />}
+								onClick={() => {
+									setWebsiteId(value.id);
+									setVisible(true);
+								}}
 							>
-								Actions
+								get script
 							</Button>
-						</Link>
-						<Popconfirm
-							title="Are you sure delete this website?"
-							onConfirm={() => confirmDelete(value.id)}
-							okText="Yes"
-							cancelText="No"
-						>
-							<Button icon={<DeleteOutlined />}>Delete</Button>
-						</Popconfirm>
-					</>
-				)}
-			/>
-		</Table>
+							<Popconfirm
+								title="Are you sure delete this website?"
+								onConfirm={() => confirmDelete(value.id)}
+								okText="Yes"
+								cancelText="No"
+							>
+								<Button icon={<DeleteOutlined />}>
+									Delete
+								</Button>
+							</Popconfirm>
+						</>
+					)}
+				/>
+			</Table>
+		</>
 	);
 };
 

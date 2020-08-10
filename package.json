@@ -40,7 +40,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "prebuild": "yarn run build:tailwind && uglifyjs -c -m -o build/kio.js -- src/kio.js",
+    "prebuild": "mkdir -p build && yarn run build:tailwind && uglifyjs -c -m -o build/kio.js -- src/kio.js",
     "build": "yarn run build:tailwind && craco build",
     "test": "craco test",
     "eject": "craco eject",

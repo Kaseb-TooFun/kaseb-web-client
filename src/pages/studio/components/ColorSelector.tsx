@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { Button } from 'antd';
+import { Button, Popover } from 'antd';
+import { SketchPicker } from "react-color";
+import { BgColorsOutlined } from "@ant-design/icons"
 
 interface IProps extends RouteComponentProps {
 	onSelect: (color: string) => void;
@@ -8,7 +10,8 @@ interface IProps extends RouteComponentProps {
 }
 
 const ColorSelector = (props: IProps) => {
-	const [color, setColor] = useState('');
+	const { defaultColor } = props;
+	const [color, setColor] = useState(defaultColor);
 	const colors = [
 		'#e63f39',
 		'#e96f72',
@@ -28,12 +31,6 @@ const ColorSelector = (props: IProps) => {
 	];
 
 	useEffect(() => {
-		const { defaultColor } = props;
-		if (colors.indexOf(defaultColor) != -1) {
-			setColor(defaultColor);
-		} else {
-			setColor(colors[0]);
-		}
 	}, []);
 
 	const onSelect = (item: string) => {
@@ -41,19 +38,32 @@ const ColorSelector = (props: IProps) => {
 		setColor(item);
 	};
 
+	const colorPicker = <SketchPicker
+		  color={color}
+		  onChangeComplete={(color) => {onSelect(color.hex)}}
+	/>;
+	console.log(color);
+	const colorPickerPopover = <Popover placement="right" content={colorPicker} trigger="click">
+        <Button className="color-btn">
+			<BgColorsOutlined style={{color: "black"}}/>
+		</Button>
+      </Popover>
+
 	return (
 		<div className="color-selector">
-			{colors.map((item) => {
-				return (
-					<Button
-						className="color-btn"
-						style={{ backgroundColor: item }}
-						onClick={() => onSelect(item)}
-					>
-						{color == item ? '✓' : ' '}
-					</Button>
-				);
-			})}
+			{colorPickerPopover}
+			<Button className="color-btn color-show" style={{backgroundColor: color}}>{' '}</Button>
+			{/*{colors.map((item) => {*/}
+			{/*	return (*/}
+			{/*		<Button*/}
+			{/*			className="color-btn"*/}
+			{/*			style={{ backgroundColor: item }}*/}
+			{/*			onClick={() => onSelect(item)}*/}
+			{/*		>*/}
+			{/*			{color == item ? '✓' : ' '}*/}
+			{/*		</Button>*/}
+			{/*	);*/}
+			{/*})}*/}
 		</div>
 	);
 };

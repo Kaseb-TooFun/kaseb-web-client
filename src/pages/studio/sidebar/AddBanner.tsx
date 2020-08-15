@@ -1,8 +1,25 @@
 import React, { useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { Select, Form, Switch, Button, message, Input } from 'antd';
+import { Select, Form, Switch, Button, message, Input, Steps } from 'antd';
 import Api from '_src/api';
 import ColorSelector from '_pages/studio/components/ColorSelector';
+
+const { Step } = Steps;
+const defaultBtnColor = "#ff0080";
+const defaultBgColor = "#ffbf00";
+const availableFonts = [
+	"Arial",
+	"Helvetica",
+	"Cursive",
+	"Charcoal",
+	"Lucida Grande",
+	"Tahoma",
+	"Trebuchet MS",
+	"Verdana",
+	"Courier",
+	"Monaco",
+
+];
 
 interface IProps extends RouteComponentProps {
 	previewReaction: (data: any) => void;
@@ -16,8 +33,10 @@ const AddBanner = (props: IProps) => {
 		name: '',
 		description: '',
 		btnText: '',
-		btnColor: '#ff0080',
-		bgColor: '#ffbf00',
+		btnColor: defaultBtnColor,
+		bgColor: defaultBgColor,
+		opacity: 1,
+		fontFamily: "Arial",
 		url: '',
 		template: 'top-banner',
 		condition: 'wait-5',
@@ -33,6 +52,8 @@ const AddBanner = (props: IProps) => {
 			btnText,
 			btnColor,
 			bgColor,
+			opacity,
+			fontFamily,
 			url,
 			condition,
 			template,
@@ -43,6 +64,8 @@ const AddBanner = (props: IProps) => {
 			'btnText',
 			'btnColor',
 			'bgColor',
+			'opacity',
+			'fontFamily',
 			'url',
 			'condition',
 			'template',
@@ -55,6 +78,8 @@ const AddBanner = (props: IProps) => {
 			url,
 			btnText,
 			btnColor,
+			opacity,
+			fontFamily,
 			bgColor,
 			condition,
 			isCloseable
@@ -70,6 +95,8 @@ const AddBanner = (props: IProps) => {
 			btnText,
 			btnColor,
 			bgColor,
+			opacity,
+			fontFamily,
 			url,
 			condition,
 			template,
@@ -80,6 +107,8 @@ const AddBanner = (props: IProps) => {
 			'btnText',
 			'btnColor',
 			'bgColor',
+			'opacity',
+			'fontFamily',
 			'url',
 			'condition',
 			'template',
@@ -93,6 +122,8 @@ const AddBanner = (props: IProps) => {
 				btnText,
 				btnColor,
 				bgColor,
+				opacity,
+				fontFamily,
 				url,
 				condition,
 				template,
@@ -115,51 +146,70 @@ const AddBanner = (props: IProps) => {
 			} else if (resposnse.status == 400) {
 				message.warning(resposnse.data.errorMessage);
 			} else {
-				message.error('faild to save website configs');
+				message.error('failed to save website configs');
 			}
 		});
 		setBtnLoading(false);
 	};
 
-	return (
-		<div className="mt-3">
-			<Button className="my-btn" onClick={preview}>
-				preview
-			</Button>
-
-			<Form
-				form={form}
-				layout="vertical"
-				initialValues={{
-					description: '',
-					btnText: 'Press Me',
-					btnColor: '#ff0080',
-					bgColor: '#ffbf00',
-					template: 'top-banner',
-					condition: 'wait-5',
-					isCloseable: true
-				}}
-				onChange={onFormChange}
-				onSubmitCapture={onFormSubmit}
-			>
+	const [currentStep, setCurrentStep] = useState(0)
+	const steps	= [
+		{
+			title: '',
+			content: <>
 				<Form.Item label="name" name="name">
 					<Input placeholder="name" />
 				</Form.Item>
 				<Form.Item label="description" name="description">
 					<Input placeholder="banner description" />
 				</Form.Item>
+				<Form.Item label="Font" name="fontFamily">
+					<Select onChange={onFormChange} defaultValue={availableFonts[0]}>
+						{availableFonts.map((font) => (
+							<Select.Option value={font}>
+								{font}
+							</Select.Option>
+						))}
+					</Select>
+				</Form.Item>
 
+				<Form.Item
+					label="is closable"
+					name="isCloseable"
+					valuePropName="checked"
+				>
+					<Switch
+						onChange={onFormChange}
+						defaultChecked
+						checkedChildren="YES"
+						unCheckedChildren="NO"
+					/>
+				</Form.Item>
+			</>
+		},
+		{
+			title: '',
+			content: <>
 				<Form.Item label="Background Color" name="bgColor">
-					<Input placeholder="#ffbf00"/>
+					<Input placeholder={defaultBgColor}/>
 				</Form.Item>
 
 				<ColorSelector
-					defaultColor="#fff"
+					defaultColor={defaultBgColor}
 					onSelect={(color) => {
 						form.setFieldsValue({ bgColor: color });
 						onFormChange();
 					}}
 				/>
+
+				<Form.Item label="Opacity" name="opacity">
+					<Input defaultValue={1} type="number" step=".05" min={0} max={1}/>
+				</Form.Item>
+			</>
+		},
+		{
+			title: '',
+			content: <>
 				<Form.Item label="Button Text" name="btnText">
 					<Input placeholder="click me!" />
 				</Form.Item>
@@ -168,17 +218,21 @@ const AddBanner = (props: IProps) => {
 				</Form.Item>
 
 				<Form.Item label="Button Color" name="btnColor">
-					<Input placeholder="#ff0080"/>
+					<Input placeholder={defaultBtnColor}/>
 				</Form.Item>
 
 				<ColorSelector
-					defaultColor="#fff"
+					defaultColor={defaultBtnColor}
 					onSelect={(color) => {
 						form.setFieldsValue({ btnColor: color });
 						onFormChange();
 					}}
 				/>
-
+			</>
+		},
+		{
+			title: '',
+			content: <>
 				<Form.Item label="Template" name="template">
 					<Select onChange={onFormChange}>
 						<Select.Option value="top-banner">
@@ -202,19 +256,55 @@ const AddBanner = (props: IProps) => {
 						</Select.Option>
 					</Select>
 				</Form.Item>
-				<Form.Item
-					label="is closable"
-					name="isCloseable"
-					valuePropName="checked"
-				>
-					<Switch
-						onChange={onFormChange}
-						defaultChecked
-						checkedChildren="YES"
-						unCheckedChildren="NO"
-					/>
-				</Form.Item>
-				<Form.Item shouldUpdate={true}>
+			</>
+		}
+	]
+
+	return (
+		<div className="mt-3">
+			<Button className="my-btn" onClick={preview}>
+				preview
+			</Button>
+
+			<Form
+				form={form}
+				layout="vertical"
+				initialValues={{
+					description: '',
+					btnText: 'Press Me',
+					btnColor: '#ff0080',
+					bgColor: '#ffbf00',
+					template: 'top-banner',
+					condition: 'wait-5',
+					isCloseable: true
+				}}
+				onChange={onFormChange}
+				onSubmitCapture={onFormSubmit}
+			>
+				<Steps current={currentStep}>
+					{steps.map((item, index) => (
+						<Step key={index} title={item.title}/>
+					))}
+				</Steps>
+
+				<div className="steps-content">
+					{steps[currentStep].content}
+				</div>
+
+				<div className="steps-action">
+					<Button onClick={() => setCurrentStep(currentStep-1)}
+						disabled={currentStep <= 0}
+					>
+						Previous
+					</Button>
+					<Button onClick={() => setCurrentStep(currentStep+1)}
+							disabled={currentStep >= (steps.length - 1)}
+					>
+						Next
+					</Button>
+				</div>
+
+				<Form.Item shouldUpdate={true} className="btn-save">
 					{() => (
 						<Button
 							type="primary"

@@ -47,6 +47,7 @@ nl-deploy:
   stage: deploy
   script:
     - whoami
+    - sudo docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
     - sudo docker-compose -f /docker-compose.yml pull client
     - sudo docker-compose -f /docker-compose.yml up -d
   rules:

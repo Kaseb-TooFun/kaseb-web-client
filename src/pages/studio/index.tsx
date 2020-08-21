@@ -4,6 +4,7 @@ import { Layout, Row, Button, Breadcrumb } from 'antd';
 import { AppstoreOutlined } from '@ant-design/icons';
 import Sidebar from './sidebar';
 import Api from '_src/api';
+import logo from "_src/logo.svg";
 
 const { Header, Content } = Layout;
 
@@ -36,6 +37,8 @@ const Studio = (props: RouteComponentProps) => {
 	const iframeUrl = urlParams.get('url') || '';
 	const [href, setHref] = useState('');
 	const breadcrumb = href.split('/');
+	const [selector, setSelector] = useState('');
+	const [destSelector, setDestSelector] = useState('');
 
 	useEffect(() => {
 		fetchConfigList();
@@ -79,7 +82,19 @@ const Studio = (props: RouteComponentProps) => {
 
 			case 'select-item':
 				onInspected.run(payload);
-				postMessageToIframe('disable-inspector');
+				let selectorType = window.localStorage.getItem("selectorType");
+				switch (selectorType) {
+					case "1": // selector
+						setSelector(payload)
+						break
+					case "2": // destSelector
+						setDestSelector(payload)
+						break
+					default:
+						// setSelector(payload)
+						break
+				}
+				postMessageToIframe( 'disable-inspector');
 				break;
 
 			default:
@@ -90,6 +105,9 @@ const Studio = (props: RouteComponentProps) => {
 	return (
 		<Layout id="studio" className="h-screen">
 			<Header className="header">
+				<div style={{float: "right"}}>
+					<img src={logo}/>
+				</div>
 				<Button
 					type="primary"
 					icon={<AppstoreOutlined />}
@@ -119,6 +137,10 @@ const Studio = (props: RouteComponentProps) => {
 					<Sidebar
 						postMessage={postMessageToIframe}
 						websiteId={params.websiteId}
+						selector={selector}
+						setSelector={setSelector}
+						destSelector={destSelector}
+						setDestSelector={setDestSelector}
 					/>
 				)}
 			</Content>

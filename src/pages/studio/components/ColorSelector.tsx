@@ -6,12 +6,12 @@ import { BgColorsOutlined } from "@ant-design/icons"
 
 interface IProps extends RouteComponentProps {
 	onSelect: (color: string) => void;
-	defaultColor: string;
+	color: string;
 }
 
 const ColorSelector = (props: IProps) => {
-	const { defaultColor } = props;
-	const [color, setColor] = useState(defaultColor);
+	const { color } = props;
+	// const [color, setColor] = useState(defaultColor);
 	const colors = [
 		'#e63f39',
 		'#e96f72',
@@ -35,14 +35,13 @@ const ColorSelector = (props: IProps) => {
 
 	const onSelect = (item: string) => {
 		props.onSelect(item);
-		setColor(item);
+		// setColor(item);
 	};
 
 	const colorPicker = <SketchPicker
 		  color={color}
 		  onChangeComplete={(color) => {onSelect(color.hex)}}
 	/>;
-	console.log(color);
 	const colorPickerPopover = <Popover placement="right" content={colorPicker} trigger="click">
         <Button className="color-btn">
 			<BgColorsOutlined style={{color: "black"}}/>
@@ -51,19 +50,19 @@ const ColorSelector = (props: IProps) => {
 
 	return (
 		<div className="color-selector">
+			{colors.map((item) => {
+				return (
+					<Button
+						className="color-btn"
+						style={{ backgroundColor: item }}
+						onClick={() => onSelect(item)}
+					>
+						{color === item ? '✓' : ' '}
+					</Button>
+				);
+			})}
 			{colorPickerPopover}
 			<Button className="color-btn color-show" style={{backgroundColor: color}}>{' '}</Button>
-			{/*{colors.map((item) => {*/}
-			{/*	return (*/}
-			{/*		<Button*/}
-			{/*			className="color-btn"*/}
-			{/*			style={{ backgroundColor: item }}*/}
-			{/*			onClick={() => onSelect(item)}*/}
-			{/*		>*/}
-			{/*			{color == item ? '✓' : ' '}*/}
-			{/*		</Button>*/}
-			{/*	);*/}
-			{/*})}*/}
 		</div>
 	);
 };

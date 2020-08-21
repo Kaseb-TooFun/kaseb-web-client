@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Button } from 'antd';
-import AddBanner from './AddBanner';
+import AddReaction from './AddReaction';
 
 interface IProps extends RouteComponentProps {
 	postMessage: (type: string, payload?: any) => void;
 	websiteId: string;
+	selector: string;
+	setSelector: (s: string) => void;
+	destSelector: string;
+	setDestSelector: (s: string) => void;
 }
 
 const Sidebar = (props: IProps) => {
-	const { postMessage, websiteId } = props;
+	const { postMessage, websiteId, selector, setSelector, destSelector, setDestSelector } = props;
 	const [mode, setMode] = useState('home');
 	const sidebar = document.querySelector(
 		'#studio .sidebar'
@@ -36,7 +40,7 @@ const Sidebar = (props: IProps) => {
 		postMessage('preview-reaction', data);
 
 	return (
-		<div className="sidebar shadow-lg">
+		<div className="sidebar shadow-lg" id="my-sidebar">
 			<div className="sidebar-inner">
 				{mode != 'home' && (
 					<Button
@@ -46,43 +50,51 @@ const Sidebar = (props: IProps) => {
 							setMode('home');
 						}}
 					>
-						back
+						بازگشت
 					</Button>
 				)}
 				{mode == 'home' && (
 					<>
 						<Button
 							className="my-btn"
+							style={{borderColor: "#af9b18", fontSize: "20px", fontWeight: "bold", borderRadius: "70px", width: "15rem", height: "3.5rem"}}
 							onClick={() => {
 								stickSidebar();
-								setMode('add-banner');
+								setMode('add-reaction');
 							}}
 						>
-							add banner
+							<span style={{color: "#af9b18"}}>
+								ایجاد واکنش
+							</span>
 						</Button>
-						<Button
-							title="Enable Inspector"
-							type="primary"
-							className="m-3"
-							onClick={() => postMessage('enable-inspector')}
-						>
-							Enable Inspector
-						</Button>
-						<Button
-							danger
-							title="Disable Inspector"
-							className="m-3"
-							onClick={() => postMessage('disable-inspector')}
-						>
-							Disable Inspector
-						</Button>
+						{/*<Button*/}
+						{/*	title="Enable Inspector"*/}
+						{/*	type="primary"*/}
+						{/*	className="m-3"*/}
+						{/*	onClick={() => postMessage('enable-inspector')}*/}
+						{/*>*/}
+						{/*	Enable Inspector*/}
+						{/*</Button>*/}
+						{/*<Button*/}
+						{/*	danger*/}
+						{/*	title="Disable Inspector"*/}
+						{/*	className="m-3"*/}
+						{/*	onClick={() => postMessage('disable-inspector')}*/}
+						{/*>*/}
+						{/*	Disable Inspector*/}
+						{/*</Button>*/}
 					</>
 				)}
 
-				{mode == 'add-banner' && (
-					<AddBanner
+				{mode == 'add-reaction' && (
+					<AddReaction
 						previewReaction={previewReaction}
 						websiteId={websiteId}
+						postMessageToIframe={postMessage}
+						selector={selector}
+						setSelector={setSelector}
+						destSelector={destSelector}
+						setDestSelector={setDestSelector}
 					/>
 				)}
 			</div>

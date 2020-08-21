@@ -104,3 +104,59 @@
 .steps-action button {
 	margin: 10px 5px 10px 0;
 }
+
+$base-color-light: #e4ce3f;
+$base-color-dark: #af9b18;
+
+.base-color {
+	color: $base-color-dark;
+}
+
+.trigger-option {
+	min-width: 50%;
+	margin: 5px 0;
+	color: $base-color-dark;
+	display: inline-block;
+    text-align: center;
+	vertical-align: top;
+}
+
+.reaction-option {
+	min-width: 33%;
+	max-width: 33%;
+	margin: 5px 0;
+	color: $base-color-dark;
+	display: inline-block;
+    text-align: center;
+	vertical-align: top;
+}
+
+.form-header {
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px
+}
+
+.form-message {
+	padding: 10px;
+	font-size: 16px;
+	background-color: #fcfaf1;
+	border-radius: 15px;
+	text-align: right;
+}
+
+.my-input {
+	border-color: $base-color-dark;
+	border-radius: 15px;
+}
+.my-input-label {
+	color: $base-color-dark;
+	padding: 5px;
+    font-size: 1em;
+    display: inline-block;
+	text-align: right;
+}
+
+.ant-select-selector {
+	border-radius: 70px;
+}

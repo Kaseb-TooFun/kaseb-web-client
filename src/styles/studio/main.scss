@@ -158,5 +158,6 @@ $base-color-dark: #af9b18;
 }
 
 .ant-select-selector {
-	border-radius: 70px;
+	border-radius: 70px !important;
+	margin-top: 0.2rem !important;
 }

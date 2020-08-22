@@ -61,13 +61,13 @@ const WebsiteTable = ({
 				onCancel={() => setVisible(false)}
 			>
 				<textarea id="my-script" style={{ width: '100%' }} rows={5}>
-					{`<!-- KESEB.IO -->
+					{`<!-- KESEB.XYZ -->
 <meta name="kio-verification" content="${websiteId}" />
 <script src="${document.location.href.replace(
 						document.location.pathname,
 						'/kio.js'
 					)}" defer></script>
-<!-- KESEB.IO -->`}
+<!-- KESEB.XYZ -->`}
 				</textarea>
 				<Button onClick={copy}>Copy</Button>
 			</Modal>

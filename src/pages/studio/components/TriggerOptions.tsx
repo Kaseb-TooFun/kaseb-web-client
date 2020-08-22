@@ -62,7 +62,7 @@ const TriggerOption = (props: TriggerOptionProps) => {
 		}
 	}
 
-	if (primaryConditionType === trigger.name) {
+	if (primaryConditionType === trigger.name || (!primaryConditionType && condition.includes(trigger.name))) {
 		switch (trigger.name) {
 			case "idle":
 			case "wait": {
@@ -75,6 +75,7 @@ const TriggerOption = (props: TriggerOptionProps) => {
 				}
 				addedOptions = <Select
 					defaultValue={condition.substr(trigger.name.length+1) || "5"}
+					dropdownStyle={{direction: "rtl"}}
 					onChange={onWaitChange}
 				>
 					<Select.Option value="5">

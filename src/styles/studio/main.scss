@@ -116,9 +116,18 @@ $base-color-dark: #af9b18;
 	min-width: 50%;
 	margin: 5px 0;
 	color: $base-color-dark;
-	display: inline-block;
-    text-align: center;
+	display: block;
+    text-align: right;
 	vertical-align: top;
+}
+
+.trigger-btn {
+
+}
+
+.trigger-added {
+	display: inline-block;
+    margin: 0 5px;
 }
 
 .reaction-option {

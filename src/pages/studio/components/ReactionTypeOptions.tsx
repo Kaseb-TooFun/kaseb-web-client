@@ -48,6 +48,7 @@ const ReactionOption = (props: ReactionOptionProps) => {
 				style={{
 					borderRadius: "70px",
 					backgroundColor: isSelected? "#af9b18": "white",
+					width: "97%"
 				}}
 				onClick={() => {
 					setReactionType(reactionType);

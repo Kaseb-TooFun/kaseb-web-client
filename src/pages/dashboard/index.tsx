@@ -9,7 +9,7 @@ const DashboardContent = (props: RouteComponentProps) => {
 	return (
 		<Content className="w-screen pt-10">
 			<Row className="justify-center">
-				<Title level={2}>KasebIO Dashboard</Title>
+				<Title level={2}>Kaseb Dashboard</Title>
 			</Row>
 		</Content>
 	);

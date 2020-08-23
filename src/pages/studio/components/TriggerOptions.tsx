@@ -6,9 +6,9 @@ import {Button, message, Select, Switch} from "antd";
 const triggerOptions = [
 	{name: 'idle', showName:'بیکار'},
 	{name: 'wait', showName:'تایمر'},
+	{name: 'on-load', showName:'ورود به صفحه'},
 	{name: 'on-click', showName:'کلیک'},
 	{name: 'on-hover', showName:'هاور'},
-	{name: 'on-load', showName:'ورود به صفحه'},
 	// {name: 'ongoing', showName:'حرکت به سمت'},
 ]
 
@@ -157,6 +157,7 @@ const TriggerOption = (props: TriggerOptionProps) => {
 				style={{
 					borderRadius: "70px",
 					backgroundColor: isSelected? "#af9b18": "white",
+					width: "50%",
 				}}
 				onClick={onClick}
 			>
@@ -169,7 +170,7 @@ const TriggerOption = (props: TriggerOptionProps) => {
 					{trigger.showName}
 				</span>
 			</Button>
-			<div className={"trigger-btn"}>
+			<div className={"trigger-added"}>
 			 {addedOptions}
 			</div>
 		</div>

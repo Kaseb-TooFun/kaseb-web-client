@@ -348,9 +348,9 @@ const AddReaction = (props: IProps) => {
 			{/*}*/}
 	</>
 
-	let contentCardForm;
+	let reactionDetails;
 	if (reactionType === "banner" || reactionType === "modal") {
-		contentCardForm = <div className="base-color" dir="rtl">
+		reactionDetails = <div className="base-color" dir="rtl">
 			<h2 className="form-header">محتوا</h2>
 			<p className="form-message">
 				لطفا محتوای مورد نظر خود که در لایه محتوایی نمایش داده می‌شود یا از کاربر پرسیده می‌شود را تنظیم کنید
@@ -460,7 +460,7 @@ const AddReaction = (props: IProps) => {
 			{/*</Form.Item>*/}
 		</div>
 	} else {
-		contentCardForm = <div className="base-color" dir="rtl">
+		reactionDetails = <div className="base-color" dir="rtl">
 			<h2 className="form-header">استایل</h2>
 			{/*<p className="form-message">*/}
 			{/*</p>*/}
@@ -468,11 +468,13 @@ const AddReaction = (props: IProps) => {
 			<div className="my-input-label">
 				المان مقصد
 			</div>
-			<DestInspector
-				destSelector={destSelector}
-				setDestSelector={setDestSelector}
-				postMessageToIframe={postMessageToIframe}
-			/>
+			<div>
+				<DestInspector
+					destSelector={destSelector}
+					setDestSelector={setDestSelector}
+					postMessageToIframe={postMessageToIframe}
+				/>
+			</div>
 
 			<div className="my-input-label">
 				یک بار نمایش برای هر کاربر؟
@@ -561,9 +563,9 @@ const AddReaction = (props: IProps) => {
 		// 	</div>
 		// },
 		{
-			// 3 - content card
+			// 3 - reaction details: content card or animation
 			title: '',
-			content: contentCardForm,
+			content: reactionDetails,
 		},
 		{
 			// 4 - goal

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { RouteComponentProps, Link, Router, useNavigate } from "@reach/router";
 import { Row, Menu, Layout, Typography } from "antd";
-import Websites from "_src/pages/dashboard/websites";
+import Websites from "_pages/dashboard/websites";
+import Actions from "_pages/dashboard/actions";
 const { Content } = Layout;
 const { Title } = Typography;
 
@@ -45,6 +46,7 @@ const Dashboard = (props: RouteComponentProps) => {
 			<Router>
 				<DashboardContent path="/" />
 				<Websites path="/websites" />
+				<Actions path="/actions/:websiteId" />
 			</Router>
 		</Row>
 	);

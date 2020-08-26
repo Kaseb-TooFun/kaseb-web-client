@@ -293,7 +293,7 @@ const AddEditReaction = (props: IProps) => {
 			color={data.bgColor}
 			onSelect={(color) => {
 				form.setFieldsValue({bgColor: color});
-				// onFormChange();
+				onFormChange();
 			}}
 		/>
 
@@ -307,7 +307,7 @@ const AddEditReaction = (props: IProps) => {
 			color={data.titleColor}
 			onSelect={(color) => {
 				form.setFieldsValue({titleColor: color});
-				// onFormChange();
+				onFormChange();
 			}}
 		/>
 
@@ -321,7 +321,7 @@ const AddEditReaction = (props: IProps) => {
 			color={data.textColor}
 			onSelect={(color) => {
 				form.setFieldsValue({textColor: color});
-				// onFormChange();
+				onFormChange();
 			}}
 		/>
 
@@ -335,7 +335,7 @@ const AddEditReaction = (props: IProps) => {
 			color={data.btnColor}
 			onSelect={(color) => {
 				form.setFieldsValue({btnColor: color});
-				// onFormChange();
+				onFormChange();
 			}}
 		/>
 
@@ -349,7 +349,7 @@ const AddEditReaction = (props: IProps) => {
 			color={data.btnTextColor}
 			onSelect={(color) => {
 				form.setFieldsValue({btnTextColor: color});
-				// onFormChange();
+				onFormChange();
 			}}
 		/>
 
@@ -426,7 +426,7 @@ const AddEditReaction = (props: IProps) => {
 			</div>
 			<Form.Item label={null} name="fontFamily">
 				<Select className="my-input"
-						// onChange={onFormChange}
+						onChange={onFormChange}
 						defaultValue={availableFonts[0]}
 				>
 					{availableFonts.map((font) => (
@@ -446,7 +446,7 @@ const AddEditReaction = (props: IProps) => {
 				valuePropName="checked"
 			>
 				<Switch
-					// onChange={onFormChange}
+					onChange={onFormChange}
 					defaultChecked={true}
 					checkedChildren="راست‌چین"
 					unCheckedChildren="چپ‌چین"
@@ -462,7 +462,7 @@ const AddEditReaction = (props: IProps) => {
 				valuePropName="checked"
 			>
 				<Switch
-					// onChange={onFormChange}
+					onChange={onFormChange}
 					defaultChecked
 					checkedChildren="بله"
 					unCheckedChildren="خیر"
@@ -478,7 +478,7 @@ const AddEditReaction = (props: IProps) => {
 				valuePropName="checked"
 			>
 				<Switch
-					// onChange={onFormChange}
+					onChange={onFormChange}
 					defaultChecked={true}
 					checkedChildren="یک‌بار"
 					unCheckedChildren="مدام"
@@ -515,7 +515,7 @@ const AddEditReaction = (props: IProps) => {
 				valuePropName="checked"
 			>
 				<Switch
-					// onChange={onFormChange}
+					onChange={onFormChange}
 					defaultChecked={true}
 					checkedChildren="یک‌بار"
 					unCheckedChildren="مدام"
@@ -531,7 +531,7 @@ const AddEditReaction = (props: IProps) => {
 					value={data.customStyle}
 					setValue={(customStyle) => {
 						form.setFieldsValue({customStyle})
-						// onFormChange()
+						onFormChange()
 					}}
 				/>
 			{/*</div>*/}
@@ -714,7 +714,7 @@ const AddEditReaction = (props: IProps) => {
 					isRTL: true,
 					showOnce: true,
 				}}
-				// onChange={onFormChange}
+				onChange={onFormChange}
 				onSubmitCapture={onFormSubmit}
 			>
 				<div style={{display: "inline-flex", direction: "rtl"}}>

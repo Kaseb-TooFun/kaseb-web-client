@@ -12,7 +12,7 @@ import {
 	Popconfirm,
 	Modal
 } from 'antd';
-import { ControlOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ControlOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 const { Column } = Table;
 const { Title } = Typography;
 import Api from '_src/api';
@@ -79,6 +79,15 @@ const WebsiteTable = ({
 					key="action"
 					render={(value) => (
 						<>
+							<Link to={`/dashboard/actions/${value.id}?url=${value.url}`}>
+								<Button
+									className="mr-3"
+									type="primary"
+									icon={<EditOutlined />}
+								>
+									Edit reactions
+								</Button>
+							</Link>
 							<Link to={`/studio/${value.id}?url=${value.url}`}>
 								<Button
 									className="mr-3"

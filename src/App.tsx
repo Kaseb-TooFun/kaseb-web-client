@@ -5,7 +5,6 @@ import Login from "_pages/auth/login";
 import SignUp from "_pages/auth/sign-up";
 import Dashboard from "_pages/dashboard";
 import Studio from "_pages/studio";
-import Actions from "_pages/dashboard/actions";
 
 function App() {
 	return (
@@ -16,7 +15,6 @@ function App() {
 			<SignUp path="/sign-up" />
 			<Dashboard path="/dashboard/*" />
 			<Studio path="/studio/:websiteId" />
-			<Actions path="/actios/:websiteId" />
 		</Router>
 	);
 }

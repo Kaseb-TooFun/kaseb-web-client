@@ -4,6 +4,7 @@ import {Row, Menu, Layout, Typography, Popover, Button, Breadcrumb} from "antd";
 import { AppstoreTwoTone, AppstoreOutlined } from '@ant-design/icons';
 import Websites from "_src/pages/dashboard/websites";
 import logo from "_src/logo.svg";
+import Actions from "_pages/dashboard/actions";
 const { Content } = Layout;
 const { Title } = Typography;
 
@@ -126,6 +127,7 @@ const Dashboard = (props: RouteComponentProps) => {
 			<Router>
 				<DashboardContent path="/" />
 				<Websites path="/websites" />
+				<Actions path="/actions/:websiteId" />
 			</Router>
 		</Row>
 			</>

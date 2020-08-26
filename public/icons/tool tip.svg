@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="59" viewBox="0 0 60 59">
+  <g id="tool_tip" data-name="tool tip" transform="translate(-93 -459)">
+    <g id="Rectangle_317" data-name="Rectangle 317" transform="translate(93 459)" fill="#fff" stroke="#e4ce3f" stroke-width="1">
+      <rect width="60" height="59" rx="20" stroke="none"/>
+      <rect x="0.5" y="0.5" width="59" height="58" rx="19.5" fill="none"/>
+    </g>
+    <path id="Rectangle_327" data-name="Rectangle 327" d="M8,0H32a0,0,0,0,1,0,0V8a8,8,0,0,1-8,8H8A8,8,0,0,1,0,8V8A8,8,0,0,1,8,0Z" transform="translate(100 491)" fill="#e4ce3f"/>
+    <g id="Ellipse_4" data-name="Ellipse 4" transform="translate(130 477)" fill="#fff" stroke="#e4ce3f" stroke-width="2">
+      <circle cx="6" cy="6" r="6" stroke="none"/>
+      <circle cx="6" cy="6" r="5" fill="none"/>
+    </g>
+  </g>
+</svg>

@@ -452,34 +452,34 @@ const Actions = (props: RouteComponentProps) => {
 					fetchConfigList={fetchConfigList}
 				/>
 			</Card>
-			<Card
-				title="Action Info"
-				extra={
-					<Select
-						defaultValue="banner"
-						style={{ width: 120 }}
-						onChange={setType}
-					>
-						<Select.Option value="banner">Banner</Select.Option>
-						<Select.Option value="reaction">Reaction</Select.Option>
-					</Select>
-				}
-				className="w-10/12"
-			>
-				{type == 'banner' && (
-					<BannerForm
-						id={params.websiteId}
-						fetchConfigList={fetchConfigList}
-					/>
-				)}
-				{type == 'reaction' && (
-					<ReactionForm
-						id={params.websiteId}
-						fetchConfigList={fetchConfigList}
-						postMessageToIframe={postMessageToIframe}
-					/>
-				)}
-			</Card>
+			{/*<Card*/}
+			{/*	title="Action Info"*/}
+			{/*	extra={*/}
+			{/*		<Select*/}
+			{/*			defaultValue="banner"*/}
+			{/*			style={{ width: 120 }}*/}
+			{/*			onChange={setType}*/}
+			{/*		>*/}
+			{/*			<Select.Option value="banner">Banner</Select.Option>*/}
+			{/*			<Select.Option value="reaction">Reaction</Select.Option>*/}
+			{/*		</Select>*/}
+			{/*	}*/}
+			{/*	className="w-10/12"*/}
+			{/*>*/}
+				{/*{type == 'banner' && (*/}
+				{/*	<BannerForm*/}
+				{/*		id={params.websiteId}*/}
+				{/*		fetchConfigList={fetchConfigList}*/}
+				{/*	/>*/}
+				{/*)}*/}
+				{/*{type == 'reaction' && (*/}
+				{/*	<ReactionForm*/}
+				{/*		id={params.websiteId}*/}
+				{/*		fetchConfigList={fetchConfigList}*/}
+				{/*		postMessageToIframe={postMessageToIframe}*/}
+				{/*	/>*/}
+				{/*)}*/}
+			{/*</Card>*/}
 			<Row>
 				<Button
 					title="Enable Inspector"

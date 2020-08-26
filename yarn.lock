@@ -1150,7 +1150,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.10.4", "@babel/runtime@^7.11.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.10.4", "@babel/runtime@^7.10.5", "@babel/runtime@^7.11.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.11.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.11.2.tgz#f549c13c754cc40b87644b9fa9f09a6a95fe0736"
   integrity sha512-TeWkU52so0mPtDcaCTxNBI/IHiz0pZgr8VEFqXFtZWpYD08ZB6FaSwVAS8MKRQAP3bYKiVjwysOJgMFY28o6Tw==
@@ -1216,6 +1216,21 @@
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
+
+"@fluentui/react-component-event-listener@~0.51.0":
+  version "0.51.0"
+  resolved "https://registry.yarnpkg.com/@fluentui/react-component-event-listener/-/react-component-event-listener-0.51.0.tgz#29701f875a37870e168b99b0198d3518866a7f84"
+  integrity sha512-YzvtrqSOQIr19V5hLQ71Zt2HnBpHsPbgE6YNRI0fYkld1YbZWggiPSpk6nhmjB5U30h3EqwZzvsuQTvHbuP2Iw==
+  dependencies:
+    "@babel/runtime" "^7.10.4"
+
+"@fluentui/react-component-ref@~0.51.0":
+  version "0.51.0"
+  resolved "https://registry.yarnpkg.com/@fluentui/react-component-ref/-/react-component-ref-0.51.0.tgz#e27e50e36a7d96586bc814c16bd84f9da53b3029"
+  integrity sha512-eYTiZCGmcsU1RuKeHepd8i6XksnroSF5b2lqHJaQO9x+Ec62d7+M2i9FW/nhe2Mpb5f96inL0Oz3zzVMrSwJdw==
+  dependencies:
+    "@babel/runtime" "^7.10.4"
+    react-is "^16.6.3"
 
 "@fullhuman/postcss-purgecss@^2.1.2":
   version "2.3.0"
@@ -1464,6 +1479,14 @@
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
 
+"@semantic-ui-react/event-stack@^3.1.0":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@semantic-ui-react/event-stack/-/event-stack-3.1.1.tgz#3263d17511db81a743167fe45281a24b3eb6b3c8"
+  integrity sha512-SA7VOu/tY3OkooR++mm9voeQrJpYXjJaMHO1aFCcSouS2xhqMR9Gnz0LEGLOR0h9ueWPBKaQzKIrx3FTTJZmUQ==
+  dependencies:
+    exenv "^1.2.2"
+    prop-types "^15.6.2"
+
 "@svgr/babel-plugin-add-jsx-attribute@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-4.2.0.tgz#dadcb6218503532d6884b210e7f3c502caaa44b1"
@@ -1705,6 +1728,13 @@
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
 
+"@types/jquery@*":
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.5.1.tgz#cebb057acf5071c40e439f30e840c57a30d406c3"
+  integrity sha512-Tyctjh56U7eX2b9udu3wG853ASYP0uagChJcQJXLUXEU6C/JiW5qt5dl8ao01VRj1i5pgXPAf8f1mq4+FDLRQg==
+  dependencies:
+    "@types/sizzle" "*"
+
 "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.4":
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.5.tgz#dcce4430e64b443ba8945f0290fb564ad5bac6dd"
@@ -1777,6 +1807,182 @@
   integrity sha512-d2gQQ0IL6hXLnoRfVYZukQNWHuVsE75DzFTLPUuyyEhJS8G2VvlE+qfQQ91SJjaMqlURRCNIsX7Jcsw6cEuJlA==
   dependencies:
     "@types/react" "*"
+
+"@types/semantic-ui-accordion@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-accordion/-/semantic-ui-accordion-2.2.2.tgz#2f3b9d60a981d9eddc3705619079defaacc3aee0"
+  integrity sha512-XClXI/20W7iFLQ7eyslZswbdv3A4qWEnFz8JvOylGatCW7biTLVhMBPcN0b17TZ1GeV4V/l3ctmvTEBCHvg8CA==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-api@*":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-api/-/semantic-ui-api-2.2.4.tgz#ea9cad381b38b77f95fa3bf679d7c5273c7b20dd"
+  integrity sha512-6IvCjZDJ0TVb1EtnNFQPNyVmOZnLGPEKyEAs9G0FF3XuAyyOdtfD4NGHJ0kknnX1FD+++ye0EuSVFDutbwEFWw==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-checkbox@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-checkbox/-/semantic-ui-checkbox-2.2.2.tgz#bb19b20d503103a724c9dc79f71132edb092a362"
+  integrity sha512-ZTAy3yNwOAaoznxsFoR33XopJnyyzAGrLeDpn7hVTkUYm7wgGsgOpRfG2psdM3fIOCkZkkE9IEAp1pLGBifL1g==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-dimmer@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-dimmer/-/semantic-ui-dimmer-2.2.2.tgz#667185161c31d046a51a6d71097d2909829e1423"
+  integrity sha512-wK7da/70UJ9AU7Ju2MeOO9sjRPrhU6jf+VvHiTwlaCGm7+ALiJThd88D1iB6ODDQpm+ebjIbQkvAmDSkMpmKlg==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-dropdown@*":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-dropdown/-/semantic-ui-dropdown-2.2.3.tgz#fffafea2a26dcb85fefc74a23d6a764f21a75b61"
+  integrity sha512-y2ZIiEWvFFyLu7+yqNV550U9hs3sfqP7ajLxHEWlGjxGS4NsJmy9In7/UcxnpJB+JkanC4JkyogEN6wRlbqvhw==
+  dependencies:
+    "@types/jquery" "*"
+    "@types/semantic-ui-api" "*"
+
+"@types/semantic-ui-embed@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-embed/-/semantic-ui-embed-2.2.2.tgz#5b851bc966c06812550410348da7f8ea866e0c02"
+  integrity sha512-5sW99BtK2SIBs9/sSM/0vMr6tphPyPXHyClhFX1tJi0L5ZH0wEmf6XcBRZgROe3ueHYVaJ0Pt/zwPQ5SMW0xDg==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-form@*":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-form/-/semantic-ui-form-2.2.5.tgz#39af2d638aa233f30ea1455f49d381a5b4134c66"
+  integrity sha512-3ngHIOAREfhxJ8k1zkjoI2O2o7P3xs+ru5akq7/ZJcn5Dhui9UkQ6Huo5f65cmn44vqsfUDWDWWgnrOCCZHEag==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-modal@*":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-modal/-/semantic-ui-modal-2.2.3.tgz#482e8ca3323b22e7247ff92249a52a8bc2fccc6d"
+  integrity sha512-Th48BFk1pd4kluFjCUDKn7Aml3xoLdFFK8wFQRz6UsOMdvsXx2OrNkubhjqc79tcBzONC7NszSW2ImslPPHNCg==
+  dependencies:
+    "@types/jquery" "*"
+    "@types/semantic-ui-dimmer" "*"
+
+"@types/semantic-ui-nag@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-nag/-/semantic-ui-nag-2.2.2.tgz#93e9cc410aa17b273ef73a705666815a7c2a09a6"
+  integrity sha512-gqjSFmMLw8vtPa6/Rv/mFBK1mdqaUbLkhUA4CsTDhkibUqnNqpvI/d1XFFLdC/ULu9v7UloMTCndSGKao+q5oA==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-popup@*":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-popup/-/semantic-ui-popup-2.2.3.tgz#cdf391d0e16ffbfdc34c7fee85e85d20a9323c5a"
+  integrity sha512-tw7FXUTAs+GEU939RBpOCVq9H8vYpsr8uYvJC0RUxXCYXCUHsgYzgIIklKoD+xPvUCf34MHnMBwrrTCMJosxGg==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-progress@*":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-progress/-/semantic-ui-progress-2.2.3.tgz#2ad3e2b69c5c5927aa4c11634cdf0a04ab53b36f"
+  integrity sha512-gv0i4+/uVbUJnuTzNv2oEqJ8CMQPeAR6K+s2zm1r4waH+8ZQ0SKM1DZ4t3w4gEMxhXqZVlLlyIhfY1SmUI0GuQ==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-rating@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-rating/-/semantic-ui-rating-2.2.2.tgz#d35807b61ebc6b4f2a977b430fbd862fa5f5b5a7"
+  integrity sha512-9497T8bEnkadWtQDl5Hno9lviZ2bJjx5rKd/Gfq6PWZ1/4/71LrYdH1DSr+sHYJ5HkaSA0b7GFVCTxi9pEdd6Q==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-search@*":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-search/-/semantic-ui-search-2.2.3.tgz#7da1a62ed116a1aa0baee2a9c66196b16f643e13"
+  integrity sha512-JVrrW9uakXTudNm1MGrkRpirL2vm8NCVtrPyH6zIbBNqi08UPeHY8yxjnFpTPv5sMKBGGhkSn9cYrGz6Cweg2Q==
+  dependencies:
+    "@types/jquery" "*"
+    "@types/semantic-ui-api" "*"
+
+"@types/semantic-ui-shape@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-shape/-/semantic-ui-shape-2.2.2.tgz#ce3bd95e4ec1127380343910c4766a4f070c1336"
+  integrity sha512-bXaeheuuDY3rAmA5QQRAA0fzMiEkhRgZts5i7w/d1XlMHCVNeHIIAbhTurl3bPwTlbr0NI7T3ZmxH0EKRVdIEg==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-sidebar@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-sidebar/-/semantic-ui-sidebar-2.2.2.tgz#792464d6e381354c8c1e935635c9010b1366f4a9"
+  integrity sha512-fm/whmNiyTzQwduc4maV9XjdwVc4pVlkhX5vippW9ukCCkVGY8qBgQKHFYhAHPhe7sCsGIuS+Vpr83t8X7Fg8w==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-site@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-site/-/semantic-ui-site-2.2.2.tgz#25a358ca572aa0e811f2f912ab6872ef897c8bbe"
+  integrity sha512-XxwUxqpBLAlPpO7OqAYIdBRsZTmKLXvSzBLczms3JshnoChEZbxtKRYxSxgK93Y4XYCfKnpXQXEF6RIw5FF/mA==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-sticky@*":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-sticky/-/semantic-ui-sticky-2.2.3.tgz#1317d2eac9b42d8088f8f0f3228684efa0ce6a84"
+  integrity sha512-HOhd+W75u9Hk0owQXUGdDKpvVhKl/207hueZqTTREZPTmxALAHbl6bHKxnvcJqRerhOFdObQcCFZGL5DEXRtcA==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-tab@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-tab/-/semantic-ui-tab-2.2.2.tgz#4bae0c8ac1e970cd93fc31cf99f546e29ac9a069"
+  integrity sha512-o7a2TJAxjh7pVqRzpQmJd7hTcaDv/tAYJh2Aez5mYiRrFylhzwIrJAcXhSwVRVInPZkc8MDlBPg8Xm+QJ98rLw==
+  dependencies:
+    "@types/jquery" "*"
+    "@types/semantic-ui-api" "*"
+
+"@types/semantic-ui-transition@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-transition/-/semantic-ui-transition-2.2.2.tgz#e03d9eec32c962a5c862112f75a53879c3628406"
+  integrity sha512-wZJICf3qCr+68zPvzTKC9nQJ3mneW+K/K9Y2KphxujWgMCkOQEetDNb5Dbt9YZe92L0SnaPaDgp1KVaKAortdw==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui-visibility@*":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui-visibility/-/semantic-ui-visibility-2.2.2.tgz#57934496df3b2b89f1c932cd886a5b011efe22ce"
+  integrity sha512-3qMvEI5Q7FemNuri6ZpJT4k8DlpxKGb0i3Jvg8EIwsfFMkpEeQDKWL11DZ4QSv83Ynv3XceB5JbropAEbUILVw==
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/semantic-ui@^2.2.7":
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/@types/semantic-ui/-/semantic-ui-2.2.7.tgz#4ae4242004aac11a21133d4f338e868b92605270"
+  integrity sha512-Uj6rby2GnuVyO7pj8vgUFsv5eaxb0ktpfasYcB/vXnSAeJ4cRjIOvxka+EoPjw3tPCY4/WlxRss8hsh7kRWzQg==
+  dependencies:
+    "@types/jquery" "*"
+    "@types/semantic-ui-accordion" "*"
+    "@types/semantic-ui-api" "*"
+    "@types/semantic-ui-checkbox" "*"
+    "@types/semantic-ui-dimmer" "*"
+    "@types/semantic-ui-dropdown" "*"
+    "@types/semantic-ui-embed" "*"
+    "@types/semantic-ui-form" "*"
+    "@types/semantic-ui-modal" "*"
+    "@types/semantic-ui-nag" "*"
+    "@types/semantic-ui-popup" "*"
+    "@types/semantic-ui-progress" "*"
+    "@types/semantic-ui-rating" "*"
+    "@types/semantic-ui-search" "*"
+    "@types/semantic-ui-shape" "*"
+    "@types/semantic-ui-sidebar" "*"
+    "@types/semantic-ui-site" "*"
+    "@types/semantic-ui-sticky" "*"
+    "@types/semantic-ui-tab" "*"
+    "@types/semantic-ui-transition" "*"
+    "@types/semantic-ui-visibility" "*"
+
+"@types/sizzle@*":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
+  integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
@@ -3316,6 +3522,11 @@ clone-deep@^4.0.1:
     kind-of "^6.0.2"
     shallow-clone "^3.0.0"
 
+clsx@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
+  integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
+
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -3645,7 +3856,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-context@0.3.0:
+create-react-context@0.3.0, create-react-context@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/create-react-context/-/create-react-context-0.3.0.tgz#546dede9dc422def0d3fc2fe03afe0bc0f4f7d8c"
   integrity sha512-dNldIoSuNSvlTJ7slIKC/ZFGKexBMBrrcc+TTe1NdmROnaASuLPvqpwj9v4XS4uXZ8+YPu0sNmShX2rXI5LNsw==
@@ -4036,7 +4247,7 @@ decode-uri-component@^0.2.0:
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
 
-deep-equal@^1.0.1:
+deep-equal@^1.0.1, deep-equal@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.1.1.tgz#b5c98c942ceffaf7cb051e24e1434a25a2e6076a"
   integrity sha512-yd9c5AdiqVcR+JjcwUQb9DkhJc8ngNr0MahEBGvDiJw8puWab2yZlh+nkasOnZP+EGTAP6rRp2JzJhJZzvNF8g==
@@ -4910,6 +5121,11 @@ execa@^1.0.0:
     p-finally "^1.0.0"
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
+
+exenv@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+  integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
 
 exit@^0.1.2:
   version "0.1.2"
@@ -6955,6 +7171,11 @@ jest@24.9.0:
     import-local "^2.0.0"
     jest-cli "^24.9.0"
 
+jquery@x.*:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
+  integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
+
 js-base64@^2.1.8:
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.6.4.tgz#f4e686c5de1ea1f867dbcad3d46d969428df98c4"
@@ -7153,6 +7374,11 @@ jsx-ast-utils@^2.2.1, jsx-ast-utils@^2.2.3, jsx-ast-utils@^2.4.1:
   dependencies:
     array-includes "^3.1.1"
     object.assign "^4.1.0"
+
+keyboard-key@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/keyboard-key/-/keyboard-key-1.1.0.tgz#6f2e8e37fa11475bb1f1d65d5174f1b35653f5b7"
+  integrity sha512-qkBzPTi3rlAKvX7k0/ub44sqOfXeLc/jcnGGmj5c7BJpU8eDrEVPyhCvNYAaoubbsLm9uGWwQJO1ytQK1a9/dQ==
 
 killable@^1.0.1:
   version "1.0.1"
@@ -8681,6 +8907,11 @@ pnp-webpack-plugin@1.6.4:
   dependencies:
     ts-pnp "^1.1.6"
 
+popper.js@^1.14.4:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b"
+  integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
+
 portfinder@^1.0.25:
   version "1.0.28"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.28.tgz#67c4622852bd5374dd1dd900f779f53462fac778"
@@ -10109,7 +10340,7 @@ react-error-overlay@^6.0.7:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
 
-react-is@^16.12.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
+react-is@^16.12.0, react-is@^16.6.3, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
@@ -10118,6 +10349,19 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-popper@^1.3.7:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-1.3.7.tgz#f6a3471362ef1f0d10a4963673789de1baca2324"
+  integrity sha512-nmqYTx7QVjCm3WUZLeuOomna138R1luC4EqkW3hxJUrAe+3eNz3oFCLYdnPwILfn0mX1Ew2c3wctrjlUMYYUww==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
+    create-react-context "^0.3.0"
+    deep-equal "^1.1.1"
+    popper.js "^1.14.4"
+    prop-types "^15.6.1"
+    typed-styles "^0.0.7"
+    warning "^4.0.2"
 
 react-scripts@3.4.1:
   version "3.4.1"
@@ -10799,6 +11043,35 @@ selfsigned@^1.10.7:
   integrity sha512-8M3wBCzeWIJnQfl43IKwOmC4H/RAp50S8DF60znzjW5GVqTcSe2vWclt7hmYVPkKPlHWOu5EaWOMZ2Y6W8ZXTA==
   dependencies:
     node-forge "0.9.0"
+
+semantic-ui-css@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/semantic-ui-css/-/semantic-ui-css-2.4.1.tgz#f5aea39fafb787cbd905ec724272a3f9cba9004a"
+  integrity sha512-Pkp0p9oWOxlH0kODx7qFpIRYpK1T4WJOO4lNnpNPOoWKCrYsfHqYSKgk5fHfQtnWnsAKy7nLJMW02bgDWWFZFg==
+  dependencies:
+    jquery x.*
+
+semantic-ui-icon@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/semantic-ui-icon/-/semantic-ui-icon-2.3.3.tgz#b0beb7e4b541a13eb49a8039626723ab5393b95c"
+  integrity sha512-TuO265ICYGoNPs0rjanqDlrx8hfcpl4MMv92OUwFCbDwee4nGj8+Dv+i1RvkPPr0gO565G/0EKs8vF4wwhMMBw==
+
+semantic-ui-react@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-1.2.1.tgz#c58603db072d3628fc2d9b626f6c3b39535deca3"
+  integrity sha512-p0HKdHg8ZGhnanyNuGOyTp5M6mVGWzTULPY02uBYHxXMzsyRPoRDlUa/tbaU0UdFpg96CmToG4WrvkINqhcZ+Q==
+  dependencies:
+    "@babel/runtime" "^7.10.5"
+    "@fluentui/react-component-event-listener" "~0.51.0"
+    "@fluentui/react-component-ref" "~0.51.0"
+    "@semantic-ui-react/event-stack" "^3.1.0"
+    clsx "^1.1.1"
+    keyboard-key "^1.1.0"
+    lodash "^4.17.19"
+    prop-types "^15.7.2"
+    react-is "^16.8.6"
+    react-popper "^1.3.7"
+    shallowequal "^1.1.0"
 
 "semver@2 || 3 || 4 || 5", semver@^5.4.1, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0:
   version "5.7.1"
@@ -11865,6 +12138,11 @@ type@^2.0.0:
   resolved "https://registry.yarnpkg.com/type/-/type-2.0.0.tgz#5f16ff6ef2eb44f260494dae271033b29c09a9c3"
   integrity sha512-KBt58xCHry4Cejnc2ISQAF7QY+ORngsWfxezO68+12hKV6lQY8P/psIkcbjeHWn7MqcgciWJyCCevFMJdIXpow==
 
+typed-styles@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/typed-styles/-/typed-styles-0.0.7.tgz#93392a008794c4595119ff62dde6809dbc40a3d9"
+  integrity sha512-pzP0PWoZUhsECYjABgCGQlRGL1n7tOHsgwYv3oIiEpJwGhFTuty/YNeduxQYzXXa3Ge5BdT6sHYIQYpl4uJ+5Q==
+
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
@@ -12124,7 +12402,7 @@ walker@^1.0.7, walker@~1.0.5:
   dependencies:
     makeerror "1.0.x"
 
-warning@^4.0.1, warning@^4.0.3:
+warning@^4.0.1, warning@^4.0.2, warning@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
   integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==

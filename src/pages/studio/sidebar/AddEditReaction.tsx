@@ -8,6 +8,7 @@ import AllTriggerOptions from "_pages/studio/components/TriggerOptions";
 import AllReactionTypeOptions from "_pages/studio/components/ReactionTypeOptions";
 import DestInspector from "_pages/studio/components/DestSelectorInspector"
 import CssEditor from "_pages/studio/components/CssEditor"
+import AllGoalTypeOptions from "_pages/studio/components/GoalTypeOptions";
 
 const { Step } = Steps;
 
@@ -16,6 +17,8 @@ const defaultTitleColor = "#e63f39";
 const defaultTextColor = "#1f76cd";
 const defaultBtnColor = "#fcdc0b";
 const defaultBtnTextColor = "#e63f39";
+
+const darkBaseColor = "#af9b18";
 
 const availableFonts = [
 	"Arial",
@@ -34,18 +37,27 @@ interface IProps extends RouteComponentProps {
 	previewReaction: (data: any) => void;
 	websiteId: string;
 	postMessageToIframe: (type: string) => void;
-	selector: string;
-	setSelector: (s: string) => void;
+	sourceSelector: string;
+	setSourceSelector: (s: string) => void;
 	destSelector: string;
 	setDestSelector: (s: string) => void;
+	goalSelector: string;
+	setGoalSelector: (s: string) => void;
 }
 
-const AddReaction = (props: IProps) => {
+const AddEditReaction = (props: IProps) => {
 	const { previewReaction, websiteId, postMessageToIframe,
-		selector, setSelector, destSelector, setDestSelector } = props;
+		sourceSelector, setSourceSelector, destSelector, setDestSelector,
+		goalSelector, setGoalSelector
+	} = props;
+	const [configID, setConfigID] = useState('')
 	const [form] = Form.useForm();
 	const [reactionName, setReactionName] = useState('')
 	const [reactionType, setReactionType] = useState('')
+	const [goalType, setGoalType] = useState('')
+	const [goalLink, setGoalLink] = useState('')
+	const [name, setName] = useState('')
+
 	const [data, setData] = useState({
 		title: '',
 		description: '',
@@ -194,7 +206,7 @@ const AddReaction = (props: IProps) => {
 				// Add another values
 				template: reactionType !== "action"? reactionName: "",
 				effect: reactionType === "action"? reactionName: "",
-				sourceSelector: selector,
+				sourceSelector: sourceSelector,
 				destSelector: destSelector,
 				once: showOnce,
 				type: actionType,
@@ -222,24 +234,39 @@ const AddReaction = (props: IProps) => {
 				// Add another values
 				template: reactionType !== "action"? reactionName: "",
 				effect: reactionType === "action"? reactionName: "",
-				sourceSelector: selector,
+				sourceSelector: sourceSelector,
 				destSelector: destSelector,
 				once: data.showOnce,
 				type: actionType,
 			},
 		});
 		message.loading('در حال ذخیره تنظیمات');
-		Api.config.add(websiteId, config).then((response) => {
-			if (response.status == 200) {
-				message.success('تنظیمات با موفقیت ذخیره شد');
-				// fetchConfigList();
-			} else if (response.status == 400) {
-				message.warning(response.data.errorMessage);
-			} else {
-				message.error('تنظیمات ذخیره نشد');
-			}
-		});
-		setBtnLoading(false);
+		if (configID === "") {
+			Api.config.add(websiteId, config, name, goalType, goalLink, goalSelector).then((response) => {
+				if (response.status == 200) {
+					message.success('تنظیمات با موفقیت ذخیره شد');
+					let cid = response.data["configs"][0].id
+					setConfigID(cid)
+					// fetchConfigList();
+				} else if (response.status == 400) {
+					message.warning(response.data.errorMessage);
+				} else {
+					message.error('تنظیمات ذخیره نشد');
+				}
+			});
+			setBtnLoading(false);
+		} else {
+			Api.config.update(configID, websiteId, config, name, goalType, goalLink, goalSelector).then((response) => {
+				if (response.status == 200) {
+					message.success('تنظیمات با موفقیت ذخیره شد');
+					// fetchConfigList();
+				} else if (response.status == 400) {
+					message.warning(response.data.errorMessage);
+				} else {
+					message.error('تنظیمات ذخیره نشد');
+				}
+			});
+		}
 	};
 
 	const triggerOptionsOnFinished = (condition: string) => {
@@ -266,7 +293,7 @@ const AddReaction = (props: IProps) => {
 			color={data.bgColor}
 			onSelect={(color) => {
 				form.setFieldsValue({bgColor: color});
-				onFormChange();
+				// onFormChange();
 			}}
 		/>
 
@@ -280,7 +307,7 @@ const AddReaction = (props: IProps) => {
 			color={data.titleColor}
 			onSelect={(color) => {
 				form.setFieldsValue({titleColor: color});
-				onFormChange();
+				// onFormChange();
 			}}
 		/>
 
@@ -294,7 +321,7 @@ const AddReaction = (props: IProps) => {
 			color={data.textColor}
 			onSelect={(color) => {
 				form.setFieldsValue({textColor: color});
-				onFormChange();
+				// onFormChange();
 			}}
 		/>
 
@@ -308,7 +335,7 @@ const AddReaction = (props: IProps) => {
 			color={data.btnColor}
 			onSelect={(color) => {
 				form.setFieldsValue({btnColor: color});
-				onFormChange();
+				// onFormChange();
 			}}
 		/>
 
@@ -322,7 +349,7 @@ const AddReaction = (props: IProps) => {
 			color={data.btnTextColor}
 			onSelect={(color) => {
 				form.setFieldsValue({btnTextColor: color});
-				onFormChange();
+				// onFormChange();
 			}}
 		/>
 
@@ -377,6 +404,9 @@ const AddReaction = (props: IProps) => {
 				<Input className="my-input" placeholder="اینجا کلیک کن" />
 			</Form.Item>
 
+			<div className="my-input-label">
+				لینک دکمه
+			</div>
 			<Form.Item label={null} name="url">
 				<Input className="my-input" placeholder="لینک" type="url" />
 			</Form.Item>
@@ -385,7 +415,7 @@ const AddReaction = (props: IProps) => {
 
 			{/*TODO: get inputs? email, phone, name*/}
 
-			<Divider style={{color: "#af9b18"}}>
+			<Divider style={{color: darkBaseColor}}>
 				رنگ
 			</Divider>
 
@@ -396,7 +426,7 @@ const AddReaction = (props: IProps) => {
 			</div>
 			<Form.Item label={null} name="fontFamily">
 				<Select className="my-input"
-						onChange={onFormChange}
+						// onChange={onFormChange}
 						defaultValue={availableFonts[0]}
 				>
 					{availableFonts.map((font) => (
@@ -416,7 +446,7 @@ const AddReaction = (props: IProps) => {
 				valuePropName="checked"
 			>
 				<Switch
-					onChange={onFormChange}
+					// onChange={onFormChange}
 					defaultChecked={true}
 					checkedChildren="راست‌چین"
 					unCheckedChildren="چپ‌چین"
@@ -432,7 +462,7 @@ const AddReaction = (props: IProps) => {
 				valuePropName="checked"
 			>
 				<Switch
-					onChange={onFormChange}
+					// onChange={onFormChange}
 					defaultChecked
 					checkedChildren="بله"
 					unCheckedChildren="خیر"
@@ -448,7 +478,7 @@ const AddReaction = (props: IProps) => {
 				valuePropName="checked"
 			>
 				<Switch
-					onChange={onFormChange}
+					// onChange={onFormChange}
 					defaultChecked={true}
 					checkedChildren="یک‌بار"
 					unCheckedChildren="مدام"
@@ -485,14 +515,14 @@ const AddReaction = (props: IProps) => {
 				valuePropName="checked"
 			>
 				<Switch
-					onChange={onFormChange}
+					// onChange={onFormChange}
 					defaultChecked={true}
 					checkedChildren="یک‌بار"
 					unCheckedChildren="مدام"
 				/>
 			</Form.Item>
 
-			<Divider style={{color: "#af9b18"}}>
+			<Divider style={{color: darkBaseColor}}>
 				ویرایشگر استایل
 			</Divider>
 
@@ -501,7 +531,7 @@ const AddReaction = (props: IProps) => {
 					value={data.customStyle}
 					setValue={(customStyle) => {
 						form.setFieldsValue({customStyle})
-						onFormChange()
+						// onFormChange()
 					}}
 				/>
 			{/*</div>*/}
@@ -513,29 +543,50 @@ const AddReaction = (props: IProps) => {
 	const [currentStep, setCurrentStep] = useState(0)
 	const steps	= [
 		{
-			// 1- select trigger
+			// 1- goal
 			title: '',
+			showName: "هدف",
+			icon: "/icons/sports_soccer-24px.svg",
 			content: <div className="base-color" dir="rtl">
-				<h2 className="form-header">راه‌انداز</h2>
+				{/*<h2 className="form-header">هدف</h2>*/}
 				<p className="form-message">
-					نوع راه انداز واکنش خود را از لیست زیر انتخاب کنید
+					براساس نیازخود، نوع هدف موردنظر را انتخاب کنید
 				</p>
-				{
-					<AllTriggerOptions
-						onSelectFinished={triggerOptionsOnFinished}
-						condition={data.condition}
-						selector={selector}
-						setSelector={setSelector}
-						postMessageToIframe={postMessageToIframe}
-					/>
+				<AllGoalTypeOptions
+					goalType={goalType}
+					setGoalType={setGoalType}
+					name={name}
+					setName={setName}
+					goalSelector={goalSelector}
+					setGoalSelector={setGoalSelector}
+					goalLink={goalLink}
+					setGoalLink={setGoalLink}
+					postMessageToIframe={postMessageToIframe}
+				/>
+			</div>,
+			buttons: <>
+				<Button onClick={() => {
+					if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
+					let sidebar = document.getElementById("my-sidebar")
+					if (sidebar) sidebar.scrollTop = 0
 				}
-			</div>
+				}
+					disabled={goalType === "" || name === ""}
+					style={{backgroundColor: darkBaseColor, borderRadius: "70px", width: "12rem", height: "2.5rem"}}
+				>
+					<span style={{color: "white", fontSize: "20px"}}>
+						ادامه
+					</span>
+				</Button>
+			</>
 		},
 		{
-			// 2 - select reaction type
+			// 2- select reaction type
 			title: '',
+			showName: "واکنش",
+			icon: "/icons/twotone-closed_caption-24px.svg",
 			content: <div className="base-color" dir="rtl">
-				<h2 className="form-header">واکنش</h2>
+				{/*<h2 className="form-header">واکنش</h2>*/}
 				<p className="form-message">
 					نوع واکنش خود را انتخاب کنید
 				</p>
@@ -546,125 +597,100 @@ const AddReaction = (props: IProps) => {
 					reactionName={reactionName}
 					setReactionName={setReactionName}
 					setReactionType={setReactionType}
+					hasAnimation={Boolean(goalType !== "notify")}
+					hasContentCard={true}
 				/>}
 			</div>,
-		},
-		// {
-		// 	// 3 - title and use-inputs
-		// 	title: '',
-		// 	content: <div className="base-color" dir="rtl">
-		//
-		// 		<div className="my-input-label">
-		// 			عنوان محتوا
-		// 		</div>
-		// 		<Form.Item label={null} name="title">
-		// 			<Input className="my-input" placeholder="عنوان محتوا" defaultValue={data.title}/>
-		// 		</Form.Item>
-		// 	</div>
-		// },
-		{
-			// 3 - reaction details: content card or animation
-			title: '',
-			content: reactionDetails,
+			buttons: <>
+				<Button onClick={() => {
+					if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
+					let sidebar = document.getElementById("my-sidebar")
+					if (sidebar) sidebar.scrollTop = 0
+				}
+				}
+					disabled={reactionType === ""}
+					style={{backgroundColor: darkBaseColor, borderRadius: "70px", width: "12rem", height: "2.5rem"}}
+				>
+					<span style={{color: "white", fontSize: "20px"}}>
+						ادامه
+					</span>
+				</Button>
+			</>,
 		},
 		{
-			// 4 - goal
+			// 3- select trigger
 			title: '',
+			showName: "راه‌انداز",
+			icon: "/icons/twotone-closed_caption-2.svg",
 			content: <div className="base-color" dir="rtl">
-				<h2 className="form-header">هدف</h2>
-			</div>
-		}
-	]
-
-	let stepsAction;
-	if (currentStep === -1) {
-		// not used
-		stepsAction = <>
-			<Button onClick={() => {
-				setCurrentStep(currentStep-1)
-				let sidebar = document.getElementById("my-sidebar")
-				if (sidebar) sidebar.scrollTop = 0
-			}}
-				disabled={currentStep <= 0}
-			>
-				Previous
-			</Button>
-			<Button onClick={() => setCurrentStep(currentStep+1)}
-					disabled={currentStep >= (steps.length - 1)}
-			>
-				Next
-			</Button>
-		</>
-	} else if (currentStep === 0) {
-		stepsAction = <>
-			<Button onClick={() => {
-				setCurrentStep(currentStep+1);
-				let sidebar = document.getElementById("my-sidebar")
-				if (sidebar) sidebar.scrollTop = 0
-			}
-			}
+				{/*<h2 className="form-header">راه‌انداز</h2>*/}
+				<p className="form-message">
+					نوع راه انداز واکنش خود را از لیست زیر انتخاب کنید
+				</p>
+				{
+					<AllTriggerOptions
+						onSelectFinished={triggerOptionsOnFinished}
+						condition={data.condition}
+						selector={sourceSelector}
+						setSelector={setSourceSelector}
+						postMessageToIframe={postMessageToIframe}
+					/>
+				}
+			</div>,
+			buttons: <>
+				<Button onClick={() => {
+					if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
+					let sidebar = document.getElementById("my-sidebar")
+					if (sidebar) sidebar.scrollTop = 0
+				}
+				}
 					disabled={data.condition === ""}
-					style={{backgroundColor: "#e4ce3f", borderRadius: "70px", width: "12rem", height: "2.5rem"}}
-			>
-				<span style={{color: "white", fontSize: "20px"}}>
-					ساخت واکنش
-				</span>
-			</Button>
-		</>
-	} else if (currentStep === 1) {
-		stepsAction = <>
+					style={{backgroundColor: darkBaseColor, borderRadius: "70px", width: "12rem", height: "2.5rem"}}
+				>
+					<span style={{color: "white", fontSize: "20px"}}>
+						ساخت واکنش
+					</span>
+				</Button>
+			</>,
+		},
+		{
+			// 4 - reaction details: content card or animation
+			title: '',
+			showName: !(reactionType === "banner" || reactionType === "modal")? "استایل": "محتوا",
+			icon: "/icons/twotone-closed_caption-1.svg",
+			content: reactionDetails,
+			buttons: <>
 			<Button onClick={() => {
-				setCurrentStep(currentStep+1);
-				let sidebar = document.getElementById("my-sidebar")
-				if (sidebar) sidebar.scrollTop = 0
-			}}
-					disabled={reactionName === ""}
-					style={{backgroundColor: "#e4ce3f", borderRadius: "70px", width: "19rem", height: "2.5rem"}}
-			>
-				<span style={{color: "white", fontSize: "20px"}}>
-					ادامه
-				</span>
-			</Button>
-		</>
-	} else if (currentStep === 2) {
-		stepsAction = <>
-			<Button onClick={() => {
-				setCurrentStep(currentStep+1);
+				if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
 				let sidebar = document.getElementById("my-sidebar")
 				if (sidebar) sidebar.scrollTop = 0
 				onFormSubmit()
 			}}
 					// disabled={data.condition === ""}
-					style={{backgroundColor: "#e4ce3f", borderRadius: "70px", width: "19rem", height: "2.5rem"}}
+					style={{backgroundColor: darkBaseColor, borderRadius: "70px", width: "19rem", height: "2.5rem"}}
 			>
 				<span style={{color: "white", fontSize: "20px"}}>
 					{(reactionType === "banner" || reactionType === "modal")?
-						"اضافه کردن کارت محتوایی":
+						"ذخیره کارت محتوایی":
 						"ذخیره استایل"
 					}
 				</span>
 			</Button>
-		</>
-	} else if (currentStep === 3) {
-		// stepsAction = <>
-		// 	<Button onClick={() => {
-		// 		setCurrentStep(currentStep+1);
-		// 		onFormSubmit()
-		// 	}}
-		// 			disabled={data.condition.length == 0}
-		// 			style={{backgroundColor: "#e4ce3f", borderRadius: "70px", width: "19rem", height: "2.5rem"}}
-		// 	>
-		// 		<span style={{color: "white", fontSize: "20px"}}>
-		// 			ذخیره
-		// 		</span>
-		// 	</Button>
-		// </>
-	}
+		</>,
+		},
+	]
 
 	return (
 		<div className="mt-3" style={{textAlign: "center"}}>
 
-			<Button className="my-btn" onClick={preview}>
+			<Button className="my-btn"
+					style={{borderColor: "#af9b18", fontSize: "15px", fontWeight: "normal",
+							borderRadius: "15px", width: "8rem", height: "2rem", direction: "rtl",
+							marginBottom: "10px",
+					}}
+					onClick={preview}
+			>
+				<i className={"eye icon"} style={{marginLeft: "4px", marginRight: "0"}}/>
 				پیش‌نمایش
 			</Button>
 
@@ -688,30 +714,60 @@ const AddReaction = (props: IProps) => {
 					isRTL: true,
 					showOnce: true,
 				}}
-				onChange={onFormChange}
+				// onChange={onFormChange}
 				onSubmitCapture={onFormSubmit}
 			>
-				<div style={{display: "inline-flex"}}>
-					<Button onClick={() => {setCurrentStep(currentStep-1)}}
+				<div style={{display: "inline-flex", direction: "rtl"}}>
+					<Button className="icon-btn"
+							onClick={() => {setCurrentStep(currentStep-1)}}
 							disabled={currentStep == 0}
 							title={"مرحله قبل"}
-							style={{margin: "5px"}}
+							style={{margin: "3px", border: "none", backgroundColor: "white"}}
 					>
-						<BackwardFilled />
+						<i className="angle double right icon"/>
 					</Button>
-					<Steps current={currentStep}>
-						{steps.map((item, index) => (
-							<Step key={index} title={item.title}/>
-						))}
-					</Steps>
+					{steps.map((step, index) => {
+
+						return (
+							<>
+								<Button onClick={() => {setCurrentStep(index)}}
+									disabled={index > currentStep}
+									title={step.showName}
+									style={{
+										margin: "2px",
+										borderRadius: "10px",
+										backgroundColor: (index === currentStep)? "#f1ebd4": "white",
+										border: "none",
+										padding: (index === currentStep)? "1px 5px": "",
+									}}
+								>
+									<img src={step.icon} style={{display: "inline-block"}}/>
+									{(index === currentStep)?
+										<span style={{color: "#af9b18"}}>
+											{step.showName}
+										</span>
+										: null
+									}
+								</Button>
+							</>
+						)
+					})
+					}
+					{/*<Steps current={currentStep}>*/}
+					{/*	{steps.map((item, index) => (*/}
+					{/*		<Step key={index} title={item.title}/>*/}
+					{/*	))}*/}
+					{/*</Steps>*/}
 				</div>
 
-				<div className="steps-content">
+				<div className="steps-content"
+					style={{backgroundColor: "white", borderRadius: "20px", borderWidth: "1px"}}
+				>
 					{steps[currentStep].content}
 				</div>
 
 				<div className="steps-action" style={{textAlign: "center",display: "inherit"}}>
-					{stepsAction}
+					{steps[currentStep].buttons}
 				</div>
 
 			</Form>
@@ -719,4 +775,4 @@ const AddReaction = (props: IProps) => {
 	);
 };
 
-export default AddReaction;
+export default AddEditReaction;

@@ -13,8 +13,7 @@ const DestInspector = (props: DestInspectorProps) => {
 	const {setDestSelector, destSelector, postMessageToIframe} = props;
 	const [isInspectorEnable, setIsInspectorEnable] = useState(true);
 
-	window.localStorage.setItem("selectorType", "2")
-
+	window.localStorage.setItem("selectorType", "dest")
 
 	const onSwitchChange = (value: Boolean) => {
 		if (value) {

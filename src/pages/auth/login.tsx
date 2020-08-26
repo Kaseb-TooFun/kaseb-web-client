@@ -28,7 +28,7 @@ const Login = (props: RouteComponentProps) => {
 				message.success('successful login', 1);
 				message.loading('redirecting to dashboard…', 1).then(
 					() => {
-						navigate('dashboard', { replace: true });
+						navigate('dashboard/websites', { replace: true });
 					},
 					() => {}
 				);

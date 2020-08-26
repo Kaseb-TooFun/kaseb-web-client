@@ -19,7 +19,6 @@
 	iframe {
 		width: 100%;
 		height: 100%;
-		padding: 0;
 		background-color: #fff;
 	}
 
@@ -52,6 +51,31 @@
 			box-shadow: none;
 		}
 	}
+}
+
+.my-header {
+	height: 65px;
+	border-bottom: 1px solid #e4ce3f;
+	background-color: #ffffff;
+	padding: 0 20px;
+}
+
+.my-header-item {
+
+}
+
+.menu-item-without-hover-select.ant-menu-item-active:hover {
+	border-bottom: none;
+	color: inherit;
+}
+
+.menu-item-without-hover-select.ant-menu-item-selected {
+	border-bottom: none;
+	color: inherit;
+}
+
+menu-item-without-hover-select {
+	cursor: none;
 }
 
 .color-selector {
@@ -169,4 +193,104 @@ $base-color-dark: #af9b18;
 .ant-select-selector {
 	border-radius: 70px !important;
 	margin-top: 0.2rem !important;
+}
+
+.goal-option {
+	display: inline-block;
+	border: 1px solid $base-color-light;
+	border-radius: 20px;
+	cursor: pointer;
+	margin: 0.3em;
+	padding: 0.4em;
+}
+
+.goal-option-header {
+	float: right;
+	margin: 0.5em;
+}
+
+.goal-option-header-img {
+	display: inline-block;
+	max-height: 100%;
+}
+
+.goal-option-header-icon {
+	display: inline-block;
+	max-height: 100%;
+}
+
+.goal-option-header-title {
+	display: inline-block;
+	font-size: 1.3rem;
+	vertical-align: top;
+	margin-right: 5px;
+}
+
+.goal-option-description {
+	display: inline-block;
+	text-align: right;
+}
+
+.goal-option-example-note {
+	display: inline-block;
+	text-align: right;
+	float: right;
+}
+
+.goal-modal-content {
+	display: inline-block;
+}
+
+.icon-btn:hover {
+	color: $base-color-dark;
+}
+
+.iframe-desktop-mode {
+	width: 75% !important;
+}
+
+.iframe-mobile-mode {
+	border-radius: 20px;
+}
+
+#my-sidebar {
+	width: 25% !important;
+	max-width: 25%;
+	border-left: 1px solid $base-color-dark;
+	border-radius: 10px !important;
+}
+
+.iframe-back-desktop-mode {
+	height: 100% !important;
+}
+
+.iframe-back-mobile-mode {
+	height: 98% !important;
+    width: 30% !important;
+    margin-left: 25%;
+    background: #e3dfc3;
+    padding: 15px 5px;
+    scroll-behavior: auto;
+    border-radius: 20px;
+    margin-top: 5px;
+	min-width: 380px;
+}
+
+.my-btn:hover {
+	color: $base-color-dark;
+}
+
+@media screen and (max-width: 650px) {
+  .my-header-item-title {
+		//visibility: hidden;
+		//clear: both;
+		//float: left;
+		//margin: 10px auto 5px 20px;
+		//width: 28%;
+		display: none !important;
+  }
+}
+
+.my-header-item-title:hover {
+	color: $base-color-dark;
 }

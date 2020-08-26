@@ -75,47 +75,59 @@ interface AllReactionTypeProps extends RouteComponentProps {
 	reactionName: string;
 	setReactionType: (reactionType: string) => void;
 	setReactionName: (reactionName: string) => void;
+	hasAnimation: boolean;
+	hasContentCard: boolean;
 }
 
 const AllReactionTypeOptions = (props: AllReactionTypeProps) => {
-	const {reactionName, setReactionType, setReactionName} = props;
+	const {reactionName, setReactionType, setReactionName, hasAnimation, hasContentCard} = props;
+	let animationDivs;
+	if (hasAnimation) {
+		animationDivs = <>
+			<Divider style={{color: "#af9b18"}}>
+				انیمیشن روی المان
+			</Divider>
+			{animationOptions.map((reactionData) => (
+				<ReactionOption
+					reactionType={"action"}
+					reactionName={reactionName}
+					reactionData={reactionData}
+					setReactionType={setReactionType}
+					setReactionName={setReactionName}
+				/>
+			))}
+		</>
+	}
 
+	let contentCardDivs;
+	if (hasContentCard) {
+		contentCardDivs = <>
+			<Divider style={{color: "#af9b18"}}>
+				لایه محتوایی
+			</Divider>
+			{bannerOptions.map((reactionData) => (
+				<ReactionOption
+					reactionType={"banner"}
+					reactionName={reactionName}
+					reactionData={reactionData}
+					setReactionType={setReactionType}
+					setReactionName={setReactionName}
+				/>
+			))}
+			{modalOptions.map((reactionData) => (
+				<ReactionOption
+					reactionType={"modal"}
+					reactionName={reactionName}
+					reactionData={reactionData}
+					setReactionType={setReactionType}
+					setReactionName={setReactionName}
+				/>
+			))}
+		</>
+	}
 	return (<>
-		<Divider style={{color: "#af9b18"}}>
-			انیمیشن روی المان
-		</Divider>
-		{animationOptions.map((reactionData) => (
-			<ReactionOption
-				reactionType={"action"}
-				reactionName={reactionName}
-				reactionData={reactionData}
-				setReactionType={setReactionType}
-				setReactionName={setReactionName}
-			/>
-		))}
-
-		<Divider style={{color: "#af9b18"}}>
-			لایه محتوایی
-		</Divider>
-		{bannerOptions.map((reactionData) => (
-			<ReactionOption
-				reactionType={"banner"}
-				reactionName={reactionName}
-				reactionData={reactionData}
-				setReactionType={setReactionType}
-				setReactionName={setReactionName}
-			/>
-		))}
-		{modalOptions.map((reactionData) => (
-			<ReactionOption
-				reactionType={"modal"}
-				reactionName={reactionName}
-				reactionData={reactionData}
-				setReactionType={setReactionType}
-				setReactionName={setReactionName}
-			/>
-		))}
-
+		{animationDivs}
+		{contentCardDivs}
 	</>)
 }
 

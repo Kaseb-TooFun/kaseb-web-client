@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps, useParams, useNavigate } from '@reach/router';
-import { Layout, Row, Button, Breadcrumb } from 'antd';
-import { AppstoreOutlined } from '@ant-design/icons';
+import { Layout, Row, Button, Breadcrumb, Popover } from 'antd';
+import { AppstoreTwoTone, AppstoreOutlined } from '@ant-design/icons';
 import Sidebar from './sidebar';
 import Api from '_src/api';
 import logo from "_src/logo.svg";
@@ -37,8 +37,12 @@ const Studio = (props: RouteComponentProps) => {
 	const iframeUrl = urlParams.get('url') || '';
 	const [href, setHref] = useState('');
 	const breadcrumb = href.split('/');
-	const [selector, setSelector] = useState('');
+	const [sourceSelector, setSourceSelector] = useState('');
 	const [destSelector, setDestSelector] = useState('');
+	const [goalSelector, setGoalSelector] = useState('');
+	const [displayMode, setDisplayMode] = useState('desktop')
+	const [displayModePopoverVisible, setDisplayModePopoverVisible] = useState(false)
+
 
 	useEffect(() => {
 		fetchConfigList();
@@ -84,14 +88,16 @@ const Studio = (props: RouteComponentProps) => {
 				onInspected.run(payload);
 				let selectorType = window.localStorage.getItem("selectorType");
 				switch (selectorType) {
-					case "1": // selector
-						setSelector(payload)
+					case "source":
+						setSourceSelector(payload)
 						break
-					case "2": // destSelector
+					case "dest":
 						setDestSelector(payload)
 						break
+					case "goal":
+						setGoalSelector(payload)
+						break
 					default:
-						// setSelector(payload)
 						break
 				}
 				postMessageToIframe( 'disable-inspector');
@@ -103,44 +109,162 @@ const Studio = (props: RouteComponentProps) => {
 	};
 
 	return (
-		<Layout id="studio" className="h-screen">
-			<Header className="header">
-				<div style={{float: "right"}}>
-					<img src={logo}/>
+		<Layout id="studio" className="h-screen" style={{backgroundColor: "white"}}>
+			<div
+				className="my-header"
+				style={{}}
+			>
+				<div className={"my-header-item"}
+					 style={{float: "right", paddingLeft: "10px", paddingTop: "10px"}} >
+					<a style={{}} href={"/"}>
+						<img src={logo}/>
+					</a>
 				</div>
-				<Button
-					type="primary"
-					icon={<AppstoreOutlined />}
-					className="m-3"
-					onClick={() => {
-						navigate('/dashboard', { replace: true });
-					}}
-				/>
-				<Breadcrumb>
-					{breadcrumb
-						.filter(
-							(str) =>
-								str != '' && str != 'https:' && str != 'http:'
-						)
-						.map((str, index) => {
-							return (
-								<Breadcrumb.Item key={index}>
-									<a href="#">{str}</a>
-								</Breadcrumb.Item>
-							);
-						})}
-				</Breadcrumb>
-			</Header>
+				<div className={"my-header-item"} style={{float: "right", margin: "15px 7px"}} >
+					<div style={{cursor: "pointer"}}>
+						<Popover
+								trigger={"click"}
+								placement={"bottomLeft"}
+								// title={"حالت نمایش"}
+								style={{color: "#af9b18"}}
+								visible={displayModePopoverVisible}
+								onVisibleChange={() => {setDisplayModePopoverVisible(!displayModePopoverVisible)}}
+								 content={
+								 	<div style={{textAlign: "right", fontSize: "1.3em"}}>
+										<div style={{color: "black", direction: "rtl"}}>
+												 حالت نمایش
+										</div>
+										<div style={{cursor: "pointer", color: "#af9b18", direction: "rtl"}}
+											onClick={() => {
+												setDisplayMode('desktop')
+												setDisplayModePopoverVisible(false)
+											}}
+										>
+											<i className={"desktop icon"}/>
+												 دسکتاپ
+										</div>
+										<div style={{cursor: "pointer", color: "#af9b18", direction: "rtl"}}
+											onClick={() => {
+												setDisplayMode('mobile')
+												setDisplayModePopoverVisible(false)
+											}}
+										>
+											<i className={"mobile alternate icon"}/>
+												  موبایل
+										</div>
+									</div>
+								 }
+						>
+							<i className={`big ${displayMode === 'desktop'? "desktop": "mobile alternate"} icon`}
+							   style={{color: "#af9b18"}}
+							   title={"حالت نمایش"}
+							/>
+						</Popover>
+					</div>
+				</div>
+				<div className={"my-header-item"} style={{float: "right", margin: "15px 8px"}}>
+					<div style={{color: "#af9b18", direction: "rtl",
+						display: isLoaded? "none": "inline-block",
+					}}>
+						<i className={"big spinner loading icon"} style={{}}/>
+						<span className={"my-header-item-title"}
+							style={{color: "black", fontWeight: "bold"}}
+						>
+						  در حال یافتن کد کاسب در صفحه مورد نظر
+						</span>
+					</div>
+				</div>
+
+				<div style={{float: "left", margin: "12px 5px"}}>
+					<div style={{cursor: "pointer", fontSize: "1.2em"}}>
+						<Popover
+								trigger={"click"}
+								placement={"bottomRight"}
+								 content={
+								 	<div style={{color: "#af9b18"}}>
+										<div style={{cursor: "pointer"}}
+											onClick={() => navigate("/logout", { replace: true })}
+										>
+											<i className={"logout icon"}/>
+												 خروج از حساب کاربری
+										</div>
+									</div>
+								 }
+						>
+							<i className="big user circle icon" style={{color: "#af9b18"}}/>
+						</Popover>
+					</div>
+				</div>
+				<div style={{margin: "8px 4px", display: "inline-block"}}>
+					<Button
+						icon={<AppstoreTwoTone twoToneColor={"#af9b18"} style={{fontSize: "1.5em"}}/>}
+						className=""
+						title={"داشبورد"}
+						style={{border: "none", fontSize: "1.5em"}}
+						onClick={() => {
+							navigate('/dashboard', { replace: true });
+						}}
+					/>
+				</div>
+				<div className={"my-header-item-title"}
+					style={{display: "inline-block", margin: "8px 4px"}}>
+					<Breadcrumb style={{fontSize: "1.2em"}}>
+						{breadcrumb
+							.filter(
+								(str) =>
+									str != '' && str != 'https:' && str != 'http:'
+							)
+							.map((str, index) => {
+								return (
+									<Breadcrumb.Item key={index}>
+										<a href="#">{str}</a>
+									</Breadcrumb.Item>
+								);
+							})}
+					</Breadcrumb>
+				</div>
+			</div>
+			{/*<Header className="header">*/}
+			{/*	<div style={{float: "right"}}>*/}
+			{/*		<img src={logo}/>*/}
+			{/*	</div>*/}
+			{/*	<Button*/}
+			{/*		type="primary"*/}
+			{/*		icon={<AppstoreOutlined />}*/}
+			{/*		className="m-3"*/}
+			{/*		onClick={() => {*/}
+			{/*			navigate('/dashboard', { replace: true });*/}
+			{/*		}}*/}
+			{/*	/>*/}
+			{/*	<Breadcrumb>*/}
+			{/*		{breadcrumb*/}
+			{/*			.filter(*/}
+			{/*				(str) =>*/}
+			{/*					str != '' && str != 'https:' && str != 'http:'*/}
+			{/*			)*/}
+			{/*			.map((str, index) => {*/}
+			{/*				return (*/}
+			{/*					<Breadcrumb.Item key={index}>*/}
+			{/*						<a href="#">{str}</a>*/}
+			{/*					</Breadcrumb.Item>*/}
+			{/*				);*/}
+			{/*			})}*/}
+			{/*	</Breadcrumb>*/}
+			{/*</Header>*/}
 			<Content className="content h-screen w-screen">
-				<iframe id="my-iframe" src={iframeUrl} />
+				<div className={`iframe-back-${displayMode}-mode`}>
+					<iframe id="my-iframe" src={iframeUrl} className={`iframe-${displayMode}-mode`}/>
+				</div>
 				{isLoaded && (
 					<Sidebar
 						postMessage={postMessageToIframe}
 						websiteId={params.websiteId}
-						selector={selector}
-						setSelector={setSelector}
+						sourceSelector={sourceSelector}
+						setSourceSelector={setSourceSelector}
 						destSelector={destSelector}
 						setDestSelector={setDestSelector}
+						goalSelector={goalSelector}
+						setGoalSelector={setGoalSelector}
 					/>
 				)}
 			</Content>

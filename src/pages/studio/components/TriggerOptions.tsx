@@ -193,7 +193,7 @@ const AllTriggerOptions = (props: AllTriggerOptionsProps) => {
 	const {onSelectFinished, condition, selector, setSelector, postMessageToIframe} = props;
 	const [primaryConditionType, setPrimaryConditionType] = useState('');
 
-	window.localStorage.setItem("selectorType", "1")
+	window.localStorage.setItem("selectorType", "source")
 
 	return (<>
 		<div>

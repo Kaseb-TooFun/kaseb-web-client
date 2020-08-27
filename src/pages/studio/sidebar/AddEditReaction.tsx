@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Select, Form, Switch, Button, message, Input, Steps, Divider } from 'antd';
-import { BackwardFilled } from "@ant-design/icons";
 import Api from '_src/api';
 import ColorSelector from '_pages/studio/components/ColorSelector';
 import AllTriggerOptions from "_pages/studio/components/TriggerOptions";
@@ -9,8 +8,6 @@ import AllReactionTypeOptions from "_pages/studio/components/ReactionTypeOptions
 import DestInspector from "_pages/studio/components/DestSelectorInspector"
 import CssEditor from "_pages/studio/components/CssEditor"
 import AllGoalTypeOptions from "_pages/studio/components/GoalTypeOptions";
-
-const { Step } = Steps;
 
 const defaultBgColor = "#0cc97a";
 const defaultTitleColor = "#e63f39";
@@ -20,22 +17,29 @@ const defaultBtnTextColor = "#e63f39";
 
 const darkBaseColor = "#af9b18";
 
-const availableFonts = [
-	"IRANSans",
-	"Sahel",
-	"Shabnam",
-	"Vazir",
-	// "Arial",
-	// "Helvetica",
-	// "Cursive",
-	// "Charcoal",
-	// "Lucida Grande",
-	// "Tahoma",
-	// "Trebuchet MS",
-	// "Verdana",
-	// "Courier",
-	// "Monaco",
-];
+const persianAvailableFonts = [
+	{key: "kio-IRANSans", showName: "ایران سنس"},
+	{key: "kio-Sahel", showName: "ساحل"},
+	{key: "kio-Shabnam", showName: "شبنم"},
+	{key: "kio-Vazir", showName: "وزیر"},
+]
+
+// const availableFonts = [
+// 	"IRANSans",
+// 	"Sahel",
+// 	"Shabnam",
+// 	"Vazir",
+// 	// "Arial",
+// 	// "Helvetica",
+// 	// "Cursive",
+// 	// "Charcoal",
+// 	// "Lucida Grande",
+// 	// "Tahoma",
+// 	// "Trebuchet MS",
+// 	// "Verdana",
+// 	// "Courier",
+// 	// "Monaco",
+// ];
 
 interface IProps extends RouteComponentProps {
 	previewReaction: (data: any) => void;
@@ -72,7 +76,7 @@ const AddEditReaction = (props: IProps) => {
 		textColor: defaultTextColor,
 		btnTextColor: defaultBtnTextColor,
 		opacity: 1,
-		fontFamily: availableFonts[0],
+		fontFamily: persianAvailableFonts[0].key,
 		url: '',
 		condition: '',
 		isCloseable: true,
@@ -435,11 +439,11 @@ const AddEditReaction = (props: IProps) => {
 			<Form.Item label={null} name="fontFamily">
 				<Select className="my-input"
 						onChange={onFormChange}
-						defaultValue={availableFonts[0]}
+						defaultValue={persianAvailableFonts[0].key}
 				>
-					{availableFonts.map((font) => (
-						<Select.Option value={font}>
-							{font}
+					{persianAvailableFonts.map((font) => (
+						<Select.Option value={font.key}>
+							{font.showName}
 						</Select.Option>
 					))}
 				</Select>
@@ -719,7 +723,7 @@ const AddEditReaction = (props: IProps) => {
 					textColor: defaultTextColor,
 					btnTextColor: defaultBtnTextColor,
 					opacity: 1,
-					fontFamily: availableFonts[0],
+					fontFamily: persianAvailableFonts[0].key,
 					url: '',
 					condition: '',
 					isCloseable: true,

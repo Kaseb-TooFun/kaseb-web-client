@@ -33,9 +33,15 @@
 				}
 			}
 		};
+		let url;
+		if (id === "preview") {
+			url = '__BASE_URL__/api/v1/modules/latest';
+		} else {
+			url = '__BASE_URL__/api/v1/modules/' + id + '/latest';
+		}
 		httpRequest.open(
 			'GET',
-			'__BASE_URL__/api/v1/modules/' + id + '/latest'
+			url
 		);
 		httpRequest.send();
 	}

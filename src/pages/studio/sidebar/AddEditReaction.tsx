@@ -21,16 +21,20 @@ const defaultBtnTextColor = "#e63f39";
 const darkBaseColor = "#af9b18";
 
 const availableFonts = [
-	"Arial",
-	"Helvetica",
-	"Cursive",
-	"Charcoal",
-	"Lucida Grande",
-	"Tahoma",
-	"Trebuchet MS",
-	"Verdana",
-	"Courier",
-	"Monaco",
+	"IRANSans",
+	"Sahel",
+	"Shabnam",
+	"Vazir",
+	// "Arial",
+	// "Helvetica",
+	// "Cursive",
+	// "Charcoal",
+	// "Lucida Grande",
+	// "Tahoma",
+	// "Trebuchet MS",
+	// "Verdana",
+	// "Courier",
+	// "Monaco",
 ];
 
 interface IProps extends RouteComponentProps {
@@ -68,7 +72,7 @@ const AddEditReaction = (props: IProps) => {
 		textColor: defaultTextColor,
 		btnTextColor: defaultBtnTextColor,
 		opacity: 1,
-		fontFamily: "Arial",
+		fontFamily: availableFonts[0],
 		url: '',
 		condition: '',
 		isCloseable: true,
@@ -78,6 +82,10 @@ const AddEditReaction = (props: IProps) => {
 	});
 	const [btnLoading, setBtnLoading] = useState(false);
 	let timeoutHandler = 0;
+
+	const disableInspector = () => {
+		postMessageToIframe('disable-inspector')
+	}
 
 	const onFormChange = () => {
 		const {
@@ -133,8 +141,8 @@ const AddEditReaction = (props: IProps) => {
 			showOnce,
 			customStyle
 		});
-		clearTimeout(timeoutHandler);
-		timeoutHandler = window.setTimeout(preview, 1000);
+		// clearTimeout(timeoutHandler);
+		// timeoutHandler = window.setTimeout(preview, 1000);
 	};
 
 	const preview = () => {
@@ -567,6 +575,7 @@ const AddEditReaction = (props: IProps) => {
 			buttons: <>
 				<Button onClick={() => {
 					if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
+					disableInspector();
 					let sidebar = document.getElementById("my-sidebar")
 					if (sidebar) sidebar.scrollTop = 0
 				}
@@ -604,6 +613,7 @@ const AddEditReaction = (props: IProps) => {
 			buttons: <>
 				<Button onClick={() => {
 					if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
+					disableInspector();
 					let sidebar = document.getElementById("my-sidebar")
 					if (sidebar) sidebar.scrollTop = 0
 				}
@@ -640,6 +650,7 @@ const AddEditReaction = (props: IProps) => {
 			buttons: <>
 				<Button onClick={() => {
 					if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
+					disableInspector();
 					let sidebar = document.getElementById("my-sidebar")
 					if (sidebar) sidebar.scrollTop = 0
 				}
@@ -662,6 +673,7 @@ const AddEditReaction = (props: IProps) => {
 			buttons: <>
 			<Button onClick={() => {
 				if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
+				disableInspector();
 				let sidebar = document.getElementById("my-sidebar")
 				if (sidebar) sidebar.scrollTop = 0
 				onFormSubmit()
@@ -707,7 +719,7 @@ const AddEditReaction = (props: IProps) => {
 					textColor: defaultTextColor,
 					btnTextColor: defaultBtnTextColor,
 					opacity: 1,
-					fontFamily: "Arial",
+					fontFamily: availableFonts[0],
 					url: '',
 					condition: '',
 					isCloseable: true,
@@ -719,7 +731,10 @@ const AddEditReaction = (props: IProps) => {
 			>
 				<div style={{display: "inline-flex", direction: "rtl"}}>
 					<Button className="icon-btn"
-							onClick={() => {setCurrentStep(currentStep-1)}}
+							onClick={() => {
+								// disableInspector()
+								setCurrentStep(currentStep-1)
+							}}
 							disabled={currentStep == 0}
 							title={"مرحله قبل"}
 							style={{margin: "3px", border: "none", backgroundColor: "white"}}
@@ -730,7 +745,10 @@ const AddEditReaction = (props: IProps) => {
 
 						return (
 							<>
-								<Button onClick={() => {setCurrentStep(index)}}
+								<Button onClick={() => {
+									// disableInspector()
+									setCurrentStep(index)
+								}}
 									disabled={index > currentStep}
 									title={step.showName}
 									style={{

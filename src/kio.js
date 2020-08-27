@@ -33,15 +33,15 @@
 				}
 			}
 		};
-		let url;
-		if (id === "preview") {
-			url = '__BASE_URL__/api/v1/modules/latest';
-		} else {
-			url = '__BASE_URL__/api/v1/modules/' + id + '/latest';
-		}
+		// let url;
+		// if (id === "preview") {
+		// 	url = '__BASE_URL__/api/v1/modules/latest';
+		// } else {
+		// 	url = '__BASE_URL__/api/v1/modules/' + id + '/latest';
+		// }
 		httpRequest.open(
 			'GET',
-			url
+			'__BASE_URL__/api/v1/modules/' + id + '/latest'
 		);
 		httpRequest.send();
 	}

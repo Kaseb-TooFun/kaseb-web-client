@@ -12,7 +12,7 @@ import {
 	Popconfirm,
 	Modal
 } from 'antd';
-import { ControlOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { ControlOutlined, DeleteOutlined, EditOutlined, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
 const { Column } = Table;
 const { Title } = Typography;
 import Api from '_src/api';
@@ -38,7 +38,7 @@ const WebsiteTable = ({
 			} else if (resposnse.status == 400) {
 				message.warning(resposnse.data.errorMessage);
 			} else {
-				message.error('faild to delete website');
+				message.error('failed to delete website');
 			}
 		});
 	};
@@ -56,6 +56,7 @@ const WebsiteTable = ({
 		<>
 			<Modal
 				title="Script"
+				footer={null}
 				visible={isVisible}
 				onOk={() => setVisible(false)}
 				onCancel={() => setVisible(false)}
@@ -69,9 +70,9 @@ const WebsiteTable = ({
 					)}" defer></script>
 <!-- KESEB.XYZ -->`}
 				</textarea>
-				<Button onClick={copy}>Copy</Button>
+				<Button onClick={copy}>کپی</Button>
 			</Modal>
-			<Table dataSource={data} loading={loading}>
+			<Table dataSource={data} loading={loading} direction={"rtl"}>
 				<Column title="title" dataIndex="title" key="title" />
 				<Column title="url" dataIndex="url" key="url" />
 				<Column
@@ -79,22 +80,22 @@ const WebsiteTable = ({
 					key="action"
 					render={(value) => (
 						<>
-							<Link to={`/dashboard/actions/${value.id}?url=${value.url}`}>
+							<Link to={`/dashboard/actions/${value.id}`}>
 								<Button
 									className="mr-3"
 									type="primary"
-									icon={<EditOutlined />}
+									icon={<UnorderedListOutlined />}
 								>
-									Edit reactions
+									واکنش‌ها
 								</Button>
 							</Link>
-							<Link to={`/studio/${value.id}?url=${value.url}`}>
+							<Link to={`/studio/${value.id}`}>
 								<Button
 									className="mr-3"
 									type="primary"
-									icon={<ControlOutlined />}
+									icon={<PlusOutlined />}
 								>
-									Studio
+									  واکنش جدید
 								</Button>
 							</Link>
 							<Button
@@ -105,7 +106,7 @@ const WebsiteTable = ({
 									setVisible(true);
 								}}
 							>
-								get script
+								دریافت کد
 							</Button>
 							<Popconfirm
 								title="Are you sure delete this website?"
@@ -114,7 +115,7 @@ const WebsiteTable = ({
 								cancelText="No"
 							>
 								<Button icon={<DeleteOutlined />}>
-									Delete
+									حذف
 								</Button>
 							</Popconfirm>
 						</>

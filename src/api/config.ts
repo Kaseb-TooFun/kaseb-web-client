@@ -3,6 +3,9 @@ import { instance } from '_src/api/axios-instance';
 const getList = (websiteId: string) =>
 	instance.get(`/api/v1/websites/${websiteId}/configs`);
 
+const getItem = (websiteId: string, configId: string) =>
+	instance.get(`/api/v1/websites/${websiteId}/configs/${configId}`)
+
 const add = (websiteId: string, config: string, name?: string,
 			 goalType?: string, goalLink?: string, goalSelector?: string) =>
 	instance.post(`/api/v1/websites/${websiteId}/configs`, {
@@ -28,6 +31,7 @@ const remove = (configId: string, websiteId: string) =>
 
 export default {
 	getList,
+	getItem,
 	add,
 	update,
 	remove

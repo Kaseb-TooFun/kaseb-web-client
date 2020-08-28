@@ -246,7 +246,7 @@ $base-color-dark: #af9b18;
 }
 
 .iframe-desktop-mode {
-	width: 75% !important;
+	width: calc(100vw - 340px) !important;
 }
 
 .iframe-mobile-mode {
@@ -254,8 +254,8 @@ $base-color-dark: #af9b18;
 }
 
 #my-sidebar {
-	width: 25% !important;
-	max-width: 25%;
+	overflow: hidden !important;
+	width: 340px !important;
 	border-left: 1px solid $base-color-dark;
 	border-radius: 10px !important;
 }
@@ -266,8 +266,8 @@ $base-color-dark: #af9b18;
 
 .iframe-back-mobile-mode {
 	height: 98% !important;
-    width: 30% !important;
-    margin-left: 25%;
+    width: 360px !important;
+    margin-left: calc(100vw/2 - 350px) !important;
     background: #e3dfc3;
     padding: 15px 5px;
     scroll-behavior: auto;

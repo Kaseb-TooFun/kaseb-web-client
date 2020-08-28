@@ -11,32 +11,32 @@ interface DestInspectorProps extends RouteComponentProps {
 
 const DestInspector = (props: DestInspectorProps) => {
 	const {setDestSelector, destSelector, postMessageToIframe} = props;
-	const [isInspectorEnable, setIsInspectorEnable] = useState(true);
+	// const [isInspectorEnable, setIsInspectorEnable] = useState(true);
 
 	window.localStorage.setItem("selectorType", "dest")
 
 	const onSwitchChange = (value: Boolean) => {
 		if (value) {
-			setIsInspectorEnable(false)
+			if (destSelector)
+				postMessageToIframe('disable-inspector')
+			// setIsInspectorEnable(false)
 		} else {
 			postMessageToIframe('enable-inspector')
-			setIsInspectorEnable(true)
+			// setIsInspectorEnable(true)
 			setDestSelector('')
 		}
 	}
 
-	if (destSelector && isInspectorEnable) {
-		setIsInspectorEnable(false)
-	}
-
-	if (isInspectorEnable) {
-		postMessageToIframe('enable-inspector')
+	if (destSelector) {
+		onSwitchChange(true)
+	} else {
+		onSwitchChange(false)
 	}
 
 	return (
 		<Switch
 			onChange={onSwitchChange}
-			checked={!isInspectorEnable}
+			checked={Boolean(destSelector !== "")}
 			// disabled={!Boolean(destSelector)}
 			checkedChildren="تغییر المان"
 			unCheckedChildren="انتخاب المان"

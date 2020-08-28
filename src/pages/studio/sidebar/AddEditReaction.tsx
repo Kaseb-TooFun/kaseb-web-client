@@ -42,6 +42,37 @@ const persianAvailableFonts = [
 // ];
 
 interface IProps extends RouteComponentProps {
+	configInitialData: {
+		id: string,
+		name: string,
+		goalType: string,
+		goalLink: string,
+		type: string,
+		values: {
+			title: string,
+			description: string,
+			btnText: string,
+			btnColor: string,
+			bgColor: string,
+			titleColor: string,
+			textColor: string,
+			btnTextColor: string,
+			opacity: string,
+			fontFamily: string,
+			url: string,
+			condition: string,
+			isCloseable: boolean,
+			isRTL: boolean,
+			showOnce: boolean,
+			customStyle: string,
+			template: string,
+			effect: string,
+			sourceSelector: string,
+			destSelector: string,
+			once: boolean,
+			type: string,
+		}
+	}
 	previewReaction: (data: any) => void;
 	websiteId: string;
 	postMessageToIframe: (type: string) => void;
@@ -51,38 +82,55 @@ interface IProps extends RouteComponentProps {
 	setDestSelector: (s: string) => void;
 	goalSelector: string;
 	setGoalSelector: (s: string) => void;
+	isDemo: boolean,
 }
 
 const AddEditReaction = (props: IProps) => {
-	const { previewReaction, websiteId, postMessageToIframe,
+	const { configInitialData, previewReaction, websiteId, postMessageToIframe,
 		sourceSelector, setSourceSelector, destSelector, setDestSelector,
-		goalSelector, setGoalSelector
+		goalSelector, setGoalSelector, isDemo
 	} = props;
-	const [configID, setConfigID] = useState('')
+	const [configID, setConfigID] = useState(configInitialData.id)
 	const [form] = Form.useForm();
-	const [reactionName, setReactionName] = useState('')
-	const [reactionType, setReactionType] = useState('')
-	const [goalType, setGoalType] = useState('')
-	const [goalLink, setGoalLink] = useState('')
-	const [name, setName] = useState('')
+	const [reactionType, setReactionType] = useState(configInitialData.type)
+
+	let initialReactionName = '';
+	switch (reactionType) {
+		case "banner":
+		case "modal": {
+			initialReactionName = configInitialData.values.template
+			break
+		}
+		case "action": {
+			initialReactionName = configInitialData.values.effect
+			break
+		}
+		default: {
+			break
+		}
+	}
+	const [reactionName, setReactionName] = useState(initialReactionName)
+	const [goalType, setGoalType] = useState(configInitialData.goalType)
+	const [goalLink, setGoalLink] = useState(configInitialData.goalLink)
+	const [name, setName] = useState(configInitialData.name)
 
 	const [data, setData] = useState({
-		title: '',
-		description: '',
-		btnText: '',
-		btnColor: defaultBtnColor,
-		bgColor: defaultBgColor,
-		titleColor: defaultTitleColor,
-		textColor: defaultTextColor,
-		btnTextColor: defaultBtnTextColor,
-		opacity: 1,
-		fontFamily: persianAvailableFonts[0].key,
-		url: '',
-		condition: '',
-		isCloseable: true,
-		isRTL: true,
-		showOnce: true,
-		customStyle: "",
+		title: configInitialData.values.title || '',
+		description: configInitialData.values.description || '',
+		btnText: configInitialData.values.btnText || '',
+		btnColor: configInitialData.values.btnColor || defaultBtnColor,
+		bgColor: configInitialData.values.bgColor || defaultBgColor,
+		titleColor: configInitialData.values.titleColor || defaultTitleColor,
+		textColor: configInitialData.values.textColor || defaultTextColor,
+		btnTextColor: configInitialData.values.btnTextColor || defaultBtnTextColor,
+		opacity: configInitialData.values.opacity || "1",
+		fontFamily: configInitialData.values.fontFamily || persianAvailableFonts[0].key,
+		url: configInitialData.values.url || '',
+		condition: configInitialData.values.condition || '',
+		isCloseable: configInitialData.values.isCloseable || true,
+		isRTL: configInitialData.values.isRTL || true,
+		showOnce: configInitialData.values.showOnce || true,
+		customStyle: configInitialData.values.customStyle || "",
 	});
 	const [btnLoading, setBtnLoading] = useState(false);
 	let timeoutHandler = 0;
@@ -227,57 +275,61 @@ const AddEditReaction = (props: IProps) => {
 	};
 
 	const onFormSubmit = () => {
-		setBtnLoading(true);
-		let actionType = "";
-		switch (data.condition) {
-			case "on-click":
-				actionType = "click"
-				break
-			case "on-hover":
-				actionType = "hover"
-				break
-			default:
-				break
-		}
-		const config = JSON.stringify({
-			type: reactionType,
-			data: {
-				...data,
-				// Add another values
-				template: reactionType !== "action"? reactionName: "",
-				effect: reactionType === "action"? reactionName: "",
-				sourceSelector: sourceSelector,
-				destSelector: destSelector,
-				once: data.showOnce,
-				type: actionType,
-			},
-		});
-		message.loading('در حال ذخیره تنظیمات');
-		if (configID === "") {
-			Api.config.add(websiteId, config, name, goalType, goalLink, goalSelector).then((response) => {
-				if (response.status == 200) {
-					message.success('تنظیمات با موفقیت ذخیره شد');
-					let cid = response.data["configs"][0].id
-					setConfigID(cid)
-					// fetchConfigList();
-				} else if (response.status == 400) {
-					message.warning(response.data.errorMessage);
-				} else {
-					message.error('تنظیمات ذخیره نشد');
-				}
-			});
-			setBtnLoading(false);
+		if (isDemo) {
+			message.warning('در حالت دمو می‌باشید و این واکنش ذخیره نخواهد شد')
 		} else {
-			Api.config.update(configID, websiteId, config, name, goalType, goalLink, goalSelector).then((response) => {
-				if (response.status == 200) {
-					message.success('تنظیمات با موفقیت ذخیره شد');
-					// fetchConfigList();
-				} else if (response.status == 400) {
-					message.warning(response.data.errorMessage);
-				} else {
-					message.error('تنظیمات ذخیره نشد');
-				}
+			setBtnLoading(true);
+			let actionType = "";
+			switch (data.condition) {
+				case "on-click":
+					actionType = "click"
+					break
+				case "on-hover":
+					actionType = "hover"
+					break
+				default:
+					break
+			}
+			const config = JSON.stringify({
+				type: reactionType,
+				data: {
+					...data,
+					// Add another values
+					template: reactionType !== "action" ? reactionName : "",
+					effect: reactionType === "action" ? reactionName : "",
+					sourceSelector: sourceSelector,
+					destSelector: destSelector,
+					once: data.showOnce,
+					type: actionType,
+				},
 			});
+			message.loading('در حال ذخیره تنظیمات');
+			if (configID === "") {
+				Api.config.add(websiteId, config, name, goalType, goalLink, goalSelector).then((response) => {
+					if (response.status == 200) {
+						message.success('تنظیمات با موفقیت ذخیره شد');
+						let cid = response.data["configs"][0].id
+						setConfigID(cid)
+						// fetchConfigList();
+					} else if (response.status == 400) {
+						message.warning(response.data.errorMessage);
+					} else {
+						message.error('تنظیمات ذخیره نشد');
+					}
+				});
+				setBtnLoading(false);
+			} else {
+				Api.config.update(configID, websiteId, config, name, goalType, goalLink, goalSelector).then((response) => {
+					if (response.status == 200) {
+						message.success('تنظیمات با موفقیت ذخیره شد');
+						// fetchConfigList();
+					} else if (response.status == 400) {
+						message.warning(response.data.errorMessage);
+					} else {
+						message.error('تنظیمات ذخیره نشد');
+					}
+				});
+			}
 		}
 	};
 
@@ -574,23 +626,29 @@ const AddEditReaction = (props: IProps) => {
 					goalLink={goalLink}
 					setGoalLink={setGoalLink}
 					postMessageToIframe={postMessageToIframe}
+					onSelectFinished={() => {
+						if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
+						disableInspector();
+						let sidebar = document.getElementById("my_sidebar_form")
+						if (sidebar) sidebar.scrollTop = 0
+					}}
 				/>
 			</div>,
 			buttons: <>
-				<Button onClick={() => {
-					if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
-					disableInspector();
-					let sidebar = document.getElementById("my-sidebar")
-					if (sidebar) sidebar.scrollTop = 0
-				}
-				}
-					disabled={goalType === "" || name === ""}
-					style={{backgroundColor: darkBaseColor, borderRadius: "70px", width: "12rem", height: "2.5rem"}}
-				>
-					<span style={{color: "white", fontSize: "20px"}}>
-						ادامه
-					</span>
-				</Button>
+				{/*<Button onClick={() => {*/}
+				{/*	if (currentStep < steps.length-1) setCurrentStep(currentStep+1);*/}
+				{/*	disableInspector();*/}
+				{/*	let sidebar = document.getElementById("my_sidebar_form")*/}
+				{/*	if (sidebar) sidebar.scrollTop = 0*/}
+				{/*}*/}
+				{/*}*/}
+				{/*	disabled={goalType === "" || name === ""}*/}
+				{/*	style={{backgroundColor: darkBaseColor, borderRadius: "70px", width: "12rem", height: "2.5rem"}}*/}
+				{/*>*/}
+				{/*	<span style={{color: "white", fontSize: "20px"}}>*/}
+				{/*		ادامه*/}
+				{/*	</span>*/}
+				{/*</Button>*/}
 			</>
 		},
 		{
@@ -618,7 +676,7 @@ const AddEditReaction = (props: IProps) => {
 				<Button onClick={() => {
 					if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
 					disableInspector();
-					let sidebar = document.getElementById("my-sidebar")
+					let sidebar = document.getElementById("my_sidebar_form")
 					if (sidebar) sidebar.scrollTop = 0
 				}
 				}
@@ -655,7 +713,7 @@ const AddEditReaction = (props: IProps) => {
 				<Button onClick={() => {
 					if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
 					disableInspector();
-					let sidebar = document.getElementById("my-sidebar")
+					let sidebar = document.getElementById("my_sidebar_form")
 					if (sidebar) sidebar.scrollTop = 0
 				}
 				}
@@ -678,7 +736,7 @@ const AddEditReaction = (props: IProps) => {
 			<Button onClick={() => {
 				if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
 				disableInspector();
-				let sidebar = document.getElementById("my-sidebar")
+				let sidebar = document.getElementById("my_sidebar_form")
 				if (sidebar) sidebar.scrollTop = 0
 				onFormSubmit()
 			}}
@@ -697,7 +755,7 @@ const AddEditReaction = (props: IProps) => {
 	]
 
 	return (
-		<div className="mt-3" style={{textAlign: "center"}}>
+		<div className="mt-3" style={{textAlign: "center", marginTop: "0"}}>
 
 			<Button className="my-btn"
 					style={{borderColor: "#af9b18", fontSize: "15px", fontWeight: "normal",
@@ -710,78 +768,64 @@ const AddEditReaction = (props: IProps) => {
 				پیش‌نمایش
 			</Button>
 
+			<div style={{display: "inline-flex", direction: "rtl"}}>
+				<Button className="icon-btn"
+						onClick={() => {
+							// disableInspector()
+							setCurrentStep(currentStep-1)
+						}}
+						disabled={currentStep == 0}
+						title={"مرحله قبل"}
+						style={{margin: "3px", border: "none", backgroundColor: "white"}}
+				>
+					<i className="angle double right icon"/>
+				</Button>
+				{steps.map((step, index) => {
+
+					return (
+						<>
+							<Button onClick={() => {
+								// disableInspector()
+								setCurrentStep(index)
+							}}
+								disabled={index > currentStep}
+								title={step.showName}
+								style={{
+									margin: "2px",
+									borderRadius: "10px",
+									backgroundColor: (index === currentStep)? "#f1ebd4": "white",
+									border: "none",
+									padding: (index === currentStep)? "1px 5px": "",
+								}}
+							>
+								<img src={step.icon} style={{display: "inline-block"}}/>
+								{(index === currentStep)?
+									<span style={{color: "#af9b18"}}>
+										{step.showName}
+									</span>
+									: null
+								}
+							</Button>
+						</>
+					)
+				})
+				}
+				{/*<Steps current={currentStep}>*/}
+				{/*	{steps.map((item, index) => (*/}
+				{/*		<Step key={index} title={item.title}/>*/}
+				{/*	))}*/}
+				{/*</Steps>*/}
+			</div>
+
+
+			<div id={"my_sidebar_form"} style={{overflow: "auto", height: "calc(100vh - 150px)"}}>
 			<Form
 				form={form}
 				layout="vertical"
-				initialValues={{
-					title: '',
-					description: '',
-					btnText: '',
-					btnColor: defaultBtnColor,
-					bgColor: defaultBgColor,
-					titleColor: defaultTitleColor,
-					textColor: defaultTextColor,
-					btnTextColor: defaultBtnTextColor,
-					opacity: 1,
-					fontFamily: persianAvailableFonts[0].key,
-					url: '',
-					condition: '',
-					isCloseable: true,
-					isRTL: true,
-					showOnce: true,
-				}}
+				initialValues={data}
 				onChange={onFormChange}
 				onSubmitCapture={onFormSubmit}
 			>
-				<div style={{display: "inline-flex", direction: "rtl"}}>
-					<Button className="icon-btn"
-							onClick={() => {
-								// disableInspector()
-								setCurrentStep(currentStep-1)
-							}}
-							disabled={currentStep == 0}
-							title={"مرحله قبل"}
-							style={{margin: "3px", border: "none", backgroundColor: "white"}}
-					>
-						<i className="angle double right icon"/>
-					</Button>
-					{steps.map((step, index) => {
-
-						return (
-							<>
-								<Button onClick={() => {
-									// disableInspector()
-									setCurrentStep(index)
-								}}
-									disabled={index > currentStep}
-									title={step.showName}
-									style={{
-										margin: "2px",
-										borderRadius: "10px",
-										backgroundColor: (index === currentStep)? "#f1ebd4": "white",
-										border: "none",
-										padding: (index === currentStep)? "1px 5px": "",
-									}}
-								>
-									<img src={step.icon} style={{display: "inline-block"}}/>
-									{(index === currentStep)?
-										<span style={{color: "#af9b18"}}>
-											{step.showName}
-										</span>
-										: null
-									}
-								</Button>
-							</>
-						)
-					})
-					}
-					{/*<Steps current={currentStep}>*/}
-					{/*	{steps.map((item, index) => (*/}
-					{/*		<Step key={index} title={item.title}/>*/}
-					{/*	))}*/}
-					{/*</Steps>*/}
-				</div>
-
 				<div className="steps-content"
 					style={{backgroundColor: "white", borderRadius: "20px", borderWidth: "1px"}}
 				>
@@ -793,6 +837,7 @@ const AddEditReaction = (props: IProps) => {
 				</div>
 
 			</Form>
+			</div>
 		</div>
 	);
 };

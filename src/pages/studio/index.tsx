@@ -26,58 +26,189 @@ const onInspected = (() => {
 	};
 })();
 
-const Studio = (props: RouteComponentProps) => {
+const StudioAddEdit = (props: RouteComponentProps) => {
 	const [data, setData] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [isLoaded, setLoaded] = useState(false);
-	const navigate = useNavigate();
 	const params = useParams();
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	const iframeUrl = urlParams.get('url') || '';
-	const [href, setHref] = useState('');
-	const breadcrumb = href.split('/');
+	const isDemo = params.websiteId === "demo"
+	const [configInitialData, setConfigInitialData] = useState({
+		id: '',
+		name: '',
+		goalType: '',
+		goalLink: '',
+		goalSelector: '',
+		type: '',
+		values: {
+			title: '',
+			description: '',
+			btnText: '',
+			btnColor: '',
+			bgColor: '',
+			titleColor: '',
+			textColor: '',
+			btnTextColor: '',
+			opacity: '',
+			fontFamily: '',
+			url: '',
+			condition: '',
+			isCloseable: true,
+			isRTL: true,
+			showOnce: true,
+			customStyle: '',
+			template: '',
+			effect: '',
+			sourceSelector: '',
+			destSelector: '',
+			once: true,
+			type: '',
+		}
+	})
+	const [isApiFetched, setIsApiFetched] = useState(Boolean(isDemo || false));
+	const [isModuleLoaded, setIsModuleLoaded] = useState(Boolean( false));
+	const [pendingMessage, setPendingMessage] = useState(isDemo? 'در حال دریافت اطلاعات': '')
+	const navigate = useNavigate();
+	// const queryString = window.location.search;
+	// const urlParams = new URLSearchParams(queryString);
+	// const iframeUrl = urlParams.get('url') || '';
+	const [iframeUrl, setIframeUrl] = useState(
+		!isDemo? '': `${process.env.PUBLIC_URL || 'http://localhost:3000'}/demopage`
+	)
+	const [href, setHref] = useState(
+		!isDemo? '': `${process.env.PUBLIC_URL || 'http://localhost:3000'}/demopage`
+	);
+	// const breadcrumb = href.split('?')[0].split('/');
 	const [sourceSelector, setSourceSelector] = useState('');
 	const [destSelector, setDestSelector] = useState('');
 	const [goalSelector, setGoalSelector] = useState('');
 	const [displayMode, setDisplayMode] = useState('desktop')
 	const [displayModePopoverVisible, setDisplayModePopoverVisible] = useState(false)
 
+	let configId = params.configId;
 
 	useEffect(() => {
-		fetchConfigList();
-		window.addEventListener('message', onReciveMessage);
+		if (iframeUrl)
+			window.addEventListener('message', onReceiveMessage);
+		else
+			fetchConfigList();
 
 		return () => {
-			window.removeEventListener('message', onReciveMessage);
+			window.removeEventListener('message', onReceiveMessage);
 		};
-	}, []);
+	}, [iframeUrl]);
 
 	const fetchConfigList = () => {
-		setLoading(true);
-		Api.config.getList(params.websiteId).then((response) => {
-			if (response.status == 200) {
-				setData(response.data.configs);
+		if (params.websiteId !== "demo") {
+			Api.website.getWebsite(params.websiteId).then((response) => {
+				if (response.status == 200) {
+					setData(response.data.website.configs);
+					setIframeUrl(response.data.website.url);
+					if (!configId) {
+						setPendingMessage('در حال یافتن کد کاسب در صفحه مورد نظر')
+					}
+				} else {
+					setPendingMessage('سایت پیدا نشد')
+				}
+				setIsApiFetched(true);
+			});
+			if (configId) {
+				Api.config.getItem(params.websiteId, configId).then((response) => {
+					if (response.status == 200) {
+						let itemData = response.data as {
+							value: string,
+							id: string,
+							name: string,
+							goalType: string,
+							goalLink: string,
+							goalSelector: string,
+						};
+						let configValues = JSON.parse(itemData.value) as {
+							type: string,
+							data: {
+								title: string,
+								description: string,
+								btnText: string,
+								btnColor: string,
+								bgColor: string,
+								titleColor: string,
+								textColor: string,
+								btnTextColor: string,
+								opacity: string,
+								fontFamily: string,
+								url: string,
+								condition: string,
+								isCloseable: boolean,
+								isRTL: boolean,
+								showOnce: boolean,
+								customStyle: string,
+								///
+								template: string,
+								effect: string,
+								sourceSelector: string,
+								destSelector: string,
+								once: boolean,
+								type: string,
+							}
+						};
+						setSourceSelector(configValues.data.sourceSelector)
+						setDestSelector(configValues.data.destSelector)
+						setGoalSelector(itemData.goalSelector)
+						setConfigInitialData({
+							id: itemData.id,
+							name: itemData.name,
+							goalType: itemData.goalType,
+							goalLink: itemData.goalLink,
+							goalSelector: itemData.goalSelector,
+							type: configValues.type,
+							values: configValues.data,
+							// title: configValues.title,
+							// description: configValues.description,
+							// btnText: configValues.,
+							// btnColor: '',
+							// bgColor: '',
+							// titleColor: '',
+							// textColor: '',
+							// btnTextColor: '',
+							// opacity: '',
+							// fontFamily: '',
+							// url: '',
+							// condition: '',
+							// isCloseable: true,
+							// isRTL: true,
+							// showOnce: true,
+							// customStyle: '',
+							// template: '',
+							// effect: '',
+							// sourceSelector: '',
+							// destSelector: '',
+							// once: true,
+							// type: '',
+							// }
+						})
+
+						setPendingMessage('در حال یافتن کد کاسب در صفحه مورد نظر')
+					} else {
+						setPendingMessage('واکنش یافت نشد')
+					}
+					setIsApiFetched(true);
+				})
 			}
-			setLoading(false);
-		});
+		}
 	};
 
 	const postMessageToIframe = (type: string, payload?: any) => {
 		const frame = document.getElementById('my-iframe') as HTMLIFrameElement;
-		frame.contentWindow?.postMessage({ type, payload }, iframeUrl);
+		if (iframeUrl) frame.contentWindow?.postMessage({ type, payload }, iframeUrl);
 	};
 
-	const onReciveMessage = (message: MessageEvent) => {
+	const onReceiveMessage = (message: MessageEvent) => {
 		const { type, payload } = message.data;
 		if (process.env.NODE_ENV !== 'production' && type) {
 			console.log('messageFromIFrame', { type, payload });
 		}
 		switch (type) {
 			case 'kio-loaded':
-				setLoaded(true);
 				postMessageToIframe('set-target-origin');
 				postMessageToIframe('get-location');
+				setIsModuleLoaded(true);
 				break;
 
 			case 'set-location':
@@ -164,13 +295,13 @@ const Studio = (props: RouteComponentProps) => {
 				</div>
 				<div className={"my-header-item"} style={{float: "right", margin: "15px 8px"}}>
 					<div style={{color: "#af9b18", direction: "rtl",
-						display: isLoaded? "none": "inline-block",
+						display: (isApiFetched && isModuleLoaded )? "none": "inline-block",
 					}}>
 						<i className={"big spinner loading icon"} style={{}}/>
 						<span className={"my-header-item-title"}
 							style={{color: "black", fontWeight: "bold"}}
 						>
-						  در حال یافتن کد کاسب در صفحه مورد نظر
+							{pendingMessage}
 						</span>
 					</div>
 				</div>
@@ -209,7 +340,7 @@ const Studio = (props: RouteComponentProps) => {
 				<div className={"my-header-item-title"}
 					style={{display: "inline-block", margin: "8px 4px"}}>
 					<Breadcrumb style={{fontSize: "1.2em"}}>
-						{breadcrumb
+						{href.split('?')[0].split('/')
 							.filter(
 								(str) =>
 									str != '' && str != 'https:' && str != 'http:'
@@ -253,9 +384,15 @@ const Studio = (props: RouteComponentProps) => {
 			{/*</Header>*/}
 			<Content className="content h-screen w-screen">
 				<div className={`iframe-back-${displayMode}-mode`}>
-					<iframe id="my-iframe" src={iframeUrl} className={`iframe-${displayMode}-mode`}/>
+					{(isApiFetched && iframeUrl) &&
+						<iframe
+							id="my-iframe"
+							src={iframeUrl + '?ignore_saved_reactions=true'}
+							className={`iframe-${displayMode}-mode`}
+						/>
+					}
 				</div>
-				{isLoaded && (
+				{(isApiFetched && isModuleLoaded) && (
 					<Sidebar
 						postMessage={postMessageToIframe}
 						websiteId={params.websiteId}
@@ -265,6 +402,8 @@ const Studio = (props: RouteComponentProps) => {
 						setDestSelector={setDestSelector}
 						goalSelector={goalSelector}
 						setGoalSelector={setGoalSelector}
+						configInitialData={configInitialData}
+						isDemo={isDemo}
 					/>
 				)}
 			</Content>
@@ -272,4 +411,4 @@ const Studio = (props: RouteComponentProps) => {
 	);
 };
 
-export default Studio;
+export default StudioAddEdit;

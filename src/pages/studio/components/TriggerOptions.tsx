@@ -29,7 +29,7 @@ const TriggerOption = (props: TriggerOptionProps) => {
 	const {trigger, onSelectFinished, primaryConditionType, setPrimaryConditionType,
 		condition, setSelector, selector, postMessageToIframe} = props;
 
-	const [isInspectorEnable, setIsInspectorEnable] = useState(true);
+	// const [isInspectorEnable, setIsInspectorEnable] = useState(Boolean(selector === ""));
 	let addedOptions;
 	let onClick;
 
@@ -98,36 +98,31 @@ const TriggerOption = (props: TriggerOptionProps) => {
 			}
 			case "on-hover":
 			case "on-click": {
-				if (!isInspectorEnable && !selector) {
-					setIsInspectorEnable(true)
-				}
 				onClick = () => {
 					setPrimaryConditionType(trigger.name)
 					onSelectFinished(trigger.name)
 				};
 				const onSwitchChange = (value: Boolean) => {
-					if (value) {
-						setIsInspectorEnable(false)
-					} else {
-						postMessageToIframe('enable-inspector')
-						setIsInspectorEnable(true)
-						setSelector('')
-					}
+				if (value) {
+					if (selector)
+						postMessageToIframe('disable-inspector')
+					// setIsInspectorEnable(false)
+				} else {
+					postMessageToIframe('enable-inspector')
+					// setIsInspectorEnable(true)
+					setSelector('')
 				}
-				if (selector && isInspectorEnable) {
-					setIsInspectorEnable(false)
-				}
+			}
 
-				// if (querySelector === "") {
-				// 	// message.info('المان مورد نظر را انتخاب کنید')
-				// } else {
-				// 	onSelectFinished(trigger.name);
-				// 	// message.success('المان با موفقیت انتخاب شد')
-				// }
+			if (selector) {
+				onSwitchChange(true)
+			} else {
+				onSwitchChange(false)
+			}
 
 				addedOptions = <Switch
 					onChange={onSwitchChange}
-					checked={!isInspectorEnable}
+					checked={Boolean(selector !== "")}
 					// disabled={!Boolean(querySelector)}
 					checkedChildren="تغییر المان"
 					unCheckedChildren="انتخاب المان"

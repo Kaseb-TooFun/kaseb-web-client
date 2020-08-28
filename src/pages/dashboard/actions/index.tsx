@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RouteComponentProps, useParams } from '@reach/router';
+import {Link, RouteComponentProps, useParams} from '@reach/router';
 import {
 	Row,
 	Col,
@@ -14,7 +14,7 @@ import {
 	Table,
 	Popconfirm
 } from 'antd';
-import { ControlOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ControlOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 const { Column } = Table;
 const { Title } = Typography;
 import Api from '_src/api';
@@ -40,18 +40,18 @@ const ConfigsTable = ({
 			} else if (resposnse.status == 400) {
 				message.warning(resposnse.data.errorMessage);
 			} else {
-				message.error('faild to delete config');
+				message.error('failed to delete config');
 			}
 		});
 	};
 	return (
-		<Table dataSource={data} loading={loading}>
+		<Table dataSource={data} loading={loading} style={{width: "100%"}}>
 			<Column
 				title="name"
 				key="name"
 				render={(value) => {
 					try {
-						return JSON.parse(value.value).data.name;
+						return value.name;
 					} catch (error) {
 						return 'no-name';
 					}
@@ -62,14 +62,25 @@ const ConfigsTable = ({
 				title="Action"
 				key="action"
 				render={(value) => (
-					<Popconfirm
-						title="Are you sure delete this config?"
-						onConfirm={() => confirmDelete(value.id)}
-						okText="Yes"
-						cancelText="No"
-					>
-						<Button icon={<DeleteOutlined />}>Delete</Button>
-					</Popconfirm>
+					<>
+						<Link to={`/studio/${params.websiteId}/edit/${value.id}`}>
+							<Button
+								className="mr-3"
+								type="primary"
+								icon={<EditOutlined />}
+							>
+								 ویرایش
+							</Button>
+						</Link>
+						<Popconfirm
+							title="Are you sure delete this config?"
+							onConfirm={() => confirmDelete(value.id)}
+							okText="Yes"
+							cancelText="No"
+						>
+							<Button icon={<DeleteOutlined />}>حذف</Button>
+						</Popconfirm>
+					</>
 				)}
 			/>
 		</Table>
@@ -80,19 +91,19 @@ const Actions = (props: RouteComponentProps) => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const params = useParams();
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	const iframeUrl = urlParams.get('url') || '';
+	const [iframeUrl, setIframeUrl] = useState('')
 
 	const fetchConfigList = () => {
 		setLoading(true);
-		Api.config.getList(params.websiteId).then((response) => {
+		Api.website.getWebsite(params.websiteId).then((response) => {
 			if (response.status == 200) {
-				setData(response.data.configs);
+				setData(response.data.website.configs);
+				setIframeUrl(response.data.website.url)
 			}
 			setLoading(false);
 		});
 	};
+
 
 	useEffect(() => {
 		fetchConfigList();
@@ -164,11 +175,12 @@ const Actions = (props: RouteComponentProps) => {
 				id="my-iframe"
 				src={iframeUrl}
 				style={{
-					width: '1000px',
-					height: '800px',
-					border: '1px solid #000'
+					width: '99%',
+					height: '600px',
+					border: '1px solid #000',
+					margin: "1px"
 				}}
-			></iframe>
+			/>
 
 		</div>
 	);

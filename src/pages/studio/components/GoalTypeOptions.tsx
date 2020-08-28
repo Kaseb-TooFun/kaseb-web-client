@@ -60,15 +60,18 @@ interface GoalTypeOptionsProps extends RouteComponentProps{
 	setGoalSelector: (s: string) => void;
 	goalLink: string;
 	setGoalLink: (s: string) => void;
+	onSelectFinished: () => void;
 }
 
 const AllGoalTypeOptions = (props: GoalTypeOptionsProps) => {
-	const { goalType, setGoalType, name, setName, goalSelector, setGoalSelector,
+	const { onSelectFinished, goalType, setGoalType, name, setName, goalSelector, setGoalSelector,
 		goalLink, setGoalLink, postMessageToIframe } = props;
 	const [primaryGoalType, setPrimaryGoalType] = useState(goalType)
-	const [isInspectorEnable, setIsInspectorEnable] = useState(goalSelector === "");
+	// const [isInspectorEnable, setIsInspectorEnable] = useState(goalSelector === "");
 
-
+	if (primaryGoalType !== "click") {
+		postMessageToIframe('disable-inspector')
+	}
 	const goalTypes = goalTypeOptions.map((goalData) => {
 		let addedFields;
 
@@ -89,20 +92,20 @@ const AllGoalTypeOptions = (props: GoalTypeOptionsProps) => {
 			window.localStorage.setItem("selectorType", "goal")
 			const onSwitchChange = (value: Boolean) => {
 				if (value) {
-					setIsInspectorEnable(false)
+					if (goalSelector)
+						postMessageToIframe('disable-inspector')
+					// setIsInspectorEnable(false)
 				} else {
 					postMessageToIframe('enable-inspector')
-					setIsInspectorEnable(true)
+					// setIsInspectorEnable(true)
 					setGoalSelector('')
 				}
 			}
 
-			if (goalSelector && isInspectorEnable) {
-				setIsInspectorEnable(false)
-			}
-
-			if (isInspectorEnable) {
-				postMessageToIframe('enable-inspector')
+			if (goalSelector) {
+				onSwitchChange(true)
+			} else {
+				onSwitchChange(false)
 			}
 
 			addedFields = <div>
@@ -111,8 +114,8 @@ const AllGoalTypeOptions = (props: GoalTypeOptionsProps) => {
 				</div>
 				<Switch
 					onChange={onSwitchChange}
-					checked={!isInspectorEnable}
-					// disabled={!Boolean(destSelector)}
+					checked={Boolean(goalSelector !== "")}
+					// disabled={Boolean(goalSelector === "")}
 					checkedChildren="تغییر المان"
 					unCheckedChildren="انتخاب المان"
 				/>
@@ -135,7 +138,7 @@ const AllGoalTypeOptions = (props: GoalTypeOptionsProps) => {
 			</Form.Item>
 			{addedFields}
 			<Button
-				style={{backgroundColor: "#af9b18", borderRadius: "70px", width: "5rem", height: "2.5rem",
+				style={{backgroundColor: "#af9b18", borderRadius: "70px", width: "8rem", height: "2.5rem",
 					float: "left"}}
 				onClick={() => {
 					let goalFieldName = document.getElementById("goal_form_name") as HTMLInputElement
@@ -146,10 +149,11 @@ const AllGoalTypeOptions = (props: GoalTypeOptionsProps) => {
 						setGoalLink(goalFieldLink.value)
 					}
 					setGoalType(primaryGoalType)
+					onSelectFinished()
 				}}
 			>
 				<span style={{color: "white"}}>
-					ذخیره
+					ذخیره و ادامه
 				</span>
 			</Button>
 		</>

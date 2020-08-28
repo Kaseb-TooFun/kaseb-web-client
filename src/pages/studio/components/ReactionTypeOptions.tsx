@@ -29,6 +29,7 @@ const modalOptions = [
 ]
 
 interface ReactionOptionProps extends RouteComponentProps {
+	preview?: () => void;
 	reactionType: string;
 	reactionName: string;
 	reactionData: {name: string, showName: string};
@@ -38,7 +39,8 @@ interface ReactionOptionProps extends RouteComponentProps {
 
 
 const ReactionOption = (props: ReactionOptionProps) => {
-	const {reactionType, reactionName, reactionData, setReactionType, setReactionName} = props;
+	const {reactionType, reactionName, reactionData, setReactionType, setReactionName,
+		preview=null} = props;
 
 	let isSelected = Boolean(reactionName) && reactionName === reactionData.name;
 	return (
@@ -52,7 +54,8 @@ const ReactionOption = (props: ReactionOptionProps) => {
 				}}
 				onClick={() => {
 					setReactionType(reactionType);
-					setReactionName(reactionData.name)
+					setReactionName(reactionData.name);
+					if (preview) preview()
 				}}
 			>
 				<span className="base-color"
@@ -80,7 +83,8 @@ interface AllReactionTypeProps extends RouteComponentProps {
 }
 
 const AllReactionTypeOptions = (props: AllReactionTypeProps) => {
-	const {reactionName, setReactionType, setReactionName, hasAnimation, hasContentCard} = props;
+	const {reactionName, setReactionType, setReactionName,
+		hasAnimation, hasContentCard} = props;
 	let animationDivs;
 	if (hasAnimation) {
 		animationDivs = <>

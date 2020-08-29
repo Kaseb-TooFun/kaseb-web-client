@@ -83,6 +83,7 @@ const AllGoalTypeOptions = (props: GoalTypeOptionsProps) => {
 				</div>
 				<Form.Item label={null}>
 					<Input className="my-input" placeholder="لینک" type="url"
+						   maxLength={1024}
 						   defaultValue={goalLink} id={"goal_form_link"}
 					/>
 				</Form.Item>
@@ -133,6 +134,7 @@ const AllGoalTypeOptions = (props: GoalTypeOptionsProps) => {
 			</div>
 			<Form.Item label={null}>
 				<Input className="my-input" placeholder="نام هدف" id={"goal_form_name"}
+					   maxLength={64}
 					   defaultValue={name}
 				/>
 			</Form.Item>

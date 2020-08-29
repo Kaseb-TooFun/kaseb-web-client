@@ -73,10 +73,10 @@ const WebsiteTable = ({
 				<Button onClick={copy}>کپی</Button>
 			</Modal>
 			<Table dataSource={data} loading={loading} direction={"rtl"}>
-				<Column title="title" dataIndex="title" key="title" />
-				<Column title="url" dataIndex="url" key="url" />
+				<Column title="عنوان" dataIndex="title" key="title" />
+				<Column title="آدرس وبسایت" dataIndex="url" key="url" width={"10px"}/>
 				<Column
-					title="Action"
+					title=""
 					key="action"
 					render={(value) => (
 						<>
@@ -164,11 +164,11 @@ const AddSiteForm = ({
 			}}
 			onSubmitCapture={onFormSubmit}
 		>
-			<Form.Item label="title" name="title">
-				<Input placeholder="website title" />
+			<Form.Item label="عنوان وبسایت" name="title">
+				<Input placeholder="website title" maxLength={64}/>
 			</Form.Item>
-			<Form.Item label="url" name="url">
-				<Input placeholder="http://www.example.com" type="url" />
+			<Form.Item label="آدرس وبسایت" name="url">
+				<Input placeholder="http://www.example.com" type="url" maxLength={2064}/>
 			</Form.Item>
 			<Form.Item shouldUpdate={true}>
 				{() => (
@@ -178,7 +178,7 @@ const AddSiteForm = ({
 						loading={btnLoading}
 						disabled={btnLoading}
 					>
-						Save
+						ذخیره
 					</Button>
 				)}
 			</Form.Item>

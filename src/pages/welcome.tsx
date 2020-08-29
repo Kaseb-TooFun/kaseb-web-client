@@ -27,7 +27,8 @@ const welcome = (props: IProps) => {
 			Api.auth.verify().then((response) => {
 				if (response.status == 200) {
 					navigate("/dashboard");
-				} else if (response.status == 401) {
+					// } else if (response.status == 401) {
+				} else {
 					navigate("/logout");
 				}
 				setBtnLoading(false);
@@ -39,8 +40,11 @@ const welcome = (props: IProps) => {
 		<Row justify="center" align="middle" style={{ height: "100vh" }}>
 			<Content>
 				<Row justify="center">
-					<Title level={2}>Welcome to Kaseb</Title>
+					<img src={"/icons/kaseb.logo.1.png"} width={"350px"}/>
 				</Row>
+				{/*<Row justify="center">*/}
+				{/*	<Title level={2}>Welcome to Kaseb</Title>*/}
+				{/*</Row>*/}
 				<Row justify="center">
 					<Link to="/login">
 						<Button
@@ -48,7 +52,8 @@ const welcome = (props: IProps) => {
 							loading={btnLoading}
 							disabled={btnLoading}
 						>
-							login <UnlockOutlined />
+							ورود
+							<UnlockOutlined />
 						</Button>
 					</Link>
 				</Row>

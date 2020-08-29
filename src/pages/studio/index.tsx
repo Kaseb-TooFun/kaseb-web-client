@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps, useParams, useNavigate } from '@reach/router';
 import { Layout, Row, Button, Breadcrumb, Popover } from 'antd';
-import { AppstoreTwoTone, AppstoreOutlined } from '@ant-design/icons';
+import { AppstoreTwoTone, AppstoreOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import Sidebar from './sidebar';
 import Api from '_src/api';
 import logo from "_src/logo.svg";
+import TopBarHeader from "_pages/components/TopBarHeader";
 
 const { Header, Content } = Layout;
 
@@ -239,72 +240,10 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 		}
 	};
 
-	return (
-		<Layout id="studio" className="h-screen" style={{backgroundColor: "white"}}>
-			<div
+	let myHeader0 = <div
 				className="my-header"
 				style={{}}
 			>
-				<div className={"my-header-item"}
-					 style={{float: "right", paddingLeft: "10px", paddingTop: "10px"}} >
-					<a style={{}} href={"/"}>
-						<img src={logo}/>
-					</a>
-				</div>
-				<div className={"my-header-item"} style={{float: "right", margin: "15px 7px"}} >
-					<div style={{cursor: "pointer"}}>
-						<Popover
-								trigger={"click"}
-								placement={"bottomLeft"}
-								// title={"حالت نمایش"}
-								style={{color: "#af9b18"}}
-								visible={displayModePopoverVisible}
-								onVisibleChange={() => {setDisplayModePopoverVisible(!displayModePopoverVisible)}}
-								 content={
-								 	<div style={{textAlign: "right", fontSize: "1.3em"}}>
-										<div style={{color: "black", direction: "rtl"}}>
-												 حالت نمایش
-										</div>
-										<div style={{cursor: "pointer", color: "#af9b18", direction: "rtl"}}
-											onClick={() => {
-												setDisplayMode('desktop')
-												setDisplayModePopoverVisible(false)
-											}}
-										>
-											<i className={"desktop icon"}/>
-												 دسکتاپ
-										</div>
-										<div style={{cursor: "pointer", color: "#af9b18", direction: "rtl"}}
-											onClick={() => {
-												setDisplayMode('mobile')
-												setDisplayModePopoverVisible(false)
-											}}
-										>
-											<i className={"mobile alternate icon"}/>
-												  موبایل
-										</div>
-									</div>
-								 }
-						>
-							<i className={`big ${displayMode === 'desktop'? "desktop": "mobile alternate"} icon`}
-							   style={{color: "#af9b18"}}
-							   title={"حالت نمایش"}
-							/>
-						</Popover>
-					</div>
-				</div>
-				<div className={"my-header-item"} style={{float: "right", margin: "15px 8px"}}>
-					<div style={{color: "#af9b18", direction: "rtl",
-						display: (isApiFetched && isModuleLoaded )? "none": "inline-block",
-					}}>
-						<i className={"big spinner loading icon"} style={{}}/>
-						<span className={"my-header-item-title"}
-							style={{color: "black", fontWeight: "bold"}}
-						>
-							{pendingMessage}
-						</span>
-					</div>
-				</div>
 
 				<div style={{float: "left", margin: "12px 5px"}}>
 					<div style={{cursor: "pointer", fontSize: "1.2em"}}>
@@ -326,62 +265,121 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 						</Popover>
 					</div>
 				</div>
-				<div style={{margin: "8px 4px", display: "inline-block"}}>
-					<Button
-						icon={<AppstoreTwoTone twoToneColor={"#af9b18"} style={{fontSize: "1.5em"}}/>}
-						className=""
-						title={"داشبورد"}
-						style={{border: "none", fontSize: "1.5em"}}
-						onClick={() => {
-							navigate('/dashboard', { replace: true });
-						}}
-					/>
-				</div>
-				<div className={"my-header-item-title"}
-					style={{display: "inline-block", margin: "8px 4px"}}>
-					<Breadcrumb style={{fontSize: "1.2em"}}>
-						{href.split('?')[0].split('/')
-							.filter(
-								(str) =>
-									str != '' && str != 'https:' && str != 'http:'
-							)
-							.map((str, index) => {
-								return (
-									<Breadcrumb.Item key={index}>
-										<a href="#">{str}</a>
-									</Breadcrumb.Item>
-								);
-							})}
-					</Breadcrumb>
-				</div>
+
 			</div>
-			{/*<Header className="header">*/}
-			{/*	<div style={{float: "right"}}>*/}
-			{/*		<img src={logo}/>*/}
-			{/*	</div>*/}
-			{/*	<Button*/}
-			{/*		type="primary"*/}
-			{/*		icon={<AppstoreOutlined />}*/}
-			{/*		className="m-3"*/}
-			{/*		onClick={() => {*/}
-			{/*			navigate('/dashboard', { replace: true });*/}
-			{/*		}}*/}
-			{/*	/>*/}
-			{/*	<Breadcrumb>*/}
-			{/*		{breadcrumb*/}
-			{/*			.filter(*/}
-			{/*				(str) =>*/}
-			{/*					str != '' && str != 'https:' && str != 'http:'*/}
-			{/*			)*/}
-			{/*			.map((str, index) => {*/}
-			{/*				return (*/}
-			{/*					<Breadcrumb.Item key={index}>*/}
-			{/*						<a href="#">{str}</a>*/}
-			{/*					</Breadcrumb.Item>*/}
-			{/*				);*/}
-			{/*			})}*/}
-			{/*	</Breadcrumb>*/}
-			{/*</Header>*/}
+	const extraRightMenuItems = <>
+		<div className={"my-header-item"} style={{float: "right", margin: "15px 7px"}} >
+			<div style={{cursor: "pointer"}}>
+				<Popover
+						trigger={"click"}
+						placement={"bottomLeft"}
+						// title={"حالت نمایش"}
+						style={{color: "#af9b18"}}
+						visible={displayModePopoverVisible}
+						onVisibleChange={() => {setDisplayModePopoverVisible(!displayModePopoverVisible)}}
+						 content={
+							<div style={{textAlign: "right", fontSize: "1.3em"}}>
+								<div style={{color: "black", direction: "rtl"}}>
+										 حالت نمایش
+								</div>
+								<div style={{cursor: "pointer", color: "#af9b18", direction: "rtl"}}
+									onClick={() => {
+										setDisplayMode('desktop')
+										setDisplayModePopoverVisible(false)
+									}}
+								>
+									<i className={"desktop icon"}/>
+										 دسکتاپ
+								</div>
+								<div style={{cursor: "pointer", color: "#af9b18", direction: "rtl"}}
+									onClick={() => {
+										setDisplayMode('mobile')
+										setDisplayModePopoverVisible(false)
+									}}
+								>
+									<i className={"mobile alternate icon"}/>
+										  موبایل
+								</div>
+							</div>
+						 }
+				>
+					<i className={`big ${displayMode === 'desktop'? "desktop": "mobile alternate"} icon`}
+					   style={{color: "#af9b18"}}
+					   title={"حالت نمایش"}
+					/>
+				</Popover>
+			</div>
+		</div>
+		<div className={"my-header-item"} style={{float: "right", margin: "15px 8px"}}>
+			<div style={{color: "#af9b18", direction: "rtl",
+				display: (isApiFetched && isModuleLoaded )? "none": "inline-block",
+			}}>
+				<i className={"big spinner loading icon"} style={{}}/>
+				<span className={"my-header-item-title"}
+					style={{color: "black", fontWeight: "bold"}}
+				>
+					{pendingMessage}
+				</span>
+			</div>
+		</div>
+
+	</>
+	const extraLeftMenuItems = <>
+		<div className={"my-header-item"}
+			 style={{margin: "8px 4px", display: "inline-block"}}>
+			<Button
+				icon={<AppstoreTwoTone twoToneColor={"#af9b18"} style={{fontSize: "1.5em"}}/>}
+				className=""
+				title={"دشبرد"}
+				style={{border: "none", fontSize: "1.5em"}}
+				onClick={() => {
+					navigate('/dashboard', { replace: true });
+				}}
+			/>
+		</div>
+		{!isDemo && (
+			<div className={"my-header-item"}
+				style={{margin: "8px 4px", display: "inline-block"}}>
+				<Button
+					// icon={<UnorderedListOutlined twoToneColor={"#af9b18"} style={{fontSize: "1.5em"}}/>}
+					className=""
+					title={"واکنش‌ها"}
+					style={{border: "none", fontSize: "1.8em", padding: "0",}}
+					onClick={() => {
+						navigate(`/dashboard/actions/${params.websiteId}`, { replace: true });
+					}}
+				>
+					<i className={"list icon"} style={{color: "#af9b18"}}/>
+				</Button>
+		</div>
+		)}
+		<div className={"my-header-item"}
+			style={{display: "inline-block", margin: "8px 4px"}}>
+			<Breadcrumb style={{fontSize: "1.2em"}}>
+				{href.split('?')[0].split('/')
+					.filter(
+						(str) =>
+							str != '' && str != 'https:' && str != 'http:'
+					)
+					.map((str, index) => {
+						return (
+							<Breadcrumb.Item key={index}>
+								<a href="#">{str}</a>
+							</Breadcrumb.Item>
+						);
+					})}
+			</Breadcrumb>
+		</div>
+	</>
+	const myHeader = <TopBarHeader
+		hasDefaultRightMenuItems={false}
+		extraRightMenuItems={extraRightMenuItems}
+		extraLeftMenuItems={extraLeftMenuItems}
+	/>
+
+	return (
+		<Layout id="studio" className="h-screen" style={{backgroundColor: "white"}}>
+			{myHeader}
 			<Content className="content h-screen w-screen">
 				<div className={`iframe-back-${displayMode}-mode`}>
 					{(isApiFetched && iframeUrl) &&

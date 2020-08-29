@@ -28,7 +28,7 @@ const Login = (props: RouteComponentProps) => {
 				message.success('successful login', 1);
 				message.loading('redirecting to dashboard…', 1).then(
 					() => {
-						navigate('dashboard/websites', { replace: true });
+						navigate('dashboard', { replace: true });
 					},
 					() => {}
 				);
@@ -47,81 +47,86 @@ const Login = (props: RouteComponentProps) => {
 	};
 
 	return (
-		<Row className="w-screen p-5 pt-10 justify-center items-center">
-			<Form
-				name="login-form"
-				form={form}
-				onFinish={onFinish}
-				onFinishFailed={onFinishFailed}
-				className="w-full"
-			>
-				<Form.Item
-					{...formItemLayout}
-					label="Email"
-					name="email"
-					validateTrigger="onBlur"
-					rules={[
-						{
-							required: true,
-							message: 'Please input your email!',
-						},
-						{
-							type: 'email',
-							message: 'email not valid',
-						},
-					]}
+		<>
+			<Row justify="center">
+				<img src={"/icons/kaseb.logo.1.png"} width={"350px"}/>
+			</Row>
+			<Row className="w-screen p-5 pt-10 justify-center items-center">
+				<Form
+					name="login-form"
+					form={form}
+					onFinish={onFinish}
+					onFinishFailed={onFinishFailed}
+					className="w-full"
 				>
-					<Input
-						prefix={
-							<MailOutlined className="site-form-item-icon" />
-						}
-					/>
-				</Form.Item>
+					<Form.Item
+						{...formItemLayout}
+						label="Email"
+						name="email"
+						validateTrigger="onBlur"
+						rules={[
+							{
+								required: true,
+								message: 'Please input your email!',
+							},
+							{
+								type: 'email',
+								message: 'email not valid',
+							},
+						]}
+					>
+						<Input
+							prefix={
+								<MailOutlined className="site-form-item-icon" />
+							}
+						/>
+					</Form.Item>
 
-				<Form.Item
-					{...formItemLayout}
-					label="Password"
-					name="password"
-					rules={[
-						{
-							required: true,
-							message: 'Please input your password!',
-						},
-					]}
-				>
-					<Input.Password
-						prefix={
-							<LockOutlined className="site-form-item-icon" />
-						}
-					/>
-				</Form.Item>
+					<Form.Item
+						{...formItemLayout}
+						label="Password"
+						name="password"
+						rules={[
+							{
+								required: true,
+								message: 'Please input your password!',
+							},
+						]}
+					>
+						<Input.Password
+							prefix={
+								<LockOutlined className="site-form-item-icon" />
+							}
+						/>
+					</Form.Item>
 
-				<Form.Item {...formTailLayout} shouldUpdate={true}>
-					{() => (
-						<Row className="justify-between items-center">
-							<Button
-								type="primary"
-								htmlType="submit"
-								loading={btnLoading}
-								disabled={
-									!form.isFieldsTouched(true) ||
-									form
-										.getFieldsError()
-										.filter(({ errors }) => errors.length)
-										.length > 0
-								}
-								className="login-form-button"
-							>
-								Log in
-							</Button>
-							<Link to="../sign-up">
-								<span>sign up</span>
-							</Link>
-						</Row>
-					)}
-				</Form.Item>
-			</Form>
-		</Row>
+					<Form.Item {...formTailLayout} shouldUpdate={true}>
+						{() => (
+							<Row className="justify-between items-center">
+								<Button
+									type="primary"
+									htmlType="submit"
+									loading={btnLoading}
+									disabled={
+										!form.isFieldsTouched(true) ||
+										form
+											.getFieldsError()
+											.filter(({ errors }) => errors.length)
+											.length > 0
+									}
+									className="login-form-button"
+								>
+									ورود
+								</Button>
+								<Link to="../sign-up">
+									<span>ثبت نام</span>
+								</Link>
+							</Row>
+						)}
+					</Form.Item>
+				</Form>
+			</Row>
+		</>
 	);
 };
 

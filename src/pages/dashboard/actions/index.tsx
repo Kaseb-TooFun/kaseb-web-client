@@ -14,7 +14,7 @@ import {
 	Table,
 	Popconfirm
 } from 'antd';
-import { ControlOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { ControlOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 const { Column } = Table;
 const { Title } = Typography;
 import Api from '_src/api';
@@ -47,19 +47,19 @@ const ConfigsTable = ({
 	return (
 		<Table dataSource={data} loading={loading} style={{width: "100%"}}>
 			<Column
-				title="name"
+				title="نام"
 				key="name"
 				render={(value) => {
 					try {
 						return value.name;
 					} catch (error) {
-						return 'no-name';
+						return '-';
 					}
 				}}
 			/>
-			<Column title="id" dataIndex="id" key="id" />
+			<Column title="شناسه" dataIndex="id" key="id" />
 			<Column
-				title="Action"
+				title=""
 				key="action"
 				render={(value) => (
 					<>
@@ -111,8 +111,21 @@ const Actions = (props: RouteComponentProps) => {
 
 	return (
 		<div className="flex flex-col w-screen pt-10 items-center">
-			<Row justify="center">
-				<Title level={2}>{iframeUrl}</Title>
+			<Row className="w-10/12" style={{display: "block"}}>
+				<Title style={{display: "inline-block", float: "left"}} level={3}>
+					{iframeUrl}
+				</Title>
+				<Link to={`/studio/${params.websiteId}`}
+					style={{display: "inline-block", float: "right"}}
+				>
+					<Button
+						className="mr-3"
+						type="primary"
+						icon={<PlusOutlined />}
+					>
+						  واکنش جدید
+					</Button>
+				</Link>
 			</Row>
 			<Card title="configs" className="w-10/12">
 				<ConfigsTable
@@ -175,7 +188,7 @@ const Actions = (props: RouteComponentProps) => {
 				id="my-iframe"
 				src={iframeUrl}
 				style={{
-					width: '99%',
+					width: '90%',
 					height: '600px',
 					border: '1px solid #000',
 					margin: "1px"

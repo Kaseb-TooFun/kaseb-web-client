@@ -351,7 +351,7 @@ const AddEditReaction = (props: IProps) => {
 			{"رنگ پس زمینه"}
 		</div>
 		<Form.Item label={null} name={"bgColor"}>
-			<Input className="my-input" placeholder={defaultBgColor}/>
+			<Input className="my-input" placeholder={defaultBgColor} maxLength={64}/>
 		</Form.Item>
 		<ColorSelector
 			color={data.bgColor}
@@ -365,7 +365,7 @@ const AddEditReaction = (props: IProps) => {
 			{"رنگ عنوان"}
 		</div>
 		<Form.Item label={null} name={"titleColor"}>
-			<Input className="my-input" placeholder={defaultTitleColor}/>
+			<Input className="my-input" placeholder={defaultTitleColor} maxLength={64}/>
 		</Form.Item>
 		<ColorSelector
 			color={data.titleColor}
@@ -379,7 +379,7 @@ const AddEditReaction = (props: IProps) => {
 			{"رنگ متن"}
 		</div>
 		<Form.Item label={null} name={"textColor"}>
-			<Input className="my-input" placeholder={defaultTextColor}/>
+			<Input className="my-input" placeholder={defaultTextColor} maxLength={64}/>
 		</Form.Item>
 		<ColorSelector
 			color={data.textColor}
@@ -393,7 +393,7 @@ const AddEditReaction = (props: IProps) => {
 			{"رنگ پس‌زمینه دکمه"}
 		</div>
 		<Form.Item label={null} name={"btnColor"}>
-			<Input className="my-input" placeholder={defaultBtnColor}/>
+			<Input className="my-input" placeholder={defaultBtnColor} maxLength={64}/>
 		</Form.Item>
 		<ColorSelector
 			color={data.btnColor}
@@ -407,7 +407,7 @@ const AddEditReaction = (props: IProps) => {
 			{"رنگ متن دکمه"}
 		</div>
 		<Form.Item label={null} name={"btnTextColor"}>
-			<Input className="my-input" placeholder={defaultBtnTextColor}/>
+			<Input className="my-input" placeholder={defaultBtnTextColor} maxLength={64}/>
 		</Form.Item>
 		<ColorSelector
 			color={data.btnTextColor}
@@ -451,28 +451,30 @@ const AddEditReaction = (props: IProps) => {
 				عنوان محتوا
 			</div>
 			<Form.Item label={null} name="title">
-				<Input className="my-input" placeholder="عنوان محتوا" defaultValue={data.title}/>
+				<Input className="my-input" placeholder="عنوان محتوا"
+					   defaultValue={data.title} maxLength={32}
+				/>
 			</Form.Item>
 
 			<div className="my-input-label">
 				متن
 			</div>
 			<Form.Item label={null} name="description">
-				<Input.TextArea className="my-input" placeholder="" rows={3}/>
+				<Input.TextArea className="my-input" placeholder="" rows={3} maxLength={1024}/>
 			</Form.Item>
 
 			<div className="my-input-label">
 				متن دکمه
 			</div>
 			<Form.Item label={null} name="btnText">
-				<Input className="my-input" placeholder="اینجا کلیک کن" />
+				<Input className="my-input" placeholder="اینجا کلیک کن" maxLength={64}/>
 			</Form.Item>
 
 			<div className="my-input-label">
 				لینک دکمه
 			</div>
 			<Form.Item label={null} name="url">
-				<Input className="my-input" placeholder="لینک" type="url" />
+				<Input className="my-input" placeholder="لینک" type="url" maxLength={1024}/>
 			</Form.Item>
 
 			{/*TODO: Upload Image*/}

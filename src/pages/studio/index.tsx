@@ -66,6 +66,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 	const [isApiFetched, setIsApiFetched] = useState(Boolean(isDemo || false));
 	const [isModuleLoaded, setIsModuleLoaded] = useState(Boolean( false));
 	const [pendingMessage, setPendingMessage] = useState(isDemo? 'در حال دریافت اطلاعات': '')
+	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 	const navigate = useNavigate();
 	// const queryString = window.location.search;
 	// const urlParams = new URLSearchParams(queryString);
@@ -310,12 +311,12 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 				</Popover>
 			</div>
 		</div>
-		<div className={"my-header-item"} style={{float: "right", margin: "15px 8px"}}>
+		<div className={`my-header-item`} style={{float: "right", margin: "15px 8px"}}>
 			<div style={{color: "#af9b18", direction: "rtl",
 				display: (isApiFetched && isModuleLoaded )? "none": "inline-block",
 			}}>
 				<i className={"big spinner loading icon"} style={{}}/>
-				<span className={"my-header-item-title"}
+				<span className={"hide-in-mobile"}
 					style={{color: "black", fontWeight: "bold"}}
 				>
 					{pendingMessage}
@@ -353,7 +354,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 				</Button>
 		</div>
 		)}
-		<div className={"my-header-item"}
+		<div className={"my-header-item hide-in-mobile"}
 			style={{display: "inline-block", margin: "8px 4px"}}>
 			<Breadcrumb style={{fontSize: "1.2em"}}>
 				{href.split('?')[0].split('/')
@@ -381,12 +382,12 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 		<Layout id="studio" className="h-screen" style={{backgroundColor: "white"}}>
 			{myHeader}
 			<Content className="content h-screen w-screen">
-				<div className={`iframe-back-${displayMode}-mode`}>
+				<div className={`iframe-back-${displayMode}-mode ${isSidebarCollapsed? "studio-iframe-zero-margin": ""}`}>
 					{(isApiFetched && iframeUrl) &&
 						<iframe
 							id="my-iframe"
 							src={iframeUrl + '?ignore_saved_reactions=true'}
-							className={`iframe-${displayMode}-mode`}
+							className={`iframe-${displayMode}-mode ${isSidebarCollapsed? "studio-iframe-full-width": ""}`}
 						/>
 					}
 				</div>
@@ -402,6 +403,8 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 						setGoalSelector={setGoalSelector}
 						configInitialData={configInitialData}
 						isDemo={isDemo}
+						isSidebarCollapsed={isSidebarCollapsed}
+						setIsSidebarCollapsed={setIsSidebarCollapsed}
 					/>
 				)}
 			</Content>

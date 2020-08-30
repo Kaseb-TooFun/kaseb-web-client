@@ -44,11 +44,15 @@ interface IProps extends RouteComponentProps {
 	goalSelector: string;
 	setGoalSelector: (s: string) => void;
 	isDemo: boolean,
+	isSidebarCollapsed: boolean,
+	setIsSidebarCollapsed: (v: boolean) => void,
 }
 
 const Sidebar = (props: IProps) => {
 	const { configInitialData, postMessage, websiteId, sourceSelector, setSourceSelector,
-		destSelector, setDestSelector, goalSelector, setGoalSelector, isDemo } = props;
+		destSelector, setDestSelector, goalSelector, setGoalSelector, isDemo,
+		isSidebarCollapsed, setIsSidebarCollapsed,
+	} = props;
 	// const [mode, setMode] = useState('home');
 	const sidebar = document.querySelector(
 		'#studio .sidebar'
@@ -75,7 +79,14 @@ const Sidebar = (props: IProps) => {
 		postMessage('preview-reaction', data);
 
 	return (
-		<div className="sidebar shadow-lg stick" id="my-sidebar">
+		<div className={`sidebar shadow-lg stick ${isSidebarCollapsed? "sidebar-collapsed": ""}`}
+			 id="my-sidebar">
+			<div style={{position: "fixed", right: "0", margin: "10px", cursor: "pointer"}}
+				onClick={() => {setIsSidebarCollapsed(!isSidebarCollapsed)}}
+			>
+				<i className={`chevron circle ${isSidebarCollapsed? "down": "up"} icon`} style={{fontSize: "1.3em"}}
+				/>
+			</div>
 			<div className="sidebar-inner">
 				{/*{mode != 'home' && (*/}
 				{/*	<Button*/}

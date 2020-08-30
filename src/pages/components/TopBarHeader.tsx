@@ -95,14 +95,18 @@ const TopBarHeader = (props: TopBarHeaderProps) => {
 						placement={"bottomRight"}
 						 content={
 						 	<>
-								<div style={{color: "#af9b18", padding: "3px 0", textAlign: "right"}}>
+								<a style={{color: "#af9b18", padding: "3px 0", textAlign: "right"}}
+									href={"/studio/demo"} target={"_blank"} rel={'noopener noreferrer'}
+								>
 									<div style={{cursor: "pointer"}}
-										onClick={() => navigate("/studio/demo", { replace: true })}
+										// onClick={() =>
+										// 	navigate("/studio/demo", { replace: true })
+										// }
 									>
 											  دمو ایجاد واکنش
 										<i className={"eye icon"}/>
 									</div>
-								</div>
+								</a>
 								<div style={{color: "#af9b18", padding: "3px 0", textAlign: "right"}}>
 									<div style={{cursor: "pointer"}}
 										onClick={() => navigate(

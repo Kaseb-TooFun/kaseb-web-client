@@ -12,7 +12,13 @@ import {
 	Popconfirm,
 	Modal
 } from 'antd';
-import { ControlOutlined, DeleteOutlined, EditOutlined, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import {
+	ControlOutlined,
+	DeleteOutlined,
+	EditOutlined,
+	PlusOutlined,
+	UnorderedListOutlined
+} from '@ant-design/icons';
 const { Column } = Table;
 const { Title } = Typography;
 import Api from '_src/api';
@@ -63,18 +69,22 @@ const WebsiteTable = ({
 			>
 				<textarea id="my-script" style={{ width: '100%' }} rows={5}>
 					{`<!-- KESEB.XYZ -->
-<meta name="kio-verification" content="${websiteId}" />
 <script src="${document.location.href.replace(
 						document.location.pathname,
-						'/kio.js'
+						`/kio.js?id=${websiteId}`
 					)}" defer></script>
 <!-- KESEB.XYZ -->`}
 				</textarea>
 				<Button onClick={copy}>کپی</Button>
 			</Modal>
-			<Table dataSource={data} loading={loading} direction={"rtl"}>
+			<Table dataSource={data} loading={loading} direction={'rtl'}>
 				<Column title="عنوان" dataIndex="title" key="title" />
-				<Column title="آدرس وبسایت" dataIndex="url" key="url" width={"10px"}/>
+				<Column
+					title="آدرس وبسایت"
+					dataIndex="url"
+					key="url"
+					width={'10px'}
+				/>
 				<Column
 					title=""
 					key="action"
@@ -95,7 +105,7 @@ const WebsiteTable = ({
 									type="primary"
 									icon={<PlusOutlined />}
 								>
-									  واکنش جدید
+									واکنش جدید
 								</Button>
 							</Link>
 							<Button
@@ -114,9 +124,7 @@ const WebsiteTable = ({
 								okText="Yes"
 								cancelText="No"
 							>
-								<Button icon={<DeleteOutlined />}>
-									حذف
-								</Button>
+								<Button icon={<DeleteOutlined />}>حذف</Button>
 							</Popconfirm>
 						</>
 					)}
@@ -165,10 +173,14 @@ const AddSiteForm = ({
 			onSubmitCapture={onFormSubmit}
 		>
 			<Form.Item label="عنوان وبسایت" name="title">
-				<Input placeholder="website title" maxLength={64}/>
+				<Input placeholder="website title" maxLength={64} />
 			</Form.Item>
 			<Form.Item label="آدرس وبسایت" name="url">
-				<Input placeholder="http://www.example.com" type="url" maxLength={2064}/>
+				<Input
+					placeholder="http://www.example.com"
+					type="url"
+					maxLength={2064}
+				/>
 			</Form.Item>
 			<Form.Item shouldUpdate={true}>
 				{() => (

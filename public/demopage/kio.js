@@ -14,38 +14,23 @@
 		link.type = 'text/css';
 		head.appendChild(link);
 	};
-	var meta = document.querySelector('meta[name="kio-verification"]');
-	var baseurlmeta = document.querySelector('meta[name="kio-base-url"]')
-	if (meta && baseurlmeta) {
-		var id = meta.getAttribute('content');
-		var baseUrl = baseurlmeta.getAttribute('content')
-		var httpRequest = new XMLHttpRequest();
-		httpRequest.onreadystatechange = function (event) {
-			if (
-				XMLHttpRequest.DONE == event.target.readyState &&
-				event.target.status == 200
-			) {
-				var res = event.target.responseText;
-				if (res != '') {
-					try {
-						var config = JSON.parse(res);
-						addScript(config.url);
-						addCss(config.style);
-					} catch (error) {}
-				}
+	var httpRequest = new XMLHttpRequest();
+	httpRequest.onreadystatechange = function (event) {
+		if (
+			XMLHttpRequest.DONE == event.target.readyState &&
+			event.target.status == 200
+		) {
+			var res = event.target.responseText;
+			if (res != '') {
+				try {
+					var config = JSON.parse(res);
+					addScript(config.url);
+					addCss(config.style);
+				} catch (error) {}
 			}
-		};
-		let url;
-		console.log(baseUrl)
-		if (id !== "preview") {
-			url = baseUrl + '/api/v1/modules/' + id + '/latest';
-		} else {
-			url = baseUrl + '/api/v1/modules/latest';
 		}
-		httpRequest.open(
-			'GET',
-			url
-		);
-		httpRequest.send();
-	}
+	};
+	var baseUrl = window.localStorage.getItem('REACT_APP_BASE_URL');
+	httpRequest.open('GET', baseUrl + '/api/v1/modules/latest');
+	httpRequest.send();
 })();

@@ -14,9 +14,15 @@
 		link.type = 'text/css';
 		head.appendChild(link);
 	};
-	var meta = document.querySelector('meta[name="kio-verification"]');
-	if (meta) {
-		var id = meta.getAttribute('content');
+	var script = Array.from(document.scripts)
+		.map(function (item) {
+			return item.src;
+		})
+		.find(function (src) {
+			return (src || '').indexOf('kio.js?id=') != -1;
+		});
+	if (script) {
+		var id = script.replace(/(.*)id=/, '');
 		var httpRequest = new XMLHttpRequest();
 		httpRequest.onreadystatechange = function (event) {
 			if (
@@ -33,12 +39,6 @@
 				}
 			}
 		};
-		// let url;
-		// if (id === "preview") {
-		// 	url = '__BASE_URL__/api/v1/modules/latest';
-		// } else {
-		// 	url = '__BASE_URL__/api/v1/modules/' + id + '/latest';
-		// }
 		httpRequest.open(
 			'GET',
 			'__BASE_URL__/api/v1/modules/' + id + '/latest'

@@ -17,7 +17,7 @@ module.exports = {
 	devServer: {
 		proxy: {
 			"/api": {
-				target: "https://dev-api.mykaseb.ir",
+				target: "https://api.mykaseb.ir",
 				secure: true,
 				changeOrigin: true,
 				logLevel: "info",

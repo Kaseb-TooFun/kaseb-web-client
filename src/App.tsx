@@ -8,7 +8,7 @@ import StudioAddEdit from "_pages/studio";
 
 function App() {
 	// for use in static files in public folder
-	const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL || 'https://dev-api.mykaseb.ir'
+	const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL || 'https://api.mykaseb.ir'
 	window.localStorage.setItem('REACT_APP_BASE_URL', REACT_APP_BASE_URL)
 	return (
 		<Router basepath="/">

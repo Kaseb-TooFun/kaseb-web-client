@@ -1,11 +1,11 @@
-// BASE_URL=https://hexboy.ir PUBLIC_URL=https://dev.mykaseb.ir PORT=3000 node serve.js
+// BASE_URL=https://hexboy.ir PUBLIC_URL=https://app.mykaseb.ir PORT=3000 node serve.js
 
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const app = express();
 
-const baseUrl = process.env.BASE_URL || 'https://dev-api.mykaseb.ir';
+const baseUrl = process.env.BASE_URL || 'https://api.mykaseb.ir';
 const publicUrl = process.env.PUBLIC_URL || 'http://localhost:3000';
 
 if (fs.existsSync(path.join(__dirname, 'build/index.html'))) {

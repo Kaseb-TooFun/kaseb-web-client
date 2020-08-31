@@ -72,10 +72,10 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 	// const urlParams = new URLSearchParams(queryString);
 	// const iframeUrl = urlParams.get('url') || '';
 	const [iframeUrl, setIframeUrl] = useState(
-		!isDemo? '': `${process.env.PUBLIC_URL || 'http://localhost:3000'}/demopage`
+		!isDemo? '': `/demopage`
 	)
 	const [href, setHref] = useState(
-		!isDemo? '': `${process.env.PUBLIC_URL || 'http://localhost:3000'}/demopage`
+		!isDemo? '': `/demopage`
 	);
 	// const breadcrumb = href.split('?')[0].split('/');
 	const [sourceSelector, setSourceSelector] = useState('');

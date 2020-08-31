@@ -4,10 +4,9 @@ import { Layout, Row, Button, Breadcrumb, Popover } from 'antd';
 import { AppstoreTwoTone, AppstoreOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import Sidebar from './sidebar';
 import Api from '_src/api';
-import logo from "_src/logo.svg";
 import TopBarHeader from "_pages/components/TopBarHeader";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 const onInspected = (() => {
 	let action = (selector: string) => {};
@@ -28,7 +27,7 @@ const onInspected = (() => {
 })();
 
 const StudioAddEdit = (props: RouteComponentProps) => {
-	const [data, setData] = useState([]);
+	// const [data, setData] = useState([]);
 	const params = useParams();
 	const isDemo = params.websiteId === "demo"
 	const [configInitialData, setConfigInitialData] = useState({
@@ -65,17 +64,18 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 	})
 	const [isApiFetched, setIsApiFetched] = useState(Boolean(isDemo || false));
 	const [isModuleLoaded, setIsModuleLoaded] = useState(Boolean( false));
-	const [pendingMessage, setPendingMessage] = useState(isDemo? 'در حال دریافت اطلاعات': '')
+	const [pendingMessage, setPendingMessage] = useState(
+		!isDemo?
+		'در حال دریافت اطلاعات':
+		'در حال یافتن کد کاسب در صفحه مورد نظر'
+	)
 	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 	const navigate = useNavigate();
-	// const queryString = window.location.search;
-	// const urlParams = new URLSearchParams(queryString);
-	// const iframeUrl = urlParams.get('url') || '';
 	const [iframeUrl, setIframeUrl] = useState(
-		!isDemo? '': `/demopage`
+		!isDemo? '': `${window.location.origin}/demopage`
 	)
 	const [href, setHref] = useState(
-		!isDemo? '': `/demopage`
+		!isDemo? '': `${window.location.origin}/demopage`
 	);
 	// const breadcrumb = href.split('?')[0].split('/');
 	const [sourceSelector, setSourceSelector] = useState('');
@@ -101,7 +101,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 		if (params.websiteId !== "demo") {
 			Api.website.getWebsite(params.websiteId).then((response) => {
 				if (response.status == 200) {
-					setData(response.data.website.configs);
+					// setData(response.data.website.configs);
 					setIframeUrl(response.data.website.url);
 					if (!configId) {
 						setPendingMessage('در حال یافتن کد کاسب در صفحه مورد نظر')
@@ -410,6 +410,6 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 			</Content>
 		</Layout>
 	);
-};
+}
 
 export default StudioAddEdit;

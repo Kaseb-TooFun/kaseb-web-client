@@ -193,8 +193,8 @@ const AddEditReaction = (props: IProps) => {
 			showOnce,
 			customStyle
 		});
-		// clearTimeout(timeoutHandler);
-		// timeoutHandler = window.setTimeout(preview, 1000);
+		clearTimeout(timeoutHandler);
+		timeoutHandler = window.setTimeout(preview, 1000);
 	};
 
 	const preview = () => {
@@ -303,7 +303,7 @@ const AddEditReaction = (props: IProps) => {
 					type: actionType,
 				},
 			});
-			// message.loading('در حال ذخیره تنظیمات');
+			message.loading('در حال ذخیره تنظیمات', 1);
 			if (configID === "") {
 				Api.config.add(websiteId, config, name, goalType, goalLink, goalSelector).then((response) => {
 					if (response.status == 200) {
@@ -331,6 +331,7 @@ const AddEditReaction = (props: IProps) => {
 				});
 			}
 		}
+		preview()
 	};
 
 	const triggerOptionsOnFinished = (condition: string) => {

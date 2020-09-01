@@ -13,9 +13,7 @@ import {
 	Modal
 } from 'antd';
 import {
-	ControlOutlined,
 	DeleteOutlined,
-	EditOutlined,
 	PlusOutlined,
 	UnorderedListOutlined
 } from '@ant-design/icons';
@@ -36,15 +34,15 @@ const WebsiteTable = ({
 	const [websiteId, setWebsiteId] = useState('');
 
 	const confirmDelete = (id: string) => {
-		message.loading('deleting website…');
-		Api.website.remove(id).then((resposnse) => {
-			if (resposnse.status == 200) {
-				message.success('website deleted successfully');
+		message.loading('در حال حذف وبسایت', 1);
+		Api.website.remove(id).then((response) => {
+			if (response.status == 200) {
+				message.success('وبسایت با موفقیت حذف شد');
 				fetchWebsiteList();
-			} else if (resposnse.status == 400) {
-				message.warning(resposnse.data.errorMessage);
+			} else if (response.status == 400) {
+				message.warning(response.data.errorMessage);
 			} else {
-				message.error('failed to delete website');
+				message.error('حذف وبسایت به اتمام نرسید. لطفا مجددا تلاش نمایید');
 			}
 		});
 	};
@@ -81,8 +79,11 @@ const WebsiteTable = ({
 				<Column title="عنوان" dataIndex="title" key="title" responsive={["lg"]} />
 				<Column
 					title="آدرس وبسایت"
-					dataIndex="url"
+					// dataIndex="url"
 					key="url"
+					render={(value) => (
+						value.url.substr(0, 60) + (value.url.length>60?'...':'')
+					)}
 					width={'10px'}
 				/>
 				<Column
@@ -90,34 +91,35 @@ const WebsiteTable = ({
 					key="action"
 					render={(value) => (
 						<div>
-							<Link to={`/dashboard/actions/${value.id}`}>
-								<Button
-									className="mr-3"
-									type="primary"
-									icon={<UnorderedListOutlined />}
-								>
-									واکنش‌ها
-								</Button>
-							</Link>
 							<Link to={`/studio/${value.id}`}>
 								<Button
-									className="mr-3"
+									className="mr-3 table-btn"
 									type="primary"
-									icon={<PlusOutlined />}
 								>
-									واکنش جدید
+									هدف و واکنش جدید
+									<PlusOutlined />
+								</Button>
+							</Link>
+							<Link to={`/dashboard/actions/${value.id}`}>
+								<Button
+									className="mr-3 table-btn"
+									type="primary"
+									ghost
+								>
+									هدف‌ها و واکنش‌ها
+									<UnorderedListOutlined />
 								</Button>
 							</Link>
 							<Button
-								className="mr-3"
-								type="primary"
-								icon={<i className="code icon" />}
+								className="mr-3 table-btn"
+								type="default"
 								onClick={() => {
 									setWebsiteId(value.id);
 									setVisible(true);
 								}}
 							>
 								دریافت کد
+								<i className="code icon" />
 							</Button>
 							<Popconfirm
 								title="مطمئن هستید که این وبسایت حذف شود؟"
@@ -125,8 +127,9 @@ const WebsiteTable = ({
 								okText="Yes"
 								cancelText="No"
 							>
-								<Button icon={<DeleteOutlined />}>
+								<Button className={"table-btn"} danger>
 									حذف
+									<DeleteOutlined />
 								</Button>
 							</Popconfirm>
 						</div>
@@ -147,10 +150,10 @@ const AddSiteForm = ({
 	const onFormSubmit = () => {
 		setBtnLoading(true);
 		const { title, url } = form.getFieldsValue(['title', 'url']);
-		message.loading('adding website…');
+		message.loading('در حال ذخیره وبسایت', 1);
 		Api.website.add(title, url).then((resposnse) => {
 			if (resposnse.status == 200) {
-				message.success('website saved successfully');
+				message.success('وبسایت با موفقیت اضافه شد');
 				fetchWebsiteList();
 				form.setFieldsValue({
 					url: '',
@@ -159,7 +162,7 @@ const AddSiteForm = ({
 			} else if (resposnse.status == 404) {
 				message.error(resposnse.data.errorMessage);
 			} else {
-				message.error('failed to save website');
+				message.error('ذخیره وبسایت به اتمام نرسید. لطفا مجددا تلاش نمایید');
 			}
 		});
 		setBtnLoading(false);
@@ -222,7 +225,7 @@ const Websites = (props: RouteComponentProps) => {
 	return (
 		<div className="flex flex-col w-screen pt-10 items-center" style={{width: "100%"}}>
 			<Row justify="center">
-				<Title level={2}>websites</Title>
+				<Title level={2}>وبسایت‌ها</Title>
 			</Row>
 			<Card className="w-10/12">
 				<WebsiteTable

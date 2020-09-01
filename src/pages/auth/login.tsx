@@ -25,8 +25,8 @@ const Login = (props: RouteComponentProps) => {
 		Api.auth.login(email, password).then((resposnse) => {
 			if (resposnse.status == 200) {
 				Api.setAuthHeader(resposnse.data.token);
-				message.success('successful login', 1);
-				message.loading('redirecting to dashboard…', 1).then(
+				message.success('ورود با موفقیت انجام شد', 1);
+				message.loading('در حال هدایت به صفحه دشبرد', 1).then(
 					() => {
 						navigate('dashboard', { replace: true });
 					},
@@ -36,7 +36,7 @@ const Login = (props: RouteComponentProps) => {
 				message.error(resposnse.data.errorMessage);
 				setBtnLoading(false);
 			} else {
-				message.error('username or password is incorrect');
+				message.error('اطلاعات ورود درست نمی‌باشد');
 				setBtnLoading(false);
 			}
 		});

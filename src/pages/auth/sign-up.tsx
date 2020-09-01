@@ -29,8 +29,8 @@ const SignUp = (props: RouteComponentProps) => {
 		Api.auth.signup(username, password).then((resposnse) => {
 			if (resposnse.status == 200) {
 				Api.setAuthHeader(resposnse.data.token);
-				message.success("successful register", 1);
-				message.loading("redirecting to dashboard…", 1).then(
+				message.success("ثبت نام با موفقیت انجام شد", 1);
+				message.loading("در حال انتقال به صفحه دشبرد", 1).then(
 					() => {
 						navigate("dashboard", { replace: true });
 					},
@@ -40,7 +40,7 @@ const SignUp = (props: RouteComponentProps) => {
 				message.error(resposnse.data.errorMessage);
 				setBtnLoading(false);
 			} else {
-				message.error("failed to register");
+				message.error("ثبت نام به اتمام نرسید. لطفا مجددا تلاش نمایید");
 				setBtnLoading(false);
 			}
 		});
@@ -152,7 +152,7 @@ const SignUp = (props: RouteComponentProps) => {
 								Register
 							</Button>
 							<Link to="../login">
-								<span>back to login</span>
+								<span>بازگشت به صفحه ورود</span>
 							</Link>
 						</Row>
 					)}

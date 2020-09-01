@@ -1,19 +1,174 @@
-import React, { Component } from "react";
-import { RouteComponentProps, Link, Router, useNavigate } from "@reach/router";
-import {Row, Menu, Layout, Typography, Popover, Button, Breadcrumb} from "antd";
-import { AppstoreTwoTone, AppstoreOutlined } from '@ant-design/icons';
+import React, {Component, useEffect, useState} from "react";
+import {RouteComponentProps, Link, Router, useNavigate, navigate} from "@reach/router";
+import {Row, Menu, Layout, Typography, Popover, Button, message, Modal} from "antd";
+import {
+	PlusOutlined,
+	UnorderedListOutlined
+} from '@ant-design/icons';
 import Websites from "_src/pages/dashboard/websites";
-import logo from "_src/logo.svg";
+import Api from '_src/api';
 import Actions from "_pages/dashboard/actions";
 import TopBarHeader from "_pages/components/TopBarHeader";
 const { Content } = Layout;
 const { Title } = Typography;
+const darkBaseColor = "#af9b18";
+
 
 const DashboardContent = (props: RouteComponentProps) => {
+	const [websites, setWebsites] = useState([])
+	const [isApiFetched, setIsApiFetched] = useState(false)
+	const [isVisible, setVisible] = useState(false);
+	const [websiteId, setWebsiteId] = useState('');
+
+	useEffect(() => {
+		fetchWebsites()
+	}, [])
+
+	const fetchWebsites = () => {
+		Api.website.getList().then((response) => {
+			if (response.status === 200) {
+				console.log(response.data)
+				setWebsites(response.data.websites)
+				setIsApiFetched(true)
+			} else {
+				message.error("در دریافت اطلاعات مشکلی پیش آمد. لطفا مجددا تلاش نمایید")
+			}
+		})
+	}
+	const copy = () => {
+		const copyText = document.getElementById(
+			'my-script'
+		) as HTMLTextAreaElement;
+		copyText.select();
+		copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+		document.execCommand('copy');
+	};
+
+	const codeModal = <Modal
+			title="Script"
+			footer={null}
+			visible={isVisible}
+			onOk={() => setVisible(false)}
+			onCancel={() => setVisible(false)}
+		>
+			<textarea id="my-script" style={{ width: '100%' }} rows={5}>
+				{`<!-- KESEB.XYZ -->
+<script src="${document.location.href.replace(
+					document.location.pathname,
+					`/kio.js?id=${websiteId}`
+				)}" defer></script>
+<!-- KESEB.XYZ -->`}
+			</textarea>
+			<Button onClick={copy}>کپی</Button>
+		</Modal>
+
 	return (
 		<Content className="w-screen pt-10">
 			<Row className="justify-center">
-				<Title level={2}>Kaseb Dashboard</Title>
+				{/*<Title level={2}>Kaseb Dashboard</Title>*/}
+
+				{codeModal}
+
+				<div style={{
+					borderRadius: "10px", border: `1px solid ${darkBaseColor}`, padding: "2%",
+					width: "90%", textAlign: "center", minHeight: "150px",
+				}}
+				>
+					{isApiFetched ?
+						<>
+							{
+								(websites.length === 0) ?
+									<div style={{fontSize: "1.5em", paddingBottom: "15px"}}>
+										هنوز سایتی اضافه نکرده‌اید
+									</div>
+									:
+									<div style={{display: "grid"}}>
+										{websites.slice(0, 5).map((website: {url: string, id: string}) => {
+											return (
+												<div style={{
+													borderRadius: "10px",
+													// border: `1px solid ${darkBaseColor}`,
+													padding: "10px 15px",
+													marginBottom: "5px",
+													display: "block",
+												}}
+													 className={"dashboard-website-row"}
+												>
+													<div
+														style={{float: "left", fontSize: "1.2em", display: "inline-block"}}
+													>
+														{website.url.substr(0, 60) + (website.url.length>60?'...':'')}
+													</div>
+
+													<div style={{float: "right", fontSize: "1.2em", display: "inline-block"}}>
+														<Link to={`/studio/${website.id}`}>
+															<Button
+																className="mr-3"
+																type="primary"
+															>
+																ساخت هدف و واکنش
+																<PlusOutlined />
+															</Button>
+														</Link>
+														<Link to={`/dashboard/actions/${website.id}`}>
+															<Button
+																className="mr-3"
+																type="default"
+															>
+																 مدیریت هدف‌ها و واکنش‌ها
+																<UnorderedListOutlined />
+															</Button>
+														</Link>
+														<Button
+															className="mr-3"
+															type="default"
+															onClick={() => {
+																setWebsiteId(website.id);
+																setVisible(true);
+															}}
+														>
+															دریافت کد
+															<i className="code icon" />
+														</Button>
+													</div>
+												</div>
+											)
+										})}
+									</div>
+							}
+
+							<div style={{marginBottom: "10px"}}>
+								<Link to="/dashboard/websites#add_website">
+									<Button
+										className="mr-3"
+										type="primary"
+									>
+										{(websites.length !== 0) ? "اضافه کردن سایت" : "اضافه کردن اولین سایت"}
+										<i className={"plus icon"}/>
+									</Button>
+								</Link>
+							</div>
+							<div>
+								{(websites.length !== 0) &&
+								<Link to="/dashboard/websites/">
+									<Button
+										className="mr-3"
+										type="primary"
+									>
+										مدیریت همه سایت‌ها
+										<i className={"window maximize icon"}/>
+									</Button>
+								</Link>
+								}
+							</div>
+						</>
+						:
+						<div style={{verticalAlign: "middle"}}>
+							<i className="huge circle notch loading icon"/>
+						</div>
+					}
+
+				</div>
 			</Row>
 		</Content>
 	);

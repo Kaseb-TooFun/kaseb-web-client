@@ -34,15 +34,15 @@ const ConfigsTable = ({
 }) => {
 	const params = useParams();
 	const confirmDelete = (id: string) => {
-		message.loading('deleting website…');
+		message.loading('در حال حذف واکنش', 1);
 		Api.config.remove(id, params.websiteId).then((resposnse) => {
 			if (resposnse.status == 200) {
-				message.success('config deleted successfully');
+				message.success('واکنش با موفقیت حذف شد');
 				fetchConfigList();
 			} else if (resposnse.status == 400) {
 				message.warning(resposnse.data.errorMessage);
 			} else {
-				message.error('failed to delete config');
+				message.error('حذف واکنش به اتمام نرسید. لطفا مجددا تلاش نمایید');
 			}
 		});
 	};
@@ -115,7 +115,6 @@ const ConfigsTable = ({
 								default:
 									typeDetailsShowName = configJson.data.template
 									break
-
 							}
 							break
 					}
@@ -137,7 +136,7 @@ const ConfigsTable = ({
 					<>
 						<Link to={`/studio/${params.websiteId}/edit/${value.id}`}>
 							<Button
-								className="mr-3"
+								className="mr-3 table-btn"
 								type="primary"
 								icon={<EditOutlined />}
 							>
@@ -150,7 +149,10 @@ const ConfigsTable = ({
 							okText="بله"
 							cancelText="خیر"
 						>
-							<Button icon={<DeleteOutlined />}>حذف</Button>
+							<Button className={"table-btn"} danger>
+								حذف
+								<DeleteOutlined />
+							</Button>
 						</Popconfirm>
 					</>
 				)}

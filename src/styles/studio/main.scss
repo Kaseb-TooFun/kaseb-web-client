@@ -103,6 +103,7 @@
 	.color-show {
 		width: 100px;
 		border-radius: 5px;
+		border: 1px solid black;
 	}
 }
 
@@ -315,4 +316,12 @@ $base-color-dark: #af9b18;
 
 .my-header-item-title:hover {
 	color: $base-color-dark;
+}
+
+.dashboard-website-row:hover {
+	background-color: $base-color-light;
+}
+
+.table-btn {
+	margin-bottom: 2px;
 }

@@ -3,17 +3,18 @@
 @import './animate.min.css';
 @import './studio/main';
 @import './ui';
-@import "/public/fontiranyekan.css";
+@import "/public/fonts/iranyekan/fontiranyekan.css";
 
 body {
-  margin: 0;
+  	margin: 0;
 	/*
-  font-family: -apple-system, iranyekan, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  	font-family: -apple-system, iranyekan, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    	'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 	*/
 	font-family: iranyekan;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	//IRANSans, iranyekan, Vazir
+  	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
 }
 /*
 html {

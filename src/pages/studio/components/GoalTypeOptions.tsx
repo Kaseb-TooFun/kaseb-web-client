@@ -1,6 +1,6 @@
 import {RouteComponentProps} from "@reach/router";
 import React, {useState} from "react";
-import {Button, Form, Input, Switch} from "antd";
+import {Button, Form, Input, message, Switch} from "antd";
 
 
 
@@ -116,9 +116,9 @@ const AllGoalTypeOptions = (props: GoalTypeOptionsProps) => {
 				<Switch
 					onChange={onSwitchChange}
 					checked={Boolean(goalSelector !== "")}
-					// disabled={Boolean(goalSelector === "")}
-					checkedChildren="تغییر المان"
-					unCheckedChildren="انتخاب المان"
+					loading={Boolean(goalSelector === "")}
+					checkedChildren="تغییر المان انتخاب شده"
+					unCheckedChildren="المان را انتخاب کنید"
 				/>
 			</div>
 		}
@@ -144,11 +144,25 @@ const AllGoalTypeOptions = (props: GoalTypeOptionsProps) => {
 					float: "left"}}
 				onClick={() => {
 					let goalFieldName = document.getElementById("goal_form_name") as HTMLInputElement
+					if (goalFieldName.value === "") {
+						message.warning("نام هدف را وارد نمایید")
+						return
+					}
 					setName(goalFieldName.value)
 					if (primaryGoalType === "page_visit") {
 						// save goal link
 						let goalFieldLink = document.getElementById("goal_form_link") as HTMLInputElement
+						if (goalFieldLink.value === "") {
+							message.warning("لینک هدف را وارد نمایید")
+							return
+						}
 						setGoalLink(goalFieldLink.value)
+					}
+					if (primaryGoalType === "click") {
+						if (goalSelector === "") {
+							message.warning("المان هدف را انتخاب نمایید")
+							return
+						}
 					}
 					setGoalType(primaryGoalType)
 					onSelectFinished()

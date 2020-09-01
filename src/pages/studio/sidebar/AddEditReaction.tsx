@@ -303,7 +303,7 @@ const AddEditReaction = (props: IProps) => {
 					type: actionType,
 				},
 			});
-			message.loading('در حال ذخیره تنظیمات');
+			// message.loading('در حال ذخیره تنظیمات');
 			if (configID === "") {
 				Api.config.add(websiteId, config, name, goalType, goalLink, goalSelector).then((response) => {
 					if (response.status == 200) {
@@ -633,6 +633,7 @@ const AddEditReaction = (props: IProps) => {
 						disableInspector();
 						let sidebar = document.getElementById("my_sidebar_form")
 						if (sidebar) sidebar.scrollTop = 0
+						onFormSubmit()
 					}}
 				/>
 			</div>,
@@ -680,6 +681,7 @@ const AddEditReaction = (props: IProps) => {
 					disableInspector();
 					let sidebar = document.getElementById("my_sidebar_form")
 					if (sidebar) sidebar.scrollTop = 0
+					onFormSubmit()
 				}
 				}
 					disabled={reactionType === ""}
@@ -717,6 +719,7 @@ const AddEditReaction = (props: IProps) => {
 					disableInspector();
 					let sidebar = document.getElementById("my_sidebar_form")
 					if (sidebar) sidebar.scrollTop = 0
+					onFormSubmit()
 				}
 				}
 					disabled={data.condition === ""}

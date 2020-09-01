@@ -3,7 +3,7 @@ import {Button, Divider} from "antd";
 import React from "react";
 
 
-const animationOptions = [
+export const animationOptions = [
 	{name: "kio-a-flash", showName: "فلاش"},
 	{name: "kio-a-pulse", showName: "تپش"},
 	{name: "kio-a-bounce", showName: "پرش"},

@@ -19,6 +19,8 @@ const { Column } = Table;
 const { Title } = Typography;
 import Api from '_src/api';
 import { scrollTo } from '_src/utils';
+import {animationOptions} from "_pages/studio/components/ReactionTypeOptions";
+import {triggerOptions} from "_pages/studio/components/TriggerOptions";
 
 
 const ConfigsTable = ({
@@ -57,7 +59,77 @@ const ConfigsTable = ({
 					}
 				}}
 			/>
-			<Column title="شناسه" dataIndex="id" key="id" />
+			{/*<Column title="شناسه" dataIndex="id" key="id" />*/}
+			<Column
+				title={"نوع هدف"}
+				key={"goalType"}
+				render={(value) => {
+					switch (value.goalType) {
+						case "page_visit":
+							return "بازدید"
+						case "click":
+							return "کلیک"
+						case "notify":
+							return "اطلاع‌رسانی"
+						default:
+							return value.goalType
+					}
+				}}
+			/>
+			<Column
+				title={"راه‌انداز - واکنش"}
+				key={"reactionShortInfo"}
+				render={(value) => {
+					let triggerShowName = "", typeShowName= "", typeDetailsShowName = ""
+					let configJson = JSON.parse(value.value) as {
+						type: string,
+						data: {
+							template: string,
+							effect: string,
+							condition: string
+						}
+					}
+					console.log("pnn", configJson)
+					switch (configJson.type) {
+						case "action":
+							typeShowName = "انیمیشن"
+							animationOptions.map((ao) => {
+								if (ao.name === configJson.data.effect) {
+									typeDetailsShowName = ao.showName
+								}
+							})
+							if (typeDetailsShowName === "") typeDetailsShowName = configJson.data.effect
+							break
+						default:
+							typeShowName = "محتوا"
+							switch (configJson.data.template) {
+								case "bottom-banner":
+									typeDetailsShowName = "بنر پایین"
+									break
+								case "top-banner":
+									typeDetailsShowName = "بنر بالا"
+									break
+								case "modal":
+									typeDetailsShowName = "مُدال"
+									break
+								default:
+									typeDetailsShowName = configJson.data.template
+									break
+
+							}
+							break
+					}
+
+					triggerOptions.map((to) => {
+						if (configJson.data.condition.includes(to.name)) {
+							triggerShowName = to.showName
+						}
+						if (triggerShowName === "") triggerShowName = configJson.data.template
+					})
+
+					return `${triggerShowName} - ${typeShowName} (${typeDetailsShowName})`
+				}}
+			/>
 			<Column
 				title=""
 				key="action"
@@ -73,10 +145,10 @@ const ConfigsTable = ({
 							</Button>
 						</Link>
 						<Popconfirm
-							title="Are you sure delete this config?"
+							title="مطمئن هستید که این واکنش حذف شود؟"
 							onConfirm={() => confirmDelete(value.id)}
-							okText="Yes"
-							cancelText="No"
+							okText="بله"
+							cancelText="خیر"
 						>
 							<Button icon={<DeleteOutlined />}>حذف</Button>
 						</Popconfirm>
@@ -127,7 +199,7 @@ const Actions = (props: RouteComponentProps) => {
 					</Button>
 				</Link>
 			</Row>
-			<Card title="configs" className="w-10/12">
+			<Card className="w-10/12">
 				<ConfigsTable
 					data={data}
 					loading={loading}

@@ -25,8 +25,8 @@ const Dashboard = (props: RouteComponentProps) => {
 	return (
 		<>
 			{myHeader}
-			<Row className="w-screen">
-				<Router>
+			<Row className="w-screen" style={{width: "100%"}} >
+				<Router style={{width: "100%"}}>
 					<DashboardContent path="/" />
 					<Websites path="/websites" />
 					<Actions path="/actions/:websiteId" />

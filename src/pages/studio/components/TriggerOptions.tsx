@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {Button, message, Select, Switch} from "antd";
 
 
-const triggerOptions = [
+export const triggerOptions = [
 	{name: 'idle', showName:'بیکار'},
 	{name: 'wait', showName:'تایمر'},
 	{name: 'on-load', showName:'ورود به صفحه'},
@@ -123,7 +123,7 @@ const TriggerOption = (props: TriggerOptionProps) => {
 				addedOptions = <Switch
 					onChange={onSwitchChange}
 					checked={Boolean(selector !== "")}
-					// disabled={!Boolean(querySelector)}
+					loading={Boolean(selector === "")}
 					checkedChildren="تغییر المان"
 					unCheckedChildren="انتخاب المان"
 				/>

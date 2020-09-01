@@ -37,7 +37,7 @@ const DestInspector = (props: DestInspectorProps) => {
 		<Switch
 			onChange={onSwitchChange}
 			checked={Boolean(destSelector !== "")}
-			// disabled={!Boolean(destSelector)}
+			loading={Boolean(destSelector === "")}
 			checkedChildren="تغییر المان"
 			unCheckedChildren="انتخاب المان"
 		/>

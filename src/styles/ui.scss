@@ -5,3 +5,15 @@
 .anticon {
 	vertical-align: unset;
 }
+
+
+@media screen and (max-width: 700px) {
+	.hide-in-width-less-than-700px {
+		display: none !important;
+	}
+}
+
+.ant-table-container {
+	overflow-y: auto;
+}
+

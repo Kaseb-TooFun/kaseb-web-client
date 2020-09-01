@@ -78,7 +78,7 @@ const WebsiteTable = ({
 				<Button onClick={copy}>کپی</Button>
 			</Modal>
 			<Table dataSource={data} loading={loading} direction={'rtl'}>
-				<Column title="عنوان" dataIndex="title" key="title" />
+				<Column title="عنوان" dataIndex="title" key="title" responsive={["lg"]} />
 				<Column
 					title="آدرس وبسایت"
 					dataIndex="url"
@@ -89,7 +89,7 @@ const WebsiteTable = ({
 					title=""
 					key="action"
 					render={(value) => (
-						<>
+						<div>
 							<Link to={`/dashboard/actions/${value.id}`}>
 								<Button
 									className="mr-3"
@@ -111,6 +111,7 @@ const WebsiteTable = ({
 							<Button
 								className="mr-3"
 								type="primary"
+								icon={<i className="code icon" />}
 								onClick={() => {
 									setWebsiteId(value.id);
 									setVisible(true);
@@ -119,14 +120,16 @@ const WebsiteTable = ({
 								دریافت کد
 							</Button>
 							<Popconfirm
-								title="Are you sure delete this website?"
+								title="مطمئن هستید که این وبسایت حذف شود؟"
 								onConfirm={() => confirmDelete(value.id)}
 								okText="Yes"
 								cancelText="No"
 							>
-								<Button icon={<DeleteOutlined />}>حذف</Button>
+								<Button icon={<DeleteOutlined />}>
+									حذف
+								</Button>
 							</Popconfirm>
-						</>
+						</div>
 					)}
 				/>
 			</Table>
@@ -156,7 +159,7 @@ const AddSiteForm = ({
 			} else if (resposnse.status == 404) {
 				message.error(resposnse.data.errorMessage);
 			} else {
-				message.error('faild to save website');
+				message.error('failed to save website');
 			}
 		});
 		setBtnLoading(false);
@@ -164,6 +167,7 @@ const AddSiteForm = ({
 
 	return (
 		<Form
+			id={"add_website"}
 			form={form}
 			layout="horizontal"
 			initialValues={{
@@ -216,7 +220,7 @@ const Websites = (props: RouteComponentProps) => {
 	}, []);
 
 	return (
-		<div className="flex flex-col w-screen pt-10 items-center">
+		<div className="flex flex-col w-screen pt-10 items-center" style={{width: "100%"}}>
 			<Row justify="center">
 				<Title level={2}>websites</Title>
 			</Row>

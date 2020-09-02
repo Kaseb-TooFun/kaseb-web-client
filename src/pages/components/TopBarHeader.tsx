@@ -103,7 +103,7 @@ const TopBarHeader = (props: TopBarHeaderProps) => {
 										// 	navigate("/studio/demo", { replace: true })
 										// }
 									>
-											  دمو ایجاد واکنش
+											  دمو کارگاه واکنش
 										<i className={"eye icon"}/>
 									</div>
 								</a>

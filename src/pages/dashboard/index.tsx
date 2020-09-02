@@ -62,6 +62,33 @@ const DashboardContent = (props: RouteComponentProps) => {
 			<Button onClick={copy}>کپی</Button>
 		</Modal>
 
+	const toWebsitesButtons = <>
+		<div style={{marginBottom: "10px"}}>
+			<Link to="/dashboard/websites#add_website">
+				<Button
+					className="mr-3"
+					type="primary"
+				>
+					{(websites.length !== 0) ? "اضافه کردن سایت" : "اضافه کردن اولین سایت"}
+					<i className={"plus icon"}/>
+				</Button>
+			</Link>
+		</div>
+		<div>
+			{(websites.length !== 0) &&
+			<Link to="/dashboard/websites/">
+				<Button
+					className="mr-3"
+					type="primary"
+				>
+					مدیریت همه سایت‌ها
+					<i className={"window maximize icon"}/>
+				</Button>
+			</Link>
+			}
+		</div>
+	</>
+
 	return (
 		<Content className="w-screen pt-10">
 			<Row className="justify-center">
@@ -71,7 +98,7 @@ const DashboardContent = (props: RouteComponentProps) => {
 
 				<div style={{
 					borderRadius: "10px", border: `1px solid ${darkBaseColor}`, padding: "2%",
-					width: "90%", textAlign: "center", minHeight: "150px",
+					width: "90%", textAlign: "center", minHeight: "150px", marginBottom: "30px",
 				}}
 				>
 					{isApiFetched ?
@@ -100,10 +127,10 @@ const DashboardContent = (props: RouteComponentProps) => {
 														{website.url.substr(0, 60) + (website.url.length>60?'...':'')}
 													</div>
 
-													<div style={{float: "right", fontSize: "1.2em", display: "inline-block"}}>
+													<div style={{float: "right", fontSize: "1.2em", display: "inline-block", textAlign: "right"}}>
 														<Link to={`/studio/${website.id}`}>
 															<Button
-																className="mr-3"
+																className="mr-3 table-btn"
 																type="primary"
 															>
 																ساخت هدف و واکنش
@@ -112,7 +139,7 @@ const DashboardContent = (props: RouteComponentProps) => {
 														</Link>
 														<Link to={`/dashboard/actions/${website.id}`}>
 															<Button
-																className="mr-3"
+																className="mr-3 table-btn"
 																type="default"
 															>
 																 مدیریت هدف‌ها و واکنش‌ها
@@ -120,7 +147,7 @@ const DashboardContent = (props: RouteComponentProps) => {
 															</Button>
 														</Link>
 														<Button
-															className="mr-3"
+															className="mr-3 table-btn"
 															type="default"
 															onClick={() => {
 																setWebsiteId(website.id);
@@ -137,30 +164,7 @@ const DashboardContent = (props: RouteComponentProps) => {
 									</div>
 							}
 
-							<div style={{marginBottom: "10px"}}>
-								<Link to="/dashboard/websites#add_website">
-									<Button
-										className="mr-3"
-										type="primary"
-									>
-										{(websites.length !== 0) ? "اضافه کردن سایت" : "اضافه کردن اولین سایت"}
-										<i className={"plus icon"}/>
-									</Button>
-								</Link>
-							</div>
-							<div>
-								{(websites.length !== 0) &&
-								<Link to="/dashboard/websites/">
-									<Button
-										className="mr-3"
-										type="primary"
-									>
-										مدیریت همه سایت‌ها
-										<i className={"window maximize icon"}/>
-									</Button>
-								</Link>
-								}
-							</div>
+							{toWebsitesButtons}
 						</>
 						:
 						<div style={{verticalAlign: "middle"}}>

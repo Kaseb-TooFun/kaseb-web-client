@@ -5,6 +5,7 @@ import Login from "_pages/auth/login";
 import SignUp from "_pages/auth/sign-up";
 import Dashboard from "_pages/dashboard";
 import StudioAddEdit from "_pages/studio";
+import ActionStatistics from "_pages/statistics/action";
 
 function App() {
 	// for use in static files in public folder
@@ -19,6 +20,7 @@ function App() {
 			<Dashboard path="/dashboard/*" />
 			<StudioAddEdit path="/studio/:websiteId" />
 			<StudioAddEdit path="/studio/:websiteId/edit/:configId" />
+			<ActionStatistics path="/statistics/action/:configId" />
 		</Router>
 	);
 }

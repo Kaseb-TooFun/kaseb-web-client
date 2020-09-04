@@ -138,11 +138,21 @@ const ConfigsTable = ({
 							<Button
 								className="mr-3 table-btn"
 								type="primary"
-								icon={<EditOutlined />}
 							>
 								 ویرایش
+								<EditOutlined />
 							</Button>
 						</Link>
+						<Link to={`/statistics/action/${value.id}`}>
+								<Button
+									className="mr-3 table-btn"
+									type="primary"
+									ghost
+								>
+									آمار
+									<i className={"chart line icon"} />
+								</Button>
+							</Link>
 						<Popconfirm
 							title="مطمئن هستید که این واکنش حذف شود؟"
 							onConfirm={() => confirmDelete(value.id)}

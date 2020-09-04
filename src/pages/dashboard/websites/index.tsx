@@ -228,12 +228,12 @@ const Websites = (props: RouteComponentProps) => {
 				<Title level={2}>وبسایت‌ها</Title>
 			</Row>
 			<Card className="w-10/12">
+				<AddSiteForm fetchWebsiteList={fetchWebsiteList} />
 				<WebsiteTable
 					data={data}
 					loading={loading}
 					fetchWebsiteList={fetchWebsiteList}
 				/>
-				<AddSiteForm fetchWebsiteList={fetchWebsiteList} />
 			</Card>
 		</div>
 	);

@@ -8,6 +8,7 @@ import AllReactionTypeOptions from "_pages/studio/components/ReactionTypeOptions
 import DestInspector from "_pages/studio/components/DestSelectorInspector"
 import CssEditor from "_pages/studio/components/CssEditor"
 import AllGoalTypeOptions from "_pages/studio/components/GoalTypeOptions";
+import UrlPattersInputs from "_pages/studio/components/UrlPatternsInputs";
 
 const defaultBgColor = "#0cc97a";
 const defaultTitleColor = "#e63f39";
@@ -71,6 +72,7 @@ interface IProps extends RouteComponentProps {
 			destSelector: string,
 			once: boolean,
 			type: string,
+			urlPatterns?: any,
 		}
 	}
 	previewReaction: (data: any) => void;
@@ -109,6 +111,13 @@ const AddEditReaction = (props: IProps) => {
 			break
 		}
 	}
+
+	let initialUrlPatterns = ['']
+	if (configInitialData.values.urlPatterns && configInitialData.values.urlPatterns.length > 0) {
+		initialUrlPatterns = configInitialData.values.urlPatterns
+	}
+	const [urlPatterns, setUrlPatterns] = useState(initialUrlPatterns)
+
 	const [reactionName, setReactionName] = useState(initialReactionName)
 	const [goalType, setGoalType] = useState(configInitialData.goalType)
 	const [goalLink, setGoalLink] = useState(configInitialData.goalLink)
@@ -133,7 +142,6 @@ const AddEditReaction = (props: IProps) => {
 		customStyle: configInitialData.values.customStyle || "",
 	});
 	const [btnLoading, setBtnLoading] = useState(false);
-	let timeoutHandler = 0;
 
 	const disableInspector = () => {
 		postMessageToIframe('disable-inspector')
@@ -193,8 +201,9 @@ const AddEditReaction = (props: IProps) => {
 			showOnce,
 			customStyle
 		});
-		clearTimeout(timeoutHandler);
-		timeoutHandler = window.setTimeout(preview, 1000);
+		// clearTimeout(timeoutHandler);
+		// timeoutHandler = window.setTimeout(preview, 1000);
+		preview()
 	};
 
 	const preview = () => {
@@ -244,6 +253,11 @@ const AddEditReaction = (props: IProps) => {
 			default:
 				break
 		}
+		let cleanedUrlPatterns;
+		if (urlPatterns && urlPatterns.length > 0) {
+			cleanedUrlPatterns = urlPatterns.filter((s: string) => (s !== ""))
+		}
+
 		previewReaction({
 			type: reactionType,
 			data: {
@@ -270,6 +284,7 @@ const AddEditReaction = (props: IProps) => {
 				destSelector: destSelector,
 				once: showOnce,
 				type: actionType,
+				urlPatterns: cleanedUrlPatterns,
 			}
 		});
 	};
@@ -290,6 +305,10 @@ const AddEditReaction = (props: IProps) => {
 				default:
 					break
 			}
+			let cleanedUrlPatterns;
+			if (urlPatterns && urlPatterns.length > 0) {
+				cleanedUrlPatterns = urlPatterns.filter((s: string) => (s !== ""))
+			}
 			const config = JSON.stringify({
 				type: reactionType,
 				data: {
@@ -301,6 +320,7 @@ const AddEditReaction = (props: IProps) => {
 					destSelector: destSelector,
 					once: data.showOnce,
 					type: actionType,
+					urlPatterns: cleanedUrlPatterns,
 				},
 			});
 			message.loading('در حال ذخیره تنظیمات', 1);
@@ -606,6 +626,26 @@ const AddEditReaction = (props: IProps) => {
 
 		</div>
 	}
+	let urlPatternsInputs = <>
+		<details>
+			<summary style={{color: darkBaseColor, fontSize: "1.2em", marginTop: "15px", cursor: "pointer"}}>
+				محدود کردن صفحات اجرا (اختیاری)
+			</summary>
+			<p className="form-message">
+				در این قسمت می‌توانید آدرس صفحاتی که واکنش در آن‌ها اجرا شود را تعیین نمایید.
+			</p>
+			<p className="form-message">
+				برای این محدودیت‌ها می‌توانید از عبارات باقاعده (RegEx) استفاده نمایید.
+			</p>
+			<p className="form-message">
+				در صورتی که هیچ محدودیتی تعریف نکنید واکنش در همه صفحات اجرا خواهد شد.
+			</p>
+			<UrlPattersInputs
+				urlPatterns={urlPatterns}
+				setUrlPatterns={setUrlPatterns}
+			/>
+		</details>
+		</>;
 
 	const [currentStep, setCurrentStep] = useState(0)
 	const steps	= [
@@ -668,13 +708,14 @@ const AddEditReaction = (props: IProps) => {
 				<p className="form-message">
 					اگر نوع واکنش شما از نوع انیمیشن روی المان می‌باشد نیاز به تعریف کارت محتوا نیست
 				</p>
-				{<AllReactionTypeOptions
+				<AllReactionTypeOptions
 					reactionName={reactionName}
 					setReactionName={setReactionName}
 					setReactionType={setReactionType}
 					hasAnimation={Boolean(goalType !== "notify")}
 					hasContentCard={true}
-				/>}
+				/>
+				{urlPatternsInputs}
 			</div>,
 			buttons: <>
 				<Button onClick={() => {
@@ -704,15 +745,13 @@ const AddEditReaction = (props: IProps) => {
 				<p className="form-message">
 					نوع راه انداز واکنش خود را از لیست زیر انتخاب کنید
 				</p>
-				{
-					<AllTriggerOptions
-						onSelectFinished={triggerOptionsOnFinished}
-						condition={data.condition}
-						selector={sourceSelector}
-						setSelector={setSourceSelector}
-						postMessageToIframe={postMessageToIframe}
-					/>
-				}
+				<AllTriggerOptions
+					onSelectFinished={triggerOptionsOnFinished}
+					condition={data.condition}
+					selector={sourceSelector}
+					setSelector={setSourceSelector}
+					postMessageToIframe={postMessageToIframe}
+				/>
 			</div>,
 			buttons: <>
 				<Button onClick={() => {
@@ -737,7 +776,9 @@ const AddEditReaction = (props: IProps) => {
 			title: '',
 			showName: !(reactionType === "banner" || reactionType === "modal")? "استایل": "محتوا",
 			icon: "/icons/twotone-closed_caption-1.svg",
-			content: reactionDetails,
+			content: <>
+				{reactionDetails}
+			</>,
 			buttons: <>
 			<Button onClick={() => {
 				if (currentStep < steps.length-1) setCurrentStep(currentStep+1);
@@ -747,7 +788,7 @@ const AddEditReaction = (props: IProps) => {
 				onFormSubmit()
 			}}
 					// disabled={data.condition === ""}
-					style={{backgroundColor: darkBaseColor, borderRadius: "70px", width: "19rem", height: "2.5rem"}}
+					style={{backgroundColor: darkBaseColor, borderRadius: "70px", width: "15rem", height: "2.5rem"}}
 			>
 				<span style={{color: "white", fontSize: "20px"}}>
 					{(reactionType === "banner" || reactionType === "modal")?

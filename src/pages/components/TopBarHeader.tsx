@@ -98,13 +98,17 @@ const TopBarHeader = (props: TopBarHeaderProps) => {
 								<a style={{color: "#af9b18", padding: "3px 0", textAlign: "right"}}
 									href={"/studio/demo"} target={"_blank"} rel={'noopener noreferrer'}
 								>
-									<div style={{cursor: "pointer"}}
-										// onClick={() =>
-										// 	navigate("/studio/demo", { replace: true })
-										// }
-									>
+									<div style={{cursor: "pointer"}}>
 											  دمو کارگاه واکنش
 										<i className={"eye icon"}/>
+									</div>
+								</a>
+								<a style={{color: "#af9b18", padding: "3px 0", textAlign: "right"}}
+									href={"/statistics/action/demo"} target={"_blank"} rel={'noopener noreferrer'}
+								>
+									<div style={{cursor: "pointer"}}>
+											  دمو آمار هدف-واکنش
+										<i className={"chart line icon"}/>
 									</div>
 								</a>
 								<div style={{color: "#af9b18", padding: "3px 0", textAlign: "right"}}>

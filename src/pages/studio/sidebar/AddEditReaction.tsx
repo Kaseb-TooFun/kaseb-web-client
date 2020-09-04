@@ -631,13 +631,13 @@ const AddEditReaction = (props: IProps) => {
 			<summary style={{color: darkBaseColor, fontSize: "1.2em", marginTop: "15px", cursor: "pointer"}}>
 				محدود کردن صفحات اجرا (اختیاری)
 			</summary>
-			<p className="form-message">
-				در این قسمت می‌توانید آدرس صفحاتی که واکنش در آن‌ها اجرا شود را تعیین نمایید.
+			<p className="form-message" style={{fontSize: "1.1em"}}>
+				در این قسمت می‌توانید آدرس صفحاتی را که می‌خواهید واکنش در آن‌ها اجرا شود تعیین نمایید.
 			</p>
-			<p className="form-message">
+			<p className="form-message" style={{fontSize: "1em"}}>
 				برای این محدودیت‌ها می‌توانید از عبارات باقاعده (RegEx) استفاده نمایید.
 			</p>
-			<p className="form-message">
+			<p className="form-message" style={{fontSize: "1em"}}>
 				در صورتی که هیچ محدودیتی تعریف نکنید واکنش در همه صفحات اجرا خواهد شد.
 			</p>
 			<UrlPattersInputs

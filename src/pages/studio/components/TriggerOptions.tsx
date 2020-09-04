@@ -9,6 +9,7 @@ export const triggerOptions = [
 	{name: 'on-load', showName:'ورود به صفحه'},
 	{name: 'on-click', showName:'کلیک'},
 	{name: 'on-hover', showName:'هاور'},
+	{name: 'scroll-to-end', showName:'اسکرول به انتها'},
 	// {name: 'ongoing', showName:'حرکت به سمت'},
 ]
 
@@ -34,6 +35,7 @@ const TriggerOption = (props: TriggerOptionProps) => {
 	let onClick;
 
 	switch (trigger.name) {
+		case "scroll-to-end":
 		case "on-load": {
 			onClick = () => {
 				setPrimaryConditionType(trigger.name);
@@ -103,22 +105,22 @@ const TriggerOption = (props: TriggerOptionProps) => {
 					onSelectFinished(trigger.name)
 				};
 				const onSwitchChange = (value: Boolean) => {
-				if (value) {
-					if (selector)
-						postMessageToIframe('disable-inspector')
-					// setIsInspectorEnable(false)
-				} else {
-					postMessageToIframe('enable-inspector')
-					// setIsInspectorEnable(true)
-					setSelector('')
+					if (value) {
+						if (selector)
+							postMessageToIframe('disable-inspector')
+						// setIsInspectorEnable(false)
+					} else {
+						postMessageToIframe('enable-inspector')
+						// setIsInspectorEnable(true)
+						setSelector('')
+					}
 				}
-			}
 
-			if (selector) {
-				onSwitchChange(true)
-			} else {
-				onSwitchChange(false)
-			}
+				if (selector) {
+					onSwitchChange(true)
+				} else {
+					onSwitchChange(false)
+				}
 
 				addedOptions = <Switch
 					onChange={onSwitchChange}
@@ -130,6 +132,7 @@ const TriggerOption = (props: TriggerOptionProps) => {
 				break
 			}
 			case "on-load":
+			case "scroll-to-end":
 			{
 				onClick = () => {
 					setPrimaryConditionType(trigger.name);

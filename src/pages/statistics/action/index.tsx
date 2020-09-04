@@ -103,43 +103,13 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 			let demoChartData = generateDemoChartData() as []
 			setChartData(demoChartData)
 			setIsDataFetched(true)
-			console.log(demoChartData)
 		}
 		else {
 			// todo: fetch api data
 		}
 	}, [])
 
-	const myHeader = <TopBarHeader
-		extraLeftMenuItems={isDemo? null:
-			<>
-				<div
-					className={'my-header-item'}
-					style={{ margin: '8px 4px', display: 'inline-block' }}
-				>
-					<Button
-						className=""
-						title={'واکنش‌ها'}
-						style={{
-							border: 'none',
-							fontSize: '1.8em',
-							padding: '0'
-						}}
-						onClick={() => {
-							navigate(`/dashboard/actions/${configId}`, {
-								replace: true
-							});
-						}}
-					>
-						<i
-							className={'list icon'}
-							style={{ color: '#af9b18' }}
-						/>
-					</Button>
-				</div>
-			</>
-		}
-	/>
+	const myHeader = <TopBarHeader/>
 
 	/// display and execute counts
 
@@ -176,7 +146,7 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 	/// display and execute charts
 
 	const displayExecuteChartDataMonth = {
-		labels: datesLabel,
+		labels: datesLabel.slice(datesLabel.length-30, datesLabel.length+1),
 		datasets: [
 			{
 				label: 'دفعات به راه افتادن',
@@ -187,7 +157,9 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointHighlightFill: 'rgba(46,116,170,1)',
 				pointHighlightStroke: 'rgba(46,116,170,1)',
 				backgroundColor: 'rgba(46,116,170, 0.5)',
-				data: chartData.map((dayData: {executeCount: number}) => (dayData.executeCount)),
+				data: chartData
+					.slice(datesLabel.length-30, datesLabel.length+1)
+					.map((dayData: {executeCount: number}) => (dayData.executeCount)),
 		  	},
 			{
 				label: 'دفعات نمایش',
@@ -197,13 +169,15 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointStrokeColor: '#fff',
 				pointHighlightFill: '#fff',
 				pointHighlightStroke: 'rgba(220,220,220,1)',
-				data: chartData.map((dayData: {displayCount: number}) => (dayData.displayCount)),
+				data: chartData
+					.slice(datesLabel.length-30, datesLabel.length+1)
+					.map((dayData: {displayCount: number}) => (dayData.displayCount)),
 		  	},
 		],
 	}
 
 	const displayExecuteChartDataWeek = {
-		labels: datesLabel.slice(23, 31),
+		labels: datesLabel.slice(datesLabel.length-7, datesLabel.length+1),
 		datasets: [
 			{
 				label: 'دفعات به راه افتادن',
@@ -214,7 +188,9 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointHighlightFill: 'rgba(46,116,170,1)',
 				pointHighlightStroke: 'rgba(46,116,170,1)',
 				backgroundColor: 'rgba(46,116,170, 0.5)',
-				data: chartData.slice(30-7, 31).map((dayData: {executeCount: number}) => (dayData.executeCount)),
+				data: chartData
+					.slice(datesLabel.length-7, datesLabel.length+1)
+					.map((dayData: {executeCount: number}) => (dayData.executeCount)),
 		  	},
 			{
 				label: 'دفعات نمایش',
@@ -224,7 +200,9 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointStrokeColor: '#fff',
 				pointHighlightFill: '#fff',
 				pointHighlightStroke: 'rgba(220,220,220,1)',
-				data: chartData.slice(30-7, 31).map((dayData: {displayCount: number}) => (dayData.displayCount)),
+				data: chartData
+					.slice(datesLabel.length-7, datesLabel.length+1)
+					.map((dayData: {displayCount: number}) => (dayData.displayCount)),
 		  	},
 		],
 	}
@@ -313,7 +291,7 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				</div>
 				<div className={"rectangle-statistics-title"}>
 					<i className={"address book icon"}/>
-					تعداد نشست
+					نشست(session)
 				</div>
 			</div>
 			<div className={"rectangle-statistics"} style={{}}>
@@ -348,7 +326,7 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 
 	/// session chart
 	const sessionChartDataMonth = {
-		labels: datesLabel,
+		labels: datesLabel.slice(datesLabel.length-30, datesLabel.length+1),
 		datasets: [
 			{
 				label: 'کلیک شده',
@@ -359,7 +337,9 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointHighlightFill: 'rgba(46,116,170,1)',
 				pointHighlightStroke: 'rgba(46,116,170,1)',
 				backgroundColor: 'rgba(46,116,170, 0.5)',
-				data: chartData.map((dayData: {clickedCount: number}) => (dayData.clickedCount)),
+				data: chartData
+					.slice(datesLabel.length-30, datesLabel.length+1)
+					.map((dayData: {clickedCount: number}) => (dayData.clickedCount)),
 		  	},
 			{
 				label: 'بسته شده',
@@ -370,7 +350,9 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointHighlightFill: 'rgba(46,116,170,1)',
 				pointHighlightStroke: 'rgba(46,116,170,1)',
 				backgroundColor: 'rgba(232,48,48,0.5)',
-				data: chartData.map((dayData: {closedCount: number}) => (dayData.closedCount)),
+				data: chartData
+					.slice(datesLabel.length-30, datesLabel.length+1)
+					.map((dayData: {closedCount: number}) => (dayData.closedCount)),
 		  	},
 			{
 				label: 'مشاهده شده',
@@ -381,7 +363,9 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointHighlightFill: 'rgba(46,116,170,1)',
 				pointHighlightStroke: 'rgba(46,116,170,1)',
 				backgroundColor: 'rgba(100,226,65,0.5)',
-				data: chartData.map((dayData: {seenCount: number}) => (dayData.seenCount)),
+				data: chartData
+					.slice(datesLabel.length-30, datesLabel.length+1)
+					.map((dayData: {seenCount: number}) => (dayData.seenCount)),
 		  	},
 			{
 				label: 'نشست',
@@ -391,13 +375,15 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointStrokeColor: '#fff',
 				pointHighlightFill: '#fff',
 				pointHighlightStroke: 'rgba(220,220,220,1)',
-				data: chartData.map((dayData: {sessionCount: number}) => (dayData.sessionCount)),
+				data: chartData
+					.slice(datesLabel.length-30, datesLabel.length+1)
+					.map((dayData: {sessionCount: number}) => (dayData.sessionCount)),
 		  	},
 		],
 	}
 
 	const sessionChartDataWeek = {
-		labels: datesLabel.slice(23, 31),
+		labels: datesLabel.slice(datesLabel.length-7, datesLabel.length+1),
 		datasets: [
 			{
 				label: 'کلیک شده',
@@ -408,7 +394,9 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointHighlightFill: 'rgba(46,116,170,1)',
 				pointHighlightStroke: 'rgba(46,116,170,1)',
 				backgroundColor: 'rgba(46,116,170, 0.5)',
-				data: chartData.slice(23, 31).map((dayData: {clickedCount: number}) => (dayData.clickedCount)),
+				data: chartData
+					.slice(datesLabel.length-7, datesLabel.length+1)
+					.map((dayData: {clickedCount: number}) => (dayData.clickedCount)),
 		  	},
 			{
 				label: 'بسته شده',
@@ -419,7 +407,9 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointHighlightFill: 'rgba(46,116,170,1)',
 				pointHighlightStroke: 'rgba(46,116,170,1)',
 				backgroundColor: 'rgba(232,48,48,0.5)',
-				data: chartData.slice(23, 31).map((dayData: {closedCount: number}) => (dayData.closedCount)),
+				data: chartData
+					.slice(datesLabel.length-7, datesLabel.length+1)
+					.map((dayData: {closedCount: number}) => (dayData.closedCount)),
 		  	},
 			{
 				label: 'مشاهده شده',
@@ -430,7 +420,9 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointHighlightFill: 'rgba(46,116,170,1)',
 				pointHighlightStroke: 'rgba(46,116,170,1)',
 				backgroundColor: 'rgba(100,226,65,0.5)',
-				data: chartData.slice(23, 31).map((dayData: {seenCount: number}) => (dayData.seenCount)),
+				data: chartData
+					.slice(datesLabel.length-7, datesLabel.length+1)
+					.map((dayData: {seenCount: number}) => (dayData.seenCount)),
 		  	},
 			{
 				label: 'نشست',
@@ -440,7 +432,9 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				pointStrokeColor: '#fff',
 				pointHighlightFill: '#fff',
 				pointHighlightStroke: 'rgba(220,220,220,1)',
-				data: chartData.slice(23, 31).map((dayData: {sessionCount: number}) => (dayData.sessionCount)),
+				data: chartData
+					.slice(datesLabel.length-7, datesLabel.length+1)
+					.map((dayData: {sessionCount: number}) => (dayData.sessionCount)),
 		  	},
 		],
 	}
@@ -484,7 +478,7 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				<div style={{
 					borderRadius: "10px",
 					border: `1px solid ${darkBaseColor}`,
-					padding: "2%", width: "90%", textAlign: "center", minHeight: "150px",
+					padding: "2%", width: "90%", textAlign: "center", minHeight: "350px",
 					marginBottom: "30px"
 				}}
 				>
@@ -501,6 +495,9 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 						:
 						<div style={{verticalAlign: "middle"}}>
 							<i className="huge circle notch loading icon"/>
+							<p style={{fontSize: "2em", marginTop: "40px"}}>
+								در حال دریافت اطلاعات
+							</p>
 						</div>
 					}
 

@@ -388,3 +388,49 @@ $base-color-dark: #af9b18;
 	height: 250px;
 	display: inline-block;
 }
+
+.dashboard-btn {
+	background-color: $base-color-dark;
+	border-color: $base-color-dark;
+	font-weight: bold;
+	font-size: 1.5em;
+	margin-bottom: 20px;
+	height: 3em;
+	width: 12em;
+}
+
+.dashboard-btn:hover {
+	background-color: $base-color-dark;
+	border-color: $base-color-dark;
+}
+
+.dashboard-text {
+	text-align: right;
+	color: $base-color-dark;
+	font-weight: bold;
+	font-size: 1.4em;
+	padding-bottom: 10px;
+}
+
+.dashboard-link {
+	cursor: pointer;
+	color: white;
+	background-color: $base-color-dark;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+.kaseb-btn {
+	background-color: $base-color-dark;
+	border-color: $base-color-dark;
+	font-weight: bold;
+	//font-size: 1.5em;
+	//margin-bottom: 20px;
+	//height: 3em;
+	//width: 12em;
+}
+
+.kaseb-btn:hover {
+	background-color: $base-color-dark;
+	border-color: $base-color-dark;
+}

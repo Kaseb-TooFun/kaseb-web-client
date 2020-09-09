@@ -30,7 +30,7 @@ const SignUp = (props: RouteComponentProps) => {
 			if (resposnse.status == 200) {
 				Api.setAuthHeader(resposnse.data.token);
 				message.success("ثبت نام با موفقیت انجام شد", 1);
-				message.loading("در حال انتقال به صفحه دشبرد", 1).then(
+				message.loading("در حال انتقال به صفحه پیشخوان", 1).then(
 					() => {
 						navigate("dashboard", { replace: true });
 					},
@@ -52,6 +52,9 @@ const SignUp = (props: RouteComponentProps) => {
 
 	return (
 		<Row className="w-screen h-screen p-5 justify-center items-center">
+			{/*<Row justify="center">*/}
+				<img src={"/icons/kaseb.logo.1.png"} width={"350px"}/>
+			{/*</Row>*/}
 			<Form
 				name="login-form"
 				form={form}
@@ -147,12 +150,12 @@ const SignUp = (props: RouteComponentProps) => {
 										.filter(({ errors }) => errors.length)
 										.length > 0
 								}
-								className="login-form-button"
+								className="login-form-button kaseb-btn"
 							>
-								Register
+								ثبت نام
 							</Button>
 							<Link to="../login">
-								<span>بازگشت به صفحه ورود</span>
+								<span style={{color: "#af9b18"}}>بازگشت به صفحه ورود</span>
 							</Link>
 						</Row>
 					)}

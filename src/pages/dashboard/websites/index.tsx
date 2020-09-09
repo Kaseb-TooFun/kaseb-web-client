@@ -20,6 +20,7 @@ import {
 const { Column } = Table;
 const { Title } = Typography;
 import Api from '_src/api';
+import StatisticsModal from "_pages/dashboard/components/StatisticsModal";
 
 const WebsiteTable = ({
 	data,
@@ -31,6 +32,7 @@ const WebsiteTable = ({
 	fetchWebsiteList: () => void;
 }) => {
 	const [isVisible, setVisible] = useState(false);
+	const [showStatisticsModal, setShowStatisticsModal] = useState(false)
 	const [websiteId, setWebsiteId] = useState('');
 
 	const confirmDelete = (id: string) => {
@@ -58,8 +60,9 @@ const WebsiteTable = ({
 
 	return (
 		<>
+			<StatisticsModal showModal={showStatisticsModal} setShowModal={setShowStatisticsModal}/>
 			<Modal
-				title="Script"
+				title="کد زیر را در هدر سایت خود قرار دهید"
 				footer={null}
 				visible={isVisible}
 				onOk={() => setVisible(false)}
@@ -96,7 +99,7 @@ const WebsiteTable = ({
 									className="mr-3 table-btn"
 									type="primary"
 								>
-									هدف و واکنش جدید
+									واکنش جدید
 									<PlusOutlined />
 								</Button>
 							</Link>
@@ -106,7 +109,7 @@ const WebsiteTable = ({
 									type="primary"
 									ghost
 								>
-									هدف‌ها و واکنش‌ها
+									واکنش‌ها
 									<UnorderedListOutlined />
 								</Button>
 							</Link>
@@ -120,6 +123,15 @@ const WebsiteTable = ({
 							>
 								دریافت کد
 								<i className="code icon" />
+							</Button>
+							<Button
+								className="mr-3 table-btn"
+								type="primary"
+								ghost
+								onClick={() => {setShowStatisticsModal(true)}}
+							>
+								آمار
+								<i className={"chart line icon"} />
 							</Button>
 							<Popconfirm
 								title="مطمئن هستید که این وبسایت حذف شود؟"

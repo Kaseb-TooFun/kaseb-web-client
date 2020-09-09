@@ -26,7 +26,7 @@ const Login = (props: RouteComponentProps) => {
 			if (resposnse.status == 200) {
 				Api.setAuthHeader(resposnse.data.token);
 				message.success('ورود با موفقیت انجام شد', 1);
-				message.loading('در حال هدایت به صفحه دشبرد', 1).then(
+				message.loading('در حال هدایت به صفحه پیشخوان', 1).then(
 					() => {
 						navigate('dashboard', { replace: true });
 					},
@@ -114,12 +114,12 @@ const Login = (props: RouteComponentProps) => {
 											.filter(({ errors }) => errors.length)
 											.length > 0
 									}
-									className="login-form-button"
+									className="login-form-button kaseb-btn"
 								>
 									ورود
 								</Button>
 								<Link to="../sign-up">
-									<span>ثبت نام</span>
+									<span style={{color: "#af9b18"}}>ثبت نام</span>
 								</Link>
 							</Row>
 						)}

@@ -48,6 +48,7 @@ const welcome = (props: IProps) => {
 				<Row justify="center">
 					<Link to="/login">
 						<Button
+							className={"kaseb-btn"}
 							type="primary"
 							loading={btnLoading}
 							disabled={btnLoading}

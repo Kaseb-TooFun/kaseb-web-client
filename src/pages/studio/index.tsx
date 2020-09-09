@@ -397,7 +397,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 						/>
 					}
 					className=""
-					title={'دشبرد'}
+					title={'پیشخوان'}
 					style={{ border: 'none', fontSize: '1.5em' }}
 					onClick={() => {
 						navigate('/dashboard', { replace: true });

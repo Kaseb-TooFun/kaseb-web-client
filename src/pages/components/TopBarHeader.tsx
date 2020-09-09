@@ -51,14 +51,14 @@ const TopBarHeader = (props: TopBarHeaderProps) => {
 				<Button
 					icon={<AppstoreTwoTone twoToneColor={"#af9b18"} style={{fontSize: "1.5em"}}/>}
 					className=""
-					title={"دشبرد"}
+					title={"پیشخوان"}
 					style={{border: "none", fontSize: "1.5em"}}
 					onClick={() => {
 						navigate('/dashboard', { replace: true });
 					}}
 				>
 					<span className={"my-header-item-title"}>
-						دشبرد
+						پیشخوان
 					</span>
 				</Button>
 			</div>
@@ -107,7 +107,7 @@ const TopBarHeader = (props: TopBarHeaderProps) => {
 									href={"/statistics/action/demo"} target={"_blank"} rel={'noopener noreferrer'}
 								>
 									<div style={{cursor: "pointer"}}>
-											  دمو آمار هدف-واکنش
+											  دمو آمار واکنش
 										<i className={"chart line icon"}/>
 									</div>
 								</a>

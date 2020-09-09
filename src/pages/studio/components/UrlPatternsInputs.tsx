@@ -40,8 +40,8 @@ const UrlPattersInputs = (props: UrlPatternsInputsProps) => {
 			  <div className="box">
 				  <Input
 					  className="my-input"
-					  style={{textAlign: "left"}}
-					  placeholder={"Enter pattern"}
+					  style={{textAlign: "left", direction: "ltr"}}
+					  placeholder={"Enter address or RegEx pattern"}
 					  maxLength={64}
 					  value={upt}
 					  onChange={e => handleInputChange(e, i)}
@@ -64,7 +64,7 @@ const UrlPattersInputs = (props: UrlPatternsInputsProps) => {
 						  style={{margin: "5px", display: "block"}}
 					  >
 						  <i className={"blue plus icon"}/>
-						  افزودن regex
+						  افزودن
 					  </Button>
 				  }
 				</div>

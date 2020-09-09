@@ -21,6 +21,7 @@ import Api from '_src/api';
 import { scrollTo } from '_src/utils';
 import {animationOptions} from "_pages/studio/components/ReactionTypeOptions";
 import {triggerOptions} from "_pages/studio/components/TriggerOptions";
+import StatisticsModal from "_pages/dashboard/components/StatisticsModal";
 
 
 const ConfigsTable = ({
@@ -33,6 +34,7 @@ const ConfigsTable = ({
 	fetchConfigList: () => void;
 }) => {
 	const params = useParams();
+	const [showStatisticsModal, setShowStatisticsModal] = useState(false)
 	const confirmDelete = (id: string) => {
 		message.loading('در حال حذف واکنش', 1);
 		Api.config.remove(id, params.websiteId).then((resposnse) => {
@@ -47,127 +49,139 @@ const ConfigsTable = ({
 		});
 	};
 	return (
-		<Table dataSource={data} loading={loading} style={{width: "100%"}}>
-			<Column
-				title="نام"
-				key="name"
-				render={(value) => {
-					try {
-						return value.name;
-					} catch (error) {
-						return '-';
-					}
-				}}
-			/>
-			{/*<Column title="شناسه" dataIndex="id" key="id" />*/}
-			<Column
-				title={"نوع هدف"}
-				key={"goalType"}
-				render={(value) => {
-					switch (value.goalType) {
-						case "page_visit":
-							return "بازدید"
-						case "click":
-							return "کلیک"
-						case "notify":
-							return "اطلاع‌رسانی"
-						default:
-							return value.goalType
-					}
-				}}
-			/>
-			<Column
-				title={"راه‌انداز - واکنش"}
-				key={"reactionShortInfo"}
-				render={(value) => {
-					let triggerShowName = "", typeShowName= "", typeDetailsShowName = ""
-					let configJson = JSON.parse(value.value) as {
-						type: string,
-						data: {
-							template: string,
-							effect: string,
-							condition: string
+		<>
+			<StatisticsModal showModal={showStatisticsModal} setShowModal={setShowStatisticsModal}/>
+			<Table dataSource={data} loading={loading} style={{width: "100%"}}>
+				<Column
+					title="نام"
+					key="name"
+					render={(value) => {
+						try {
+							return value.name;
+						} catch (error) {
+							return '-';
 						}
-					}
-					console.log("pnn", configJson)
-					switch (configJson.type) {
-						case "action":
-							typeShowName = "انیمیشن"
-							animationOptions.map((ao) => {
-								if (ao.name === configJson.data.effect) {
-									typeDetailsShowName = ao.showName
-								}
-							})
-							if (typeDetailsShowName === "") typeDetailsShowName = configJson.data.effect
-							break
-						default:
-							typeShowName = "محتوا"
-							switch (configJson.data.template) {
-								case "bottom-banner":
-									typeDetailsShowName = "بنر پایین"
-									break
-								case "top-banner":
-									typeDetailsShowName = "بنر بالا"
-									break
-								case "modal":
-									typeDetailsShowName = "مُدال"
-									break
-								default:
-									typeDetailsShowName = configJson.data.template
-									break
+					}}
+				/>
+				{/*<Column title="شناسه" dataIndex="id" key="id" />*/}
+				<Column
+					title={"نوع هدف"}
+					key={"goalType"}
+					render={(value) => {
+						switch (value.goalType) {
+							case "page_visit":
+								return "بازدید"
+							case "click":
+								return "کلیک"
+							case "notify":
+								return "اطلاع‌رسانی"
+							default:
+								return value.goalType
+						}
+					}}
+				/>
+				<Column
+					title={"راه‌انداز - واکنش"}
+					key={"reactionShortInfo"}
+					render={(value) => {
+						let triggerShowName = "", typeShowName= "", typeDetailsShowName = ""
+						let configJson = JSON.parse(value.value) as {
+							type: string,
+							data: {
+								template: string,
+								effect: string,
+								condition: string
 							}
-							break
-					}
-
-					triggerOptions.map((to) => {
-						if (configJson.data.condition.includes(to.name)) {
-							triggerShowName = to.showName
 						}
-						if (triggerShowName === "") triggerShowName = configJson.data.template
-					})
+						console.log("pnn", configJson)
+						switch (configJson.type) {
+							case "action":
+								typeShowName = "انیمیشن"
+								animationOptions.map((ao) => {
+									if (ao.name === configJson.data.effect) {
+										typeDetailsShowName = ao.showName
+									}
+								})
+								if (typeDetailsShowName === "") typeDetailsShowName = configJson.data.effect
+								break
+							default:
+								typeShowName = "محتوا"
+								switch (configJson.data.template) {
+									case "bottom-banner":
+										typeDetailsShowName = "بنر پایین"
+										break
+									case "top-banner":
+										typeDetailsShowName = "بنر بالا"
+										break
+									case "modal":
+										typeDetailsShowName = "مُدال"
+										break
+									default:
+										typeDetailsShowName = configJson.data.template
+										break
+								}
+								break
+						}
 
-					return `${triggerShowName} - ${typeShowName} (${typeDetailsShowName})`
-				}}
-			/>
-			<Column
-				title=""
-				key="action"
-				render={(value) => (
-					<>
-						<Link to={`/studio/${params.websiteId}/edit/${value.id}`}>
-							<Button
-								className="mr-3 table-btn"
-								type="primary"
-							>
-								 ویرایش
-								<EditOutlined />
-							</Button>
-						</Link>
-						<Link to={`/statistics/action/${value.id}`}>
+						triggerOptions.map((to) => {
+							if (configJson.data.condition.includes(to.name)) {
+								triggerShowName = to.showName
+							}
+							if (triggerShowName === "") triggerShowName = configJson.data.template
+						})
+
+						return `${triggerShowName} - ${typeShowName} (${typeDetailsShowName})`
+					}}
+				/>
+				<Column
+					title=""
+					key="action"
+					render={(value) => (
+						<>
+							<Link to={`/studio/${params.websiteId}/edit/${value.id}`}>
 								<Button
 									className="mr-3 table-btn"
 									type="primary"
-									ghost
 								>
-									آمار
-									<i className={"chart line icon"} />
+									 ویرایش
+									<EditOutlined />
 								</Button>
 							</Link>
-						<Popconfirm
-							title="مطمئن هستید که این واکنش حذف شود؟"
-							onConfirm={() => confirmDelete(value.id)}
-							okText="بله"
-							cancelText="خیر"
-						>
-							<Button className={"table-btn"} danger>
-								حذف
-								<DeleteOutlined />
+							{/*<Link to={`/statistics/action/${value.id}`}>*/}
+							{/*	<Button*/}
+							{/*		className="mr-3 table-btn"*/}
+							{/*		type="primary"*/}
+							{/*		ghost*/}
+							{/*	>*/}
+							{/*		آمار*/}
+							{/*		<i className={"chart line icon"} />*/}
+							{/*	</Button>*/}
+							{/*</Link>*/}
+							<Button
+								className="mr-3 table-btn"
+								type="primary"
+								ghost
+								onClick={() => {setShowStatisticsModal(true)}}
+							>
+								آمار
+								<i className={"chart line icon"} />
 							</Button>
-						</Popconfirm>
-					</>
-				)}
-			/>
-		</Table>
+							<Popconfirm
+								title="مطمئن هستید که این واکنش حذف شود؟"
+								onConfirm={() => confirmDelete(value.id)}
+								okText="بله"
+								cancelText="خیر"
+							>
+								<Button className={"table-btn"} danger>
+									حذف
+									<DeleteOutlined />
+								</Button>
+							</Popconfirm>
+						</>
+					)}
+				/>
+			</Table>
+		</>
 	);
 };
 

@@ -421,8 +421,8 @@ $base-color-dark: #af9b18;
 }
 
 .kaseb-btn {
-	background-color: $base-color-dark;
-	border-color: $base-color-dark;
+	background-color: $base-color-dark !important;
+	border-color: $base-color-dark !important;
 	font-weight: bold;
 	//font-size: 1.5em;
 	//margin-bottom: 20px;
@@ -431,6 +431,6 @@ $base-color-dark: #af9b18;
 }
 
 .kaseb-btn:hover {
-	background-color: $base-color-dark;
-	border-color: $base-color-dark;
+	background-color: $base-color-dark !important;
+	border-color: $base-color-dark !important;
 }

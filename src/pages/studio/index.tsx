@@ -116,7 +116,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 						);
 					}
 				} else {
-					setPendingMessage('سایت پیدا نشد');
+					setPendingMessage('وبسایت پیدا نشد');
 				}
 				setIsApiFetched(true);
 			});

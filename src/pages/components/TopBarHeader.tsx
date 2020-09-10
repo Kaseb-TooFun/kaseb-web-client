@@ -67,7 +67,7 @@ const TopBarHeader = (props: TopBarHeaderProps) => {
 				<Button
 					// icon={<AppstoreTwoTone twoToneColor={"#af9b18"} style={{fontSize: "1.5em"}}/>}
 					className=""
-					title={"سایت‌ها"}
+					title={"وبسایت‌ها"}
 					style={{border: "none", fontSize: "1.5em", padding: "0"}}
 					onClick={() => {
 						navigate('/dashboard/websites', { replace: true });
@@ -78,7 +78,7 @@ const TopBarHeader = (props: TopBarHeaderProps) => {
 					/>
 					<span className={"my-header-item-title"}
 						  style={{verticalAlign: "top", paddingTop: "10px"}}>
-						سایت‌ها
+						وبسایت‌ها
 					</span>
 				</Button>
 			</div>

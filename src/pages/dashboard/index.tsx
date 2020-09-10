@@ -69,7 +69,7 @@ const DashboardContent = (props: RouteComponentProps) => {
 					className="mr-3 dashboard-btn"
 					type="primary"
 				>
-					اضافه کردن سایت
+					اضافه کردن وبسایت
 					<i className={"plus icon"}/>
 				</Button>
 			</Link>
@@ -80,7 +80,7 @@ const DashboardContent = (props: RouteComponentProps) => {
 					className="mr-3 dashboard-btn"
 					type="primary"
 				>
-					مدیریت سایت‌ها
+					مدیریت وبسایت‌ها
 					<i className={"window maximize icon"}/>
 				</Button>
 			</Link>
@@ -119,7 +119,7 @@ const DashboardContent = (props: RouteComponentProps) => {
 						‌ می‌توانید با نحوه ساخت هدف و واکنش آشنا شوید
 					</p>
 					<p className={"dashboard-text"}>
-						مدتی پس از اجرای واکنش در وبسایت شما آماری مشابه ‌
+						مدتی پس از اجرای واکنش در وبسایت‌تان آماری مشابه ‌
 						<a style={{color: "#af9b18", padding: "3px 0", textAlign: "right"}}
 							href={"/statistics/action/demo"} target={"_blank"} rel={'noopener noreferrer'}
 						>

@@ -62,7 +62,7 @@ const WebsiteTable = ({
 		<>
 			<StatisticsModal showModal={showStatisticsModal} setShowModal={setShowStatisticsModal}/>
 			<Modal
-				title="کد زیر را در هدر سایت خود قرار دهید"
+				title="کد زیر را در هدر وبسایت خود قرار دهید"
 				footer={null}
 				visible={isVisible}
 				onOk={() => setVisible(false)}
@@ -96,7 +96,7 @@ const WebsiteTable = ({
 						<div>
 							<Link to={`/studio/${value.id}`}>
 								<Button
-									className="mr-3 table-btn"
+									className="mr-3 table-btn kaseb-btn"
 									type="primary"
 								>
 									واکنش جدید
@@ -136,8 +136,8 @@ const WebsiteTable = ({
 							<Popconfirm
 								title="مطمئن هستید که این وبسایت حذف شود؟"
 								onConfirm={() => confirmDelete(value.id)}
-								okText="Yes"
-								cancelText="No"
+								okText="بله"
+								cancelText="خیر"
 							>
 								<Button className={"table-btn"} danger>
 									حذف
@@ -162,6 +162,11 @@ const AddSiteForm = ({
 	const onFormSubmit = () => {
 		setBtnLoading(true);
 		const { title, url } = form.getFieldsValue(['title', 'url']);
+		if (!title || !url) {
+			message.error('عنوان و آدرس وبسایت را وارد نمایید', 1)
+			setBtnLoading(false)
+			return
+		}
 		message.loading('در حال ذخیره وبسایت', 1);
 		Api.website.add(title, url).then((resposnse) => {
 			if (resposnse.status == 200) {
@@ -204,6 +209,7 @@ const AddSiteForm = ({
 			<Form.Item shouldUpdate={true}>
 				{() => (
 					<Button
+						className={"kaseb-btn"}
 						type="primary"
 						htmlType="submit"
 						loading={btnLoading}

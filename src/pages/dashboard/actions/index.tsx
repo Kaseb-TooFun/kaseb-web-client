@@ -140,7 +140,7 @@ const ConfigsTable = ({
 						<>
 							<Link to={`/studio/${params.websiteId}/edit/${value.id}`}>
 								<Button
-									className="mr-3 table-btn"
+									className="mr-3 table-btn kaseb-btn"
 									type="primary"
 								>
 									 ویرایش
@@ -217,7 +217,7 @@ const Actions = (props: RouteComponentProps) => {
 					style={{display: "inline-block", float: "right"}}
 				>
 					<Button
-						className="mr-3"
+						className="mr-3 table-btn kaseb-btn"
 						type="primary"
 						icon={<PlusOutlined />}
 					>

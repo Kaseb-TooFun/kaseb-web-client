@@ -66,7 +66,7 @@ const WebsiteTable = ({
 				setShowModal={setShowStatisticsModal}
 			/>
 			<Modal
-				title="اطلاعات سایت"
+				title="اطلاعات وبسایت"
 				footer={null}
 				visible={isVisible}
 				onOk={() => setVisible(false)}
@@ -83,7 +83,7 @@ const WebsiteTable = ({
 						<Input
 							id="website-id"
 							readOnly
-							addonAfter="شناسه سایت"
+							addonAfter="شناسه وبسایت"
 							defaultValue={websiteId}
 							contentEditable={false}
 						/>
@@ -116,7 +116,7 @@ const WebsiteTable = ({
 						onClick={() => copy('head-script')}
 						style={{ alignSelf: 'center', color: '#fff' }}
 					>
-						کپی کد
+						script کپی
 					</Button>
 				</div>
 			</Modal>

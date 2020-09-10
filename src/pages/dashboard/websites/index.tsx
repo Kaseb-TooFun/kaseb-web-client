@@ -20,7 +20,7 @@ import {
 const { Column } = Table;
 const { Title } = Typography;
 import Api from '_src/api';
-import StatisticsModal from "_pages/dashboard/components/StatisticsModal";
+import StatisticsModal from '_pages/dashboard/components/StatisticsModal';
 
 const WebsiteTable = ({
 	data,
@@ -32,7 +32,7 @@ const WebsiteTable = ({
 	fetchWebsiteList: () => void;
 }) => {
 	const [isVisible, setVisible] = useState(false);
-	const [showStatisticsModal, setShowStatisticsModal] = useState(false)
+	const [showStatisticsModal, setShowStatisticsModal] = useState(false);
 	const [websiteId, setWebsiteId] = useState('');
 
 	const confirmDelete = (id: string) => {
@@ -44,49 +44,97 @@ const WebsiteTable = ({
 			} else if (response.status == 400) {
 				message.warning(response.data.errorMessage);
 			} else {
-				message.error('حذف وبسایت به اتمام نرسید. لطفا مجددا تلاش نمایید');
+				message.error(
+					'حذف وبسایت به اتمام نرسید. لطفا مجددا تلاش نمایید'
+				);
 			}
 		});
 	};
 
-	const copy = () => {
-		const copyText = document.getElementById(
-			'my-script'
-		) as HTMLTextAreaElement;
+	const copy = (id: string) => {
+		const copyText = document.getElementById(id) as HTMLTextAreaElement | HTMLInputElement;
 		copyText.select();
 		copyText.setSelectionRange(0, 99999); /*For mobile devices*/
 		document.execCommand('copy');
+		message.success('کپی شد');
 	};
 
 	return (
 		<>
-			<StatisticsModal showModal={showStatisticsModal} setShowModal={setShowStatisticsModal}/>
+			<StatisticsModal
+				showModal={showStatisticsModal}
+				setShowModal={setShowStatisticsModal}
+			/>
 			<Modal
-				title="کد زیر را در هدر وبسایت خود قرار دهید"
+				title="اطلاعات سایت"
 				footer={null}
 				visible={isVisible}
 				onOk={() => setVisible(false)}
 				onCancel={() => setVisible(false)}
 			>
-				<textarea id="my-script" style={{ width: '100%' }} rows={5}>
-					{`<!-- KESEB.XYZ -->
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'stretch'
+					}}
+				>
+					<div style={{ marginBottom: 10 }}>
+						<Input
+							id="website-id"
+							readOnly
+							addonAfter="شناسه سایت"
+							defaultValue={websiteId}
+							contentEditable={false}
+						/>
+					</div>
+					<Button
+						className="kaseb-btn"
+						onClick={() => copy('website-id')}
+						style={{ alignSelf: 'center', color: '#fff' }}
+					>
+						کپی شناسه
+					</Button>
+					<div style={{ marginBottom: 10, marginTop: 30 }}>
+						<Input.TextArea
+							readOnly
+							id="head-script"
+							value={`<!-- KESEB.XYZ -->
 <script src="${document.location.href.replace(
-						document.location.pathname,
-						`/kio.js?id=${websiteId}`
-					)}" defer></script>
+								document.location.pathname,
+								`/kio.js?id=${websiteId}`
+							)}" defer></script>
 <!-- KESEB.XYZ -->`}
-				</textarea>
-				<Button onClick={copy}>کپی</Button>
+							style={{ width: '100%' }}
+							autoSize
+							contentEditable={false}
+						/>
+					</div>
+
+					<Button
+						className="kaseb-btn"
+						onClick={() => copy('head-script')}
+						style={{ alignSelf: 'center', color: '#fff' }}
+					>
+						کپی کد
+					</Button>
+				</div>
 			</Modal>
 			<Table dataSource={data} loading={loading} direction={'rtl'}>
-				<Column title="عنوان" dataIndex="title" key="title" responsive={["lg"]} />
+				<Column
+					title="عنوان"
+					dataIndex="title"
+					key="title"
+					responsive={['lg']}
+				/>
 				<Column
 					title="آدرس وبسایت"
 					// dataIndex="url"
 					key="url"
-					render={(value) => (
-						value.url.substr(0, 60) + (value.url.length>60?'...':'')
-					)}
+					render={(value) =>
+						value.url.substr(0, 60) +
+						(value.url.length > 60 ? '...' : '')
+					}
 					width={'10px'}
 				/>
 				<Column
@@ -128,10 +176,12 @@ const WebsiteTable = ({
 								className="mr-3 table-btn"
 								type="primary"
 								ghost
-								onClick={() => {setShowStatisticsModal(true)}}
+								onClick={() => {
+									setShowStatisticsModal(true);
+								}}
 							>
 								آمار
-								<i className={"chart line icon"} />
+								<i className={'chart line icon'} />
 							</Button>
 							<Popconfirm
 								title="مطمئن هستید که این وبسایت حذف شود؟"
@@ -139,7 +189,7 @@ const WebsiteTable = ({
 								okText="بله"
 								cancelText="خیر"
 							>
-								<Button className={"table-btn"} danger>
+								<Button className={'table-btn'} danger>
 									حذف
 									<DeleteOutlined />
 								</Button>
@@ -163,9 +213,9 @@ const AddSiteForm = ({
 		setBtnLoading(true);
 		const { title, url } = form.getFieldsValue(['title', 'url']);
 		if (!title || !url) {
-			message.error('عنوان و آدرس وبسایت را وارد نمایید', 1)
-			setBtnLoading(false)
-			return
+			message.error('عنوان و آدرس وبسایت را وارد نمایید', 1);
+			setBtnLoading(false);
+			return;
 		}
 		message.loading('در حال ذخیره وبسایت', 1);
 		Api.website.add(title, url).then((resposnse) => {
@@ -179,7 +229,9 @@ const AddSiteForm = ({
 			} else if (resposnse.status == 404) {
 				message.error(resposnse.data.errorMessage);
 			} else {
-				message.error('ذخیره وبسایت به اتمام نرسید. لطفا مجددا تلاش نمایید');
+				message.error(
+					'ذخیره وبسایت به اتمام نرسید. لطفا مجددا تلاش نمایید'
+				);
 			}
 		});
 		setBtnLoading(false);
@@ -187,7 +239,7 @@ const AddSiteForm = ({
 
 	return (
 		<Form
-			id={"add_website"}
+			id={'add_website'}
 			form={form}
 			layout="horizontal"
 			initialValues={{
@@ -209,7 +261,7 @@ const AddSiteForm = ({
 			<Form.Item shouldUpdate={true}>
 				{() => (
 					<Button
-						className={"kaseb-btn"}
+						className={'kaseb-btn'}
 						type="primary"
 						htmlType="submit"
 						loading={btnLoading}
@@ -241,7 +293,10 @@ const Websites = (props: RouteComponentProps) => {
 	}, []);
 
 	return (
-		<div className="flex flex-col w-screen pt-10 items-center" style={{width: "100%"}}>
+		<div
+			className="flex flex-col w-screen pt-10 items-center"
+			style={{ width: '100%' }}
+		>
 			<Row justify="center">
 				<Title level={2}>وبسایت‌ها</Title>
 			</Row>

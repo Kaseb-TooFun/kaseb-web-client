@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import Sidebar from './sidebar';
 import Api from '_src/api';
-import TopBarHeader from "_pages/components/TopBarHeader";
+import TopBarHeader from '_pages/components/TopBarHeader';
 
 const { Content } = Layout;
 
@@ -33,7 +33,7 @@ const onInspected = (() => {
 const StudioAddEdit = (props: RouteComponentProps) => {
 	// const [data, setData] = useState([]);
 	const params = useParams();
-	const isDemo = params.websiteId === "demo"
+	const isDemo = params.websiteId === 'demo';
 	const [configInitialData, setConfigInitialData] = useState({
 		id: '',
 		name: '',
@@ -67,18 +67,18 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 		}
 	});
 	const [isApiFetched, setIsApiFetched] = useState(Boolean(isDemo || false));
-	const [isModuleLoaded, setIsModuleLoaded] = useState(Boolean( false));
+	const [isModuleLoaded, setIsModuleLoaded] = useState(Boolean(false));
 	const [pendingMessage, setPendingMessage] = useState(
-		!isDemo?
-		'در حال دریافت اطلاعات':
-		'در حال یافتن کد کاسب در صفحه مورد نظر'
-	)
-	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+		!isDemo
+			? 'در حال دریافت اطلاعات'
+			: 'در حال یافتن کد کاسب در صفحه مورد نظر'
+	);
+	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 	const navigate = useNavigate();
 
-	const publicUrl = document.location.href.replace(
-		document.location.pathname,
-		''
+	const publicUrl = document.location.href.substr(
+		0,
+		document.location.href.lastIndexOf(document.location.pathname)
 	);
 	const [iframeUrl, setIframeUrl] = useState(
 		!isDemo ? '' : `${publicUrl}/demopage`
@@ -506,6 +506,6 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 			</Content>
 		</Layout>
 	);
-}
+};
 
 export default StudioAddEdit;

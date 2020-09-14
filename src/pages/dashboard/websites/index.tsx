@@ -52,7 +52,9 @@ const WebsiteTable = ({
 	};
 
 	const copy = (id: string) => {
-		const copyText = document.getElementById(id) as HTMLTextAreaElement | HTMLInputElement;
+		const copyText = document.getElementById(id) as
+			| HTMLTextAreaElement
+			| HTMLInputElement;
 		copyText.select();
 		copyText.setSelectionRange(0, 99999); /*For mobile devices*/
 		document.execCommand('copy');
@@ -100,10 +102,12 @@ const WebsiteTable = ({
 							readOnly
 							id="head-script"
 							value={`<!-- KESEB.XYZ -->
-<script src="${document.location.href.replace(
-								document.location.pathname,
-								`/kio.js?id=${websiteId}`
-							)}" defer></script>
+<script src="${document.location.href.substr(
+								0,
+								document.location.href.lastIndexOf(
+									document.location.pathname
+								)
+							)}/kio.js?id=${websiteId}" defer></script>
 <!-- KESEB.XYZ -->`}
 							style={{ width: '100%' }}
 							autoSize

@@ -86,7 +86,7 @@ const WebsiteTable = ({
 							id="website-id"
 							readOnly
 							addonAfter="شناسه وبسایت"
-							defaultValue={websiteId}
+							value={websiteId}
 							contentEditable={false}
 						/>
 					</div>

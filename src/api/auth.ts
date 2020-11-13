@@ -1,4 +1,4 @@
-import { instance } from '_src/api/axios-instance';
+import { instance } from 'src/api/axios-instance';
 
 const verify = () => instance.get('/api/v1/users/websites');
 

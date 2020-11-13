@@ -1,7 +1,6 @@
-import {RouteComponentProps} from "@reach/router";
-import React, {useState} from "react";
-import {Switch} from "antd";
-
+import { RouteComponentProps } from '@reach/router';
+import React, { useState } from 'react';
+import { Switch } from 'antd';
 
 interface DestInspectorProps extends RouteComponentProps {
 	setDestSelector: (qs: string) => void;
@@ -10,38 +9,37 @@ interface DestInspectorProps extends RouteComponentProps {
 }
 
 const DestInspector = (props: DestInspectorProps) => {
-	const {setDestSelector, destSelector, postMessageToIframe} = props;
+	const { setDestSelector, destSelector, postMessageToIframe } = props;
 	// const [isInspectorEnable, setIsInspectorEnable] = useState(true);
 
-	window.localStorage.setItem("selectorType", "dest")
+	window.localStorage.setItem('selectorType', 'dest');
 
-	const onSwitchChange = (value: Boolean) => {
+	const onSwitchChange = (value: boolean) => {
 		if (value) {
-			if (destSelector)
-				postMessageToIframe('disable-inspector')
+			if (destSelector) postMessageToIframe('disable-inspector');
 			// setIsInspectorEnable(false)
 		} else {
-			postMessageToIframe('enable-inspector')
+			postMessageToIframe('enable-inspector');
 			// setIsInspectorEnable(true)
-			setDestSelector('')
+			setDestSelector('');
 		}
-	}
+	};
 
 	if (destSelector) {
-		onSwitchChange(true)
+		onSwitchChange(true);
 	} else {
-		onSwitchChange(false)
+		onSwitchChange(false);
 	}
 
 	return (
 		<Switch
 			onChange={onSwitchChange}
-			checked={Boolean(destSelector !== "")}
-			loading={Boolean(destSelector === "")}
+			checked={Boolean(destSelector !== '')}
+			loading={Boolean(destSelector === '')}
 			checkedChildren="تغییر المان"
 			unCheckedChildren="انتخاب المان"
 		/>
-	)
-}
+	);
+};
 
 export default DestInspector;

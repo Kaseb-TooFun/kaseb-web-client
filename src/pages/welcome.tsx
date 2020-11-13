@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Link, RouteComponentProps, useNavigate } from "@reach/router";
-import { Button, Row, Typography, Layout } from "antd";
-import { UnlockOutlined } from "@ant-design/icons";
-import Api from "_src/api";
+import React, { useEffect, useState } from 'react';
+import { Link, RouteComponentProps, useNavigate } from '@reach/router';
+import { Button, Row, Typography, Layout } from 'antd';
+import { UnlockOutlined } from '@ant-design/icons';
+import Api from 'src/api';
 const storage = window.localStorage;
 
 const { Content } = Layout;
@@ -12,24 +12,24 @@ interface IProps extends RouteComponentProps {
 	logout?: string;
 }
 
-const welcome = (props: IProps) => {
+const Welcome = (props: IProps) => {
 	const [btnLoading, setBtnLoading] = useState(true);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (props.path == "/logout") {
-			Api.setAuthHeader("");
+		if (props.path == '/logout') {
+			Api.setAuthHeader('');
 			setBtnLoading(false);
 		} else {
-			const token = storage.getItem("authorization") || "";
-			if (token == "") return setBtnLoading(false);
+			const token = storage.getItem('authorization') || '';
+			if (token == '') return setBtnLoading(false);
 
 			Api.auth.verify().then((response) => {
 				if (response.status == 200) {
-					navigate("/dashboard");
+					navigate('/dashboard');
 					// } else if (response.status == 401) {
 				} else {
-					navigate("/logout");
+					navigate('/logout');
 				}
 				setBtnLoading(false);
 			});
@@ -37,10 +37,14 @@ const welcome = (props: IProps) => {
 	}, []);
 
 	return (
-		<Row justify="center" align="middle" style={{ height: "100vh" }}>
+		<Row justify="center" align="middle" style={{ height: '100vh' }}>
 			<Content>
 				<Row justify="center">
-					<img src={"/icons/kaseb.logo.1.png"} width={"350px"}/>
+					<img
+						src={`${process.env.PUBLIC_URL}/icons/kaseb.logo.1.png`}
+						width={'350px'}
+						alt="kaseb logo"
+					/>
 				</Row>
 				{/*<Row justify="center">*/}
 				{/*	<Title level={2}>Welcome to Kaseb</Title>*/}
@@ -48,7 +52,7 @@ const welcome = (props: IProps) => {
 				<Row justify="center">
 					<Link to="/login">
 						<Button
-							className={"kaseb-btn"}
+							className={'kaseb-btn'}
 							type="primary"
 							loading={btnLoading}
 							disabled={btnLoading}
@@ -63,4 +67,4 @@ const welcome = (props: IProps) => {
 	);
 };
 
-export default welcome;
+export default Welcome;

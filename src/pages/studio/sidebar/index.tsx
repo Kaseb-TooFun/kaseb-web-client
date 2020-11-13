@@ -5,36 +5,36 @@ import AddEditReaction from './AddEditReaction';
 
 interface IProps extends RouteComponentProps {
 	configInitialData: {
-		id: string,
-		name: string,
-		goalType: string,
-		goalLink: string,
-		type: string,
+		id: string;
+		name: string;
+		goalType: string;
+		goalLink: string;
+		type: string;
 		values: {
-			title: string,
-			description: string,
-			btnText: string,
-			btnColor: string,
-			bgColor: string,
-			titleColor: string,
-			textColor: string,
-			btnTextColor: string,
-			opacity: string,
-			fontFamily: string,
-			url: string,
-			condition: string,
-			isCloseable: boolean,
-			isRTL: boolean,
-			showOnce: boolean,
-			customStyle: string,
-			template: string,
-			effect: string,
-			sourceSelector: string,
-			destSelector: string,
-			once: boolean,
-			type: string,
-		}
-	}
+			title: string;
+			description: string;
+			btnText: string;
+			btnColor: string;
+			bgColor: string;
+			titleColor: string;
+			textColor: string;
+			btnTextColor: string;
+			opacity: string;
+			fontFamily: string;
+			url: string;
+			condition: string;
+			isCloseable: boolean;
+			isRTL: boolean;
+			showOnce: boolean;
+			customStyle: string;
+			template: string;
+			effect: string;
+			sourceSelector: string;
+			destSelector: string;
+			once: boolean;
+			type: string;
+		};
+	};
 	postMessage: (type: string, payload?: any) => void;
 	websiteId: string;
 	sourceSelector: string;
@@ -43,15 +43,25 @@ interface IProps extends RouteComponentProps {
 	setDestSelector: (s: string) => void;
 	goalSelector: string;
 	setGoalSelector: (s: string) => void;
-	isDemo: boolean,
-	isSidebarCollapsed: boolean,
-	setIsSidebarCollapsed: (v: boolean) => void,
+	isDemo: boolean;
+	isSidebarCollapsed: boolean;
+	setIsSidebarCollapsed: (v: boolean) => void;
 }
 
 const Sidebar = (props: IProps) => {
-	const { configInitialData, postMessage, websiteId, sourceSelector, setSourceSelector,
-		destSelector, setDestSelector, goalSelector, setGoalSelector, isDemo,
-		isSidebarCollapsed, setIsSidebarCollapsed,
+	const {
+		configInitialData,
+		postMessage,
+		websiteId,
+		sourceSelector,
+		setSourceSelector,
+		destSelector,
+		setDestSelector,
+		goalSelector,
+		setGoalSelector,
+		isDemo,
+		isSidebarCollapsed,
+		setIsSidebarCollapsed
 	} = props;
 	// const [mode, setMode] = useState('home');
 	const sidebar = document.querySelector(
@@ -79,12 +89,29 @@ const Sidebar = (props: IProps) => {
 		postMessage('preview-reaction', data);
 
 	return (
-		<div className={`sidebar shadow-lg stick ${isSidebarCollapsed? "sidebar-collapsed": ""}`}
-			 id="my-sidebar">
-			<div style={{position: "fixed", right: "0", margin: "10px", cursor: "pointer"}}
-				onClick={() => {setIsSidebarCollapsed(!isSidebarCollapsed)}}
+		<div
+			className={`sidebar shadow-lg stick ${
+				isSidebarCollapsed ? 'sidebar-collapsed' : ''
+			}`}
+			id="my-sidebar"
+		>
+			<div
+				role="button"
+				style={{
+					position: 'fixed',
+					right: '0',
+					margin: '10px',
+					cursor: 'pointer'
+				}}
+				onClick={() => {
+					setIsSidebarCollapsed(!isSidebarCollapsed);
+				}}
 			>
-				<i className={`chevron circle ${isSidebarCollapsed? "down": "up"} icon`} style={{fontSize: "1.3em"}}
+				<i
+					className={`chevron circle ${
+						isSidebarCollapsed ? 'down' : 'up'
+					} icon`}
+					style={{ fontSize: '1.3em' }}
 				/>
 			</div>
 			<div className="sidebar-inner">
@@ -152,7 +179,6 @@ const Sidebar = (props: IProps) => {
 					configInitialData={configInitialData}
 					isDemo={isDemo}
 				/>
-
 			</div>
 		</div>
 	);

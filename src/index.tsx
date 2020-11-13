@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '_styles/tailwind.generated.css';
-import '_styles/index.scss';
-import App from '_src/App';
-import * as serviceWorker from '_src/serviceWorker';
+import 'src/styles/tailwind.generated.css';
+import 'src/styles/index.scss';
+import App from 'src/App';
+import * as serviceWorker from 'src/serviceWorker';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>,
+	document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

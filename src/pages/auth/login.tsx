@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { Button, Row, Form, Input, message } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { RouteComponentProps, Link, useNavigate } from '@reach/router';
-import Api from '_src/api';
+import Api from 'src/api';
 
 const formItemLayout = {
 	labelCol: { span: 8 },
-	wrapperCol: { span: 8 },
+	wrapperCol: { span: 8 }
 };
 
 const formTailLayout = {
 	labelCol: { span: 8 },
-	wrapperCol: { span: 8, offset: 0, md: { offset: 8 } },
+	wrapperCol: { span: 8, offset: 0, md: { offset: 8 } }
 };
 
 const Login = (props: RouteComponentProps) => {
@@ -49,7 +49,11 @@ const Login = (props: RouteComponentProps) => {
 	return (
 		<>
 			<Row justify="center">
-				<img src={"/icons/kaseb.logo.1.png"} width={"350px"}/>
+				<img
+					src={`${process.env.PUBLIC_URL}/icons/kaseb.logo.1.png`}
+					width="350px"
+					alt="kaseb logo"
+				/>
 			</Row>
 			<Row className="w-screen p-5 pt-10 justify-center items-center">
 				<Form
@@ -67,12 +71,12 @@ const Login = (props: RouteComponentProps) => {
 						rules={[
 							{
 								required: true,
-								message: 'Please input your email!',
+								message: 'Please input your email!'
 							},
 							{
 								type: 'email',
-								message: 'email not valid',
-							},
+								message: 'email not valid'
+							}
 						]}
 					>
 						<Input
@@ -89,8 +93,8 @@ const Login = (props: RouteComponentProps) => {
 						rules={[
 							{
 								required: true,
-								message: 'Please input your password!',
-							},
+								message: 'Please input your password!'
+							}
 						]}
 					>
 						<Input.Password
@@ -108,18 +112,20 @@ const Login = (props: RouteComponentProps) => {
 									htmlType="submit"
 									loading={btnLoading}
 									disabled={
-										!form.isFieldsTouched(true) ||
 										form
 											.getFieldsError()
-											.filter(({ errors }) => errors.length)
-											.length > 0
+											.filter(
+												({ errors }) => errors.length
+											).length > 0
 									}
 									className="login-form-button kaseb-btn"
 								>
 									ورود
 								</Button>
 								<Link to="../sign-up">
-									<span style={{color: "#af9b18"}}>ثبت نام</span>
+									<span style={{ color: '#af9b18' }}>
+										ثبت نام
+									</span>
 								</Link>
 							</Row>
 						)}

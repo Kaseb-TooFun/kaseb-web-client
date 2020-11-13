@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import {Button, Modal} from 'antd';
-import { SketchPicker } from "react-color";
-import { BgColorsOutlined } from "@ant-design/icons"
-import exp from "constants";
+import { Button, Modal } from 'antd';
+import { SketchPicker } from 'react-color';
+import { BgColorsOutlined } from '@ant-design/icons';
+import exp from 'constants';
 
 interface IProps extends RouteComponentProps {
 	setShowModal: (state: boolean) => void;
@@ -11,7 +11,7 @@ interface IProps extends RouteComponentProps {
 }
 
 const StatisticsModal = (props: IProps) => {
-	const {showModal, setShowModal} = props;
+	const { showModal, setShowModal } = props;
 	return (
 		<>
 			<Modal
@@ -22,17 +22,25 @@ const StatisticsModal = (props: IProps) => {
 				onCancel={() => setShowModal(false)}
 			>
 				<div>
-					<p className={"dashboard-text"}>
-						برای مشاهده آمار لازم است چند هفته از اجرای واکنش در وبسایت شما گذشته باشد
+					<p className={'dashboard-text'}>
+						برای مشاهده آمار لازم است چند هفته از اجرای واکنش در
+						وبسایت شما گذشته باشد
 					</p>
-					<p className={"dashboard-text"}>
+					<p className={'dashboard-text'}>
 						بعد از گذشت این مدت آماری مشابه ‌
-						<a style={{color: "#af9b18", padding: "3px 0", textAlign: "right"}}
-							href={"/statistics/action/demo"} target={"_blank"} rel={'noopener noreferrer'}
+						<a
+							style={{
+								color: '#af9b18',
+								padding: '3px 0',
+								textAlign: 'right'
+							}}
+							href={'/statistics/action/demo'}
+							target={'_blank'}
+							rel={'noopener noreferrer'}
 						>
-							<span className={"dashboard-link"} style={{}}>
-								<i className={"chart line icon"}/>
-								  دمو آمار
+							<span className={'dashboard-link'} style={{}}>
+								<i className={'chart line icon'} />
+								دمو آمار
 							</span>
 						</a>
 						‌ در اختیار خواهید داشت
@@ -40,7 +48,7 @@ const StatisticsModal = (props: IProps) => {
 				</div>
 			</Modal>
 		</>
-	)
-}
+	);
+};
 
 export default StatisticsModal;

@@ -1,7 +1,7 @@
-import { instance } from '_src/api/axios-instance';
-import auth from '_src/api/auth';
-import config from '_src/api/config';
-import website from '_src/api/website';
+import { instance } from 'src/api/axios-instance';
+import auth from 'src/api/auth';
+import config from 'src/api/config';
+import website from 'src/api/website';
 const storage = window.localStorage;
 
 class Api {

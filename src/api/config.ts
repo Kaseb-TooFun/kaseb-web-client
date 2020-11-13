@@ -1,13 +1,19 @@
-import { instance } from '_src/api/axios-instance';
+import { instance } from 'src/api/axios-instance';
 
 const getList = (websiteId: string) =>
 	instance.get(`/api/v1/websites/${websiteId}/configs`);
 
 const getItem = (websiteId: string, configId: string) =>
-	instance.get(`/api/v1/websites/${websiteId}/configs/${configId}`)
+	instance.get(`/api/v1/websites/${websiteId}/configs/${configId}`);
 
-const add = (websiteId: string, config: string, name?: string,
-			 goalType?: string, goalLink?: string, goalSelector?: string) =>
+const add = (
+	websiteId: string,
+	config: string,
+	name?: string,
+	goalType?: string,
+	goalLink?: string,
+	goalSelector?: string
+) =>
 	instance.post(`/api/v1/websites/${websiteId}/configs`, {
 		configValues: [config],
 		name: name,
@@ -16,8 +22,15 @@ const add = (websiteId: string, config: string, name?: string,
 		goalLink: goalLink
 	});
 
-const update = (configId: string, websiteId: string, config: string, name: string,
-			 goalType: string, goalLink: string, goalSelector: string) =>
+const update = (
+	configId: string,
+	websiteId: string,
+	config: string,
+	name: string,
+	goalType: string,
+	goalLink: string,
+	goalSelector: string
+) =>
 	instance.put(`/api/v1/websites/${websiteId}/configs/${configId}`, {
 		configValue: config,
 		name: name,

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Button, Popover } from 'antd';
-import { SketchPicker } from "react-color";
-import { BgColorsOutlined } from "@ant-design/icons"
+import { SketchPicker } from 'react-color';
+import { BgColorsOutlined } from '@ant-design/icons';
 
 interface IProps extends RouteComponentProps {
 	onSelect: (color: string) => void;
@@ -30,23 +30,28 @@ const ColorSelector = (props: IProps) => {
 		'#fb9807'
 	];
 
-	useEffect(() => {
-	}, []);
+	useEffect(() => {}, []);
 
 	const onSelect = (item: string) => {
 		props.onSelect(item);
 		// setColor(item);
 	};
 
-	const colorPicker = <SketchPicker
-		  color={color}
-		  onChangeComplete={(color) => {onSelect(color.hex)}}
-	/>;
-	const colorPickerPopover = <Popover placement="right" content={colorPicker} trigger="click">
-        <Button className="color-btn">
-			<BgColorsOutlined style={{color: "black"}}/>
-		</Button>
-      </Popover>
+	const colorPicker = (
+		<SketchPicker
+			color={color}
+			onChangeComplete={(color) => {
+				onSelect(color.hex);
+			}}
+		/>
+	);
+	const colorPickerPopover = (
+		<Popover placement="right" content={colorPicker} trigger="click">
+			<Button className="color-btn">
+				<BgColorsOutlined style={{ color: 'black' }} />
+			</Button>
+		</Popover>
+	);
 
 	return (
 		<div className="color-selector">
@@ -62,7 +67,12 @@ const ColorSelector = (props: IProps) => {
 				);
 			})}
 			{colorPickerPopover}
-			<Button className="color-btn color-show" style={{backgroundColor: color}}>{' '}</Button>
+			<Button
+				className="color-btn color-show"
+				style={{ backgroundColor: color }}
+			>
+				{' '}
+			</Button>
 		</div>
 	);
 };

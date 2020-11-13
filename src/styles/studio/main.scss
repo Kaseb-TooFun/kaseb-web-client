@@ -109,8 +109,8 @@
 
 .btn-save {
 	display: inline-block;
-    float: right;
-    margin: 10px;
+	float: right;
+	margin: 10px;
 }
 
 .steps-content {
@@ -142,17 +142,16 @@ $base-color-dark: #af9b18;
 	margin: 5px 0;
 	color: $base-color-dark;
 	display: block;
-    text-align: right;
+	text-align: right;
 	vertical-align: top;
 }
 
 .trigger-btn {
-
 }
 
 .trigger-added {
 	display: inline-block;
-    margin: 0 5px;
+	margin: 0 5px;
 }
 
 .reaction-option {
@@ -161,14 +160,14 @@ $base-color-dark: #af9b18;
 	margin: 5px 0;
 	color: $base-color-dark;
 	display: inline-block;
-    text-align: center;
+	text-align: center;
 	vertical-align: top;
 }
 
 .form-header {
 	text-align: center;
 	font-weight: bold;
-	font-size: 20px
+	font-size: 20px;
 }
 
 .form-message {
@@ -186,8 +185,8 @@ $base-color-dark: #af9b18;
 .my-input-label {
 	color: $base-color-dark;
 	padding: 5px;
-    font-size: 1em;
-    display: inline-block;
+	font-size: 1em;
+	display: inline-block;
 	text-align: right;
 }
 
@@ -261,7 +260,7 @@ $base-color-dark: #af9b18;
 	border-radius: 10px !important;
 }
 
-.sidebar-collapsed{
+.sidebar-collapsed {
 	height: 50px;
 }
 
@@ -270,7 +269,7 @@ $base-color-dark: #af9b18;
 }
 
 .studio-iframe-zero-margin.iframe-back-mobile-mode {
-	margin-left: calc(100vw/2 - 175px) !important;
+	margin-left: calc(100vw / 2 - 175px) !important;
 }
 
 .iframe-back-desktop-mode {
@@ -279,13 +278,13 @@ $base-color-dark: #af9b18;
 
 .iframe-back-mobile-mode {
 	height: 98% !important;
-    width: 360px !important;
-    margin-left: calc(100vw/2 - 350px) !important;
-    background: #e3dfc3;
-    padding: 15px 5px;
-    scroll-behavior: auto;
-    border-radius: 20px;
-    margin-top: 5px;
+	width: 360px !important;
+	margin-left: calc(100vw / 2 - 350px) !important;
+	background: #e3dfc3;
+	padding: 15px 5px;
+	scroll-behavior: auto;
+	border-radius: 20px;
+	margin-top: 5px;
 	min-width: 380px;
 }
 
@@ -332,9 +331,9 @@ $base-color-dark: #af9b18;
 	border: 1px solid $base-color-light;
 	border-radius: 50%;
 	margin: 10px;
-    font-size: 0.9em;
-    width: 150px;
-    height: 150px;
+	font-size: 0.9em;
+	width: 150px;
+	height: 150px;
 	color: $base-color-dark;
 	vertical-align: bottom;
 }
@@ -353,9 +352,9 @@ $base-color-dark: #af9b18;
 	border: 1px solid $base-color-light;
 	border-radius: 20px;
 	margin: 10px;
-    font-size: 0.9em;
-    width: 150px;
-    height: 150px;
+	font-size: 0.9em;
+	width: 150px;
+	height: 150px;
 	color: $base-color-dark;
 	vertical-align: bottom;
 }

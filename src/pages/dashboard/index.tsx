@@ -1,18 +1,29 @@
-import React, {Component, useEffect, useState} from "react";
-import {RouteComponentProps, Link, Router, useNavigate, navigate} from "@reach/router";
-import {Row, Menu, Layout, Typography, Popover, Button, message, Modal} from "antd";
+import React, { Component, useEffect, useState } from 'react';
 import {
-	PlusOutlined,
-	UnorderedListOutlined
-} from '@ant-design/icons';
-import Websites from "_src/pages/dashboard/websites";
-import Api from '_src/api';
-import Actions from "_pages/dashboard/actions";
-import TopBarHeader from "_pages/components/TopBarHeader";
+	RouteComponentProps,
+	Link,
+	Router,
+	useNavigate,
+	navigate
+} from '@reach/router';
+import {
+	Row,
+	Menu,
+	Layout,
+	Typography,
+	Popover,
+	Button,
+	message,
+	Modal
+} from 'antd';
+import { PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import Websites from 'src/pages/dashboard/websites';
+import Api from 'src/api';
+import Actions from 'src/pages/dashboard/actions';
+import TopBarHeader from 'src/pages/components/TopBarHeader';
 const { Content } = Layout;
 const { Title } = Typography;
-const darkBaseColor = "#af9b18";
-
+const darkBaseColor = '#af9b18';
 
 const DashboardContent = (props: RouteComponentProps) => {
 	// const [websites, setWebsites] = useState([])
@@ -22,7 +33,7 @@ const DashboardContent = (props: RouteComponentProps) => {
 
 	useEffect(() => {
 		// fetchWebsites()
-	}, [])
+	}, []);
 
 	// const fetchWebsites = () => {
 	// 	Api.website.getList().then((response) => {
@@ -44,48 +55,44 @@ const DashboardContent = (props: RouteComponentProps) => {
 	// 	document.execCommand('copy');
 	// };
 
-// 	const codeModal = <Modal
-// 			title="Script"
-// 			footer={null}
-// 			visible={isVisible}
-// 			onOk={() => setVisible(false)}
-// 			onCancel={() => setVisible(false)}
-// 		>
-// 			<textarea id="my-script" style={{ width: '100%' }} rows={5}>
-// 				{`<!-- KESEB.XYZ -->
-// <script src="${document.location.href.replace(
-// 					document.location.pathname,
-// 					`/kio.js?id=${websiteId}`
-// 				)}" defer></script>
-// <!-- KESEB.XYZ -->`}
-// 			</textarea>
-// 			<Button onClick={copy}>کپی</Button>
-// 		</Modal>
+	// 	const codeModal = <Modal
+	// 			title="Script"
+	// 			footer={null}
+	// 			visible={isVisible}
+	// 			onOk={() => setVisible(false)}
+	// 			onCancel={() => setVisible(false)}
+	// 		>
+	// 			<textarea id="my-script" style={{ width: '100%' }} rows={5}>
+	// 				{`<!-- KESEB.XYZ -->
+	// <script src="${document.location.href.replace(
+	// 					document.location.pathname,
+	// 					`/kio.js?id=${websiteId}`
+	// 				)}" defer></script>
+	// <!-- KESEB.XYZ -->`}
+	// 			</textarea>
+	// 			<Button onClick={copy}>کپی</Button>
+	// 		</Modal>
 
-	const toWebsitesButtons = <>
-		<div style={{marginBottom: "10px"}}>
-			<Link to="/dashboard/websites#add_website">
-				<Button
-					className="mr-3 dashboard-btn"
-					type="primary"
-				>
-					اضافه کردن وبسایت
-					<i className={"plus icon"}/>
-				</Button>
-			</Link>
-		</div>
-		<div>
-			<Link to="/dashboard/websites/">
-				<Button
-					className="mr-3 dashboard-btn"
-					type="primary"
-				>
-					مدیریت وبسایت‌ها
-					<i className={"window maximize icon"}/>
-				</Button>
-			</Link>
-		</div>
-	</>
+	const toWebsitesButtons = (
+		<>
+			<div style={{ marginBottom: '10px' }}>
+				<Link to="/dashboard/websites#add_website">
+					<Button className="mr-3 dashboard-btn" type="primary">
+						اضافه کردن وبسایت
+						<i className={'plus icon'} />
+					</Button>
+				</Link>
+			</div>
+			<div>
+				<Link to="/dashboard/websites/">
+					<Button className="mr-3 dashboard-btn" type="primary">
+						مدیریت وبسایت‌ها
+						<i className={'window maximize icon'} />
+					</Button>
+				</Link>
+			</div>
+		</>
+	);
 
 	return (
 		<Content className="w-screen pt-10">
@@ -94,47 +101,70 @@ const DashboardContent = (props: RouteComponentProps) => {
 
 				{/*{codeModal}*/}
 
-				<div style={{
-					borderRadius: "10px", border: `1px solid ${darkBaseColor}`, padding: "2%",
-					width: "90%", textAlign: "center", minHeight: "150px", marginBottom: "30px",
-					paddingTop: "30px", backgroundColor: "#fcfaf1",
-				}}
+				<div
+					style={{
+						borderRadius: '10px',
+						border: `1px solid ${darkBaseColor}`,
+						padding: '2%',
+						width: '90%',
+						textAlign: 'center',
+						minHeight: '150px',
+						marginBottom: '30px',
+						paddingTop: '30px',
+						backgroundColor: '#fcfaf1'
+					}}
 				>
-					<p className={"dashboard-text"} style={{fontSize: "2em"}}>
+					<p className={'dashboard-text'} style={{ fontSize: '2em' }}>
 						به پیشخوان مدیریت کاسب خوش آمدید
 					</p>
-					<p className={"dashboard-text"}>
-						جاییکه می‌توانید برای وبسایت‌های خود اهداف تعیین کنید و واکنش مناسب را به کاربران نمایش دهید
+					<p className={'dashboard-text'}>
+						جاییکه می‌توانید برای وبسایت‌های خود اهداف تعیین کنید و
+						واکنش مناسب را به کاربران نمایش دهید
 					</p>
-					<p className={"dashboard-text"}>
+					<p className={'dashboard-text'}>
 						در ‌
-						<a style={{color: "#af9b18", padding: "3px 0", textAlign: "right"}}
-							href={"/studio/demo"} target={"_blank"} rel={'noopener noreferrer'}
+						<a
+							style={{
+								color: '#af9b18',
+								padding: '3px 0',
+								textAlign: 'right'
+							}}
+							href={'/studio/demo'}
+							target={'_blank'}
+							rel={'noopener noreferrer'}
 						>
-							<span className={"dashboard-link"} style={{}}>
-								<i className={"eye icon"}/>
-								  دمو کارگاه واکنش
+							<span className={'dashboard-link'} style={{}}>
+								<i className={'eye icon'} />
+								دمو کارگاه واکنش
 							</span>
 						</a>
 						‌ می‌توانید با نحوه ساخت هدف و واکنش آشنا شوید
 					</p>
-					<p className={"dashboard-text"}>
+					<p className={'dashboard-text'}>
 						مدتی پس از اجرای واکنش در وبسایت‌تان آماری مشابه ‌
-						<a style={{color: "#af9b18", padding: "3px 0", textAlign: "right"}}
-							href={"/statistics/action/demo"} target={"_blank"} rel={'noopener noreferrer'}
+						<a
+							style={{
+								color: '#af9b18',
+								padding: '3px 0',
+								textAlign: 'right'
+							}}
+							href={'/statistics/action/demo'}
+							target={'_blank'}
+							rel={'noopener noreferrer'}
 						>
-							<span className={"dashboard-link"} style={{}}>
-								<i className={"chart line icon"}/>
-								  دمو آمار
+							<span className={'dashboard-link'} style={{}}>
+								<i className={'chart line icon'} />
+								دمو آمار
 							</span>
 						</a>
 						‌ در اختیار خواهید داشت
 					</p>
 
-					<div style={{display: "inline-block"}}>
+					<div style={{ display: 'inline-block' }}>
 						<img
 							// style={{width: "100%"}}
-							src={"/images/no-goal.png"}
+							alt="no goal"
+							src={'/images/no-goal.png'}
 						/>
 					</div>
 
@@ -210,7 +240,6 @@ const DashboardContent = (props: RouteComponentProps) => {
 					{/*		<i className="huge circle notch loading icon"/>*/}
 					{/*	</div>*/}
 					{/*}*/}
-
 				</div>
 			</Row>
 		</Content>
@@ -218,13 +247,12 @@ const DashboardContent = (props: RouteComponentProps) => {
 };
 
 const Dashboard = (props: RouteComponentProps) => {
-
-	const myHeader = <TopBarHeader/>
+	const myHeader = <TopBarHeader />;
 	return (
 		<>
 			{myHeader}
-			<Row className="w-screen" style={{width: "100%"}} >
-				<Router style={{width: "100%"}}>
+			<Row className="w-screen" style={{ width: '100%' }}>
+				<Router style={{ width: '100%' }}>
 					<DashboardContent path="/" />
 					<Websites path="/websites" />
 					<Actions path="/actions/:websiteId" />

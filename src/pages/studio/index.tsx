@@ -7,8 +7,8 @@ import {
 	UnorderedListOutlined
 } from '@ant-design/icons';
 import Sidebar from './sidebar';
-import Api from '_src/api';
-import TopBarHeader from '_pages/components/TopBarHeader';
+import Api from 'src/api';
+import TopBarHeader from 'src/pages/components/TopBarHeader';
 
 const { Content } = Layout;
 
@@ -93,7 +93,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 		false
 	);
 
-	let configId = params.configId;
+	const configId = params.configId;
 
 	useEffect(() => {
 		if (iframeUrl) window.addEventListener('message', onReceiveMessage);
@@ -125,7 +125,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 					.getItem(params.websiteId, configId)
 					.then((response) => {
 						if (response.status == 200) {
-							let itemData = response.data as {
+							const itemData = response.data as {
 								value: string;
 								id: string;
 								name: string;
@@ -133,7 +133,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 								goalLink: string;
 								goalSelector: string;
 							};
-							let configValues = JSON.parse(itemData.value) as {
+							const configValues = JSON.parse(itemData.value) as {
 								type: string;
 								data: {
 									title: string;
@@ -233,7 +233,9 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 
 			case 'select-item':
 				onInspected.run(payload);
-				let selectorType = window.localStorage.getItem('selectorType');
+				const selectorType = window.localStorage.getItem(
+					'selectorType'
+				);
 				switch (selectorType) {
 					case 'source':
 						setSourceSelector(payload);
@@ -255,7 +257,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 		}
 	};
 
-	let myHeader0 = (
+	const myHeader0 = (
 		<div className="my-header" style={{}}>
 			<div style={{ float: 'left', margin: '12px 5px' }}>
 				<div style={{ cursor: 'pointer', fontSize: '1.2em' }}>
@@ -265,6 +267,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 						content={
 							<div style={{ color: '#af9b18' }}>
 								<div
+									role="button"
 									style={{ cursor: 'pointer' }}
 									onClick={() =>
 										navigate('/logout', { replace: true })
@@ -316,6 +319,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 									حالت نمایش
 								</div>
 								<div
+									role="button"
 									style={{
 										cursor: 'pointer',
 										color: '#af9b18',
@@ -330,6 +334,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 									دسکتاپ
 								</div>
 								<div
+									role="button"
 									style={{
 										cursor: 'pointer',
 										color: '#af9b18',
@@ -446,7 +451,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 						.map((str, index) => {
 							return (
 								<Breadcrumb.Item key={index}>
-									<a href="#">{str}</a>
+									<a href="#main">{str}</a>
 								</Breadcrumb.Item>
 							);
 						})}
@@ -477,6 +482,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 				>
 					{isApiFetched && iframeUrl && (
 						<iframe
+							title="website"
 							id="my-iframe"
 							src={iframeUrl + '?ignore_saved_reactions=true'}
 							className={`iframe-${displayMode}-mode ${

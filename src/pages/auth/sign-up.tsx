@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { Button, Row, Form, Input, message } from "antd";
-import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
-import { RouteComponentProps, Link, useNavigate } from "@reach/router";
-import Api from "_src/api";
+import React, { useState } from 'react';
+import { Button, Row, Form, Input, message } from 'antd';
+import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { RouteComponentProps, Link, useNavigate } from '@reach/router';
+import Api from 'src/api';
 
 const formItemLayout = {
 	labelCol: { span: 8 },
-	wrapperCol: { span: 8 },
+	wrapperCol: { span: 8 }
 };
 
 const formTailLayout = {
 	labelCol: { span: 8 },
-	wrapperCol: { span: 8, offset: 0, md: { offset: 8 } },
+	wrapperCol: { span: 8, offset: 0, md: { offset: 8 } }
 };
 
 const SignUp = (props: RouteComponentProps) => {
@@ -22,17 +22,17 @@ const SignUp = (props: RouteComponentProps) => {
 	const onFinish = () => {
 		setBtnLoading(true);
 		const { username, password } = form.getFieldsValue([
-			"username",
-			"password",
+			'username',
+			'password'
 		]);
 
 		Api.auth.signup(username, password).then((resposnse) => {
 			if (resposnse.status == 200) {
 				Api.setAuthHeader(resposnse.data.token);
-				message.success("ثبت نام با موفقیت انجام شد", 1);
-				message.loading("در حال انتقال به صفحه پیشخوان", 1).then(
+				message.success('ثبت نام با موفقیت انجام شد', 1);
+				message.loading('در حال انتقال به صفحه پیشخوان', 1).then(
 					() => {
-						navigate("dashboard", { replace: true });
+						navigate('dashboard', { replace: true });
 					},
 					() => {}
 				);
@@ -40,20 +40,24 @@ const SignUp = (props: RouteComponentProps) => {
 				message.error(resposnse.data.errorMessage);
 				setBtnLoading(false);
 			} else {
-				message.error("ثبت نام به اتمام نرسید. لطفا مجددا تلاش نمایید");
+				message.error('ثبت نام به اتمام نرسید. لطفا مجددا تلاش نمایید');
 				setBtnLoading(false);
 			}
 		});
 	};
 
 	const onFinishFailed = () => {
-		message.error("please fill the form with valid data");
+		message.error('please fill the form with valid data');
 	};
 
 	return (
 		<Row className="w-screen h-screen p-5 justify-center items-center">
 			{/*<Row justify="center">*/}
-				<img src={"/icons/kaseb.logo.1.png"} width={"350px"}/>
+			<img
+				src={`${process.env.PUBLIC_URL}/icons/kaseb.logo.1.png`}
+				width={'350px'}
+				alt="kaseb logo"
+			/>
 			{/*</Row>*/}
 			<Form
 				name="login-form"
@@ -70,12 +74,12 @@ const SignUp = (props: RouteComponentProps) => {
 					rules={[
 						{
 							required: true,
-							message: "Please input your email!",
+							message: 'Please input your email!'
 						},
 						{
-							type: "email",
-							message: "email not valid",
-						},
+							type: 'email',
+							message: 'email not valid'
+						}
 					]}
 				>
 					<Input
@@ -92,8 +96,8 @@ const SignUp = (props: RouteComponentProps) => {
 					rules={[
 						{
 							required: true,
-							message: "Please input your password!",
-						},
+							message: 'Please input your password!'
+						}
 					]}
 				>
 					<Input.Password
@@ -107,26 +111,26 @@ const SignUp = (props: RouteComponentProps) => {
 					{...formItemLayout}
 					name="confirm"
 					label="Confirm Password"
-					dependencies={["password"]}
+					dependencies={['password']}
 					hasFeedback
 					rules={[
 						{
 							required: true,
-							message: "Please confirm your password!",
+							message: 'Please confirm your password!'
 						},
 						({ getFieldValue }) => ({
 							validator(rule, value) {
 								if (
 									!value ||
-									getFieldValue("password") === value
+									getFieldValue('password') === value
 								) {
 									return Promise.resolve();
 								}
 								return Promise.reject(
-									"The two passwords that you entered do not match!"
+									'The two passwords that you entered do not match!'
 								);
-							},
-						}),
+							}
+						})
 					]}
 				>
 					<Input.Password
@@ -155,7 +159,9 @@ const SignUp = (props: RouteComponentProps) => {
 								ثبت نام
 							</Button>
 							<Link to="../login">
-								<span style={{color: "#af9b18"}}>بازگشت به صفحه ورود</span>
+								<span style={{ color: '#af9b18' }}>
+									بازگشت به صفحه ورود
+								</span>
 							</Link>
 						</Row>
 					)}

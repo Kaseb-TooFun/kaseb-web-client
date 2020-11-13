@@ -1,11 +1,11 @@
-import React from "react";
-import { render } from "@testing-library/react";
+import React from 'react';
+import { render } from '@testing-library/react';
 import {
 	createHistory,
 	createMemorySource,
-	LocationProvider,
-} from "@reach/router";
-import "@testing-library/jest-dom/extend-expect";
+	LocationProvider
+} from '@reach/router';
+import '@testing-library/jest-dom/extend-expect';
 // import App from "../app";
 
 // // this is a handy function that I would utilize for any component
@@ -23,7 +23,7 @@ import "@testing-library/jest-dom/extend-expect";
 // 	};
 // }
 
-test("fake test", async () => {
+test('fake test', async () => {
 	// const {
 	// 	container,
 	// 	history: { navigate },
@@ -31,5 +31,5 @@ test("fake test", async () => {
 	// const appContainer = container;
 	// normally I'd use a data-testid, but just wanted to show this is also possible
 	// expect(appContainer.innerHTML).toMatch("");
-	expect('').toMatch("");
+	expect('').toMatch('');
 });

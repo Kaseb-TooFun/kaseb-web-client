@@ -17,10 +17,10 @@ import {
 	PlusOutlined,
 	UnorderedListOutlined
 } from '@ant-design/icons';
+import Api from 'src/api';
+import StatisticsModal from 'src/pages/dashboard/components/StatisticsModal';
 const { Column } = Table;
 const { Title } = Typography;
-import Api from '_src/api';
-import StatisticsModal from '_pages/dashboard/components/StatisticsModal';
 
 const WebsiteTable = ({
 	data,

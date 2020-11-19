@@ -71,7 +71,6 @@ nl-deploy:
 arvan-deploy:
   stage: deploy
   script:
-    - arvan paas get pods
     - arvan paas scale deployment dev-client --replicas=0
     - arvan paas scale deployment dev-client --replicas=1
   rules:

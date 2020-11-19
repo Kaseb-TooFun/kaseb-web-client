@@ -70,11 +70,8 @@ nl-deploy:
 
 arvan-deploy:
   stage: deploy
-  image: mormoroth/arvancli
   script:
-    - echo -e "$ARVAN_CLI_TOKEN\n"
-    - echo -e "$ARVAN_CLI_TOKEN\n" | arvan login
-    - arvan paas status
+    - arvan paas get pods
   rules:
     - if: $CI_COMMIT_TAG
     - if: '$CI_PIPELINE_SOURCE == "web"'

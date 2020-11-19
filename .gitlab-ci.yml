@@ -79,4 +79,6 @@ arvan-deploy:
     - if: $CI_COMMIT_TAG
     - if: '$CI_PIPELINE_SOURCE == "web"'
     - if: '$CI_PIPELINE_SOURCE == "chat"'
+  tags:
+    - nl1
 

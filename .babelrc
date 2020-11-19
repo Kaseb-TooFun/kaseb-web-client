@@ -1,1 +1,20 @@
-{}
+{
+	"plugins": [
+		"@emotion",
+		[
+			"babel-plugin-jsx-pragmatic",
+			{
+				"module": "@emotion/react",
+				"export": "jsx",
+				"import": "jsx"
+			}
+		],
+		["@babel/plugin-transform-react-jsx", { "pragma": "jsx" }]
+	],
+	"presets": ["@emotion/babel-preset-css-prop"],
+	"env": {
+		"production": {
+			"plugins": ["transform-remove-console"]
+		}
+	}
+}

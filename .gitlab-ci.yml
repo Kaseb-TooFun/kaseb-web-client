@@ -54,16 +54,29 @@ docker-tag:
   rules:
     - if: $CI_COMMIT_TAG
 
-nl-deploy:
+# nl-deploy:
+#   stage: deploy
+#   script:
+#     - whoami
+#     - sudo docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+#     - sudo docker-compose -f /docker-compose.yml pull client
+#     - sudo docker-compose -f /docker-compose.yml up -d
+#   rules:
+#     - if: $CI_COMMIT_TAG
+#     - if: '$CI_PIPELINE_SOURCE == "web"'
+#     - if: '$CI_PIPELINE_SOURCE == "chat"'
+#   tags:
+#     - nl1
+
+arvan-deploy:
   stage: deploy
   script:
-    - whoami
-    - sudo docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - sudo docker-compose -f /docker-compose.yml pull client
-    - sudo docker-compose -f /docker-compose.yml up -d
+    - arvan paas scale deployment dev-client --replicas=0
+    - arvan paas scale deployment dev-client --replicas=1
   rules:
     - if: $CI_COMMIT_TAG
     - if: '$CI_PIPELINE_SOURCE == "web"'
     - if: '$CI_PIPELINE_SOURCE == "chat"'
   tags:
     - nl1
+

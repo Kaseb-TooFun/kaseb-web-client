@@ -5,9 +5,9 @@ import {
 	Line as LineChart,
 	defaults as chartJsDefaults
 } from 'react-chartjs-2';
-import moment from 'jalali-moment';
+import moment from 'moment-jalaali';
 import { Button, Row, Col, Tabs, Divider } from 'antd';
-import TopBarHeader from 'src/pages/components/TopBarHeader';
+import TopHeader from 'src/pages/components/TopHeader';
 
 const darkBaseColor = '#af9b18';
 chartJsDefaults.global.defaultFontFamily = 'iranyekan';
@@ -111,7 +111,7 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 		}
 	}, []);
 
-	const myHeader = <TopBarHeader />;
+	const myHeader = <TopHeader />;
 
 	/// display and execute counts
 

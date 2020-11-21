@@ -3,6 +3,7 @@ import { Link, RouteComponentProps, useNavigate } from '@reach/router';
 import { Button, Row, Typography, Layout } from 'antd';
 import { UnlockOutlined } from '@ant-design/icons';
 import Api from 'src/api';
+import { saveUserToken } from 'src/utils/user';
 const storage = window.localStorage;
 
 const { Content } = Layout;
@@ -18,7 +19,7 @@ const Welcome = (props: IProps) => {
 
 	useEffect(() => {
 		if (props.path == '/logout') {
-			Api.setAuthHeader('');
+			saveUserToken('');
 			setBtnLoading(false);
 		} else {
 			const token = storage.getItem('authorization') || '';
@@ -46,9 +47,6 @@ const Welcome = (props: IProps) => {
 						alt="kaseb logo"
 					/>
 				</Row>
-				{/*<Row justify="center">*/}
-				{/*	<Title level={2}>Welcome to Kaseb</Title>*/}
-				{/*</Row>*/}
 				<Row justify="center">
 					<Link to="/login">
 						<Button

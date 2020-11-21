@@ -258,17 +258,6 @@ const Actions = (props: RouteComponentProps) => {
 					fetchConfigList={fetchConfigList}
 				/>
 			</Card>
-			<iframe
-				title="iframe"
-				id="my-iframe"
-				src={iframeUrl}
-				style={{
-					width: '90%',
-					height: '600px',
-					border: '1px solid #000',
-					margin: '1px'
-				}}
-			/>
 		</div>
 	);
 };

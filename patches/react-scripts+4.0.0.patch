@@ -1,0 +1,24 @@
+diff --git a/node_modules/react-scripts/lib/react-app.d.ts b/node_modules/react-scripts/lib/react-app.d.ts
+index 624c875..02f4d2b 100644
+--- a/node_modules/react-scripts/lib/react-app.d.ts
++++ b/node_modules/react-scripts/lib/react-app.d.ts
+@@ -47,12 +47,15 @@ declare module '*.webp' {
+ declare module '*.svg' {
+   import * as React from 'react';
+ 
+-  export const ReactComponent: React.FunctionComponent<React.SVGProps<
++  const content: React.FunctionComponent<React.SVGProps<
+     SVGSVGElement
+-  > & { title?: string }>;
++  > & {
++	  title?: string;
++	  fill?: string;
++	  fillsecond?: string;
++	}>;
+ 
+-  const src: string;
+-  export default src;
++  export default content;
+ }
+ 
+ declare module '*.module.css' {

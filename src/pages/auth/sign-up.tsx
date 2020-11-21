@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Button, Row, Form, Input, message } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { RouteComponentProps, Link, useNavigate } from '@reach/router';
-import Api from 'src/api';
+import Api, { setAxiosToken } from 'src/api';
+import { saveUserToken } from 'src/utils/user';
 
 const formItemLayout = {
 	labelCol: { span: 8 },
@@ -28,7 +29,8 @@ const SignUp = (props: RouteComponentProps) => {
 
 		Api.auth.signup(username, password).then((resposnse) => {
 			if (resposnse.status == 200) {
-				Api.setAuthHeader(resposnse.data.token);
+				saveUserToken(resposnse.data.token);
+				setAxiosToken(resposnse.data.token);
 				message.success('ثبت نام با موفقیت انجام شد', 1);
 				message.loading('در حال انتقال به صفحه پیشخوان', 1).then(
 					() => {

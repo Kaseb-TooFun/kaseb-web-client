@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Button, Row, Form, Input, message } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { RouteComponentProps, Link, useNavigate } from '@reach/router';
-import Api from 'src/api';
+import Api, { setAxiosToken } from 'src/api';
+import { saveUserToken } from 'src/utils/user';
 
 const formItemLayout = {
 	labelCol: { span: 8 },
@@ -24,7 +25,8 @@ const Login = (props: RouteComponentProps) => {
 		const { email, password } = form.getFieldsValue(['email', 'password']);
 		Api.auth.login(email, password).then((resposnse) => {
 			if (resposnse.status == 200) {
-				Api.setAuthHeader(resposnse.data.token);
+				saveUserToken(resposnse.data.token);
+				setAxiosToken(resposnse.data.token);
 				message.success('ورود با موفقیت انجام شد', 1);
 				message.loading('در حال هدایت به صفحه پیشخوان', 1).then(
 					() => {

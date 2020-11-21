@@ -1,12 +1,12 @@
-import { instance } from 'src/api/axios-instance';
+import { instance } from 'src/api/instance';
 
-const getList = (websiteId: string) =>
+export const getList = (websiteId: string) =>
 	instance.get(`/api/v1/websites/${websiteId}/configs`);
 
-const getItem = (websiteId: string, configId: string) =>
+export const getItem = (websiteId: string, configId: string) =>
 	instance.get(`/api/v1/websites/${websiteId}/configs/${configId}`);
 
-const add = (
+export const add = (
 	websiteId: string,
 	config: string,
 	name?: string,
@@ -22,7 +22,7 @@ const add = (
 		goalLink: goalLink
 	});
 
-const update = (
+export const update = (
 	configId: string,
 	websiteId: string,
 	config: string,
@@ -39,13 +39,5 @@ const update = (
 		goalLink: goalLink
 	});
 
-const remove = (configId: string, websiteId: string) =>
+export const remove = (configId: string, websiteId: string) =>
 	instance.delete(`/api/v1/websites/${websiteId}/configs/${configId}`);
-
-export default {
-	getList,
-	getItem,
-	add,
-	update,
-	remove
-};

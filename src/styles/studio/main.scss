@@ -54,10 +54,13 @@
 }
 
 .my-header {
-	height: 65px;
-	border-bottom: 1px solid #e4ce3f;
-	background-color: #ffffff;
-	padding: 0 20px;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	align-items: center;
+	box-shadow: 0 5px 10px 0 rgba(29, 53, 87, 0.1);
+	background-color: #fff;
+	padding: 10px 20px;
 }
 
 .my-header-item {
@@ -313,8 +316,14 @@ $base-color-dark: #af9b18;
 	}
 }
 
-.my-header-item-title:hover {
+.my-header-item-title {
 	color: $base-color-dark;
+	margin-right: 5px;
+	font-size: 16px;
+}
+
+.my-header-item-title:hover {
+	color: $base-color-light;
 }
 
 .dashboard-website-row:hover {

@@ -1,21 +1,15 @@
-import { instance } from 'src/api/axios-instance';
+import { instance } from 'src/api/instance';
 
-const verify = () => instance.get('/api/v1/users/websites');
+export const verify = () => instance.get('/api/v1/users/websites');
 
-const login = (username: string, password: string) =>
+export const login = (username: string, password: string) =>
 	instance.post('/api/v1/authenticate/login', {
 		username,
 		password
 	});
 
-const signup = (username: string, password: string) =>
+export const signup = (username: string, password: string) =>
 	instance.post('api/v1/authenticate/signup', {
 		username,
 		password
 	});
-
-export default {
-	verify,
-	login,
-	signup
-};

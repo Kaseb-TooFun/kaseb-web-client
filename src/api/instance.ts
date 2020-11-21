@@ -1,10 +1,9 @@
 import axios from 'axios';
 const AXIOS_LOG_RESPONSE = process.env.NODE_ENV !== 'production';
 const AXIOS_LOG_REQUEST = process.env.NODE_ENV !== 'production';
-const AXIOS_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const instance = axios.create({
-	baseURL: AXIOS_BASE_URL,
+	baseURL: process.env.REACT_APP_BASE_URL,
 	timeout: 30000,
 	headers: {
 		'Content-Type': 'application/json',

@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link, RouteComponentProps, useNavigate } from '@reach/router';
 import Logo from 'src/logo.svg';
-import { Button, Popover } from 'antd';
+import { Popover } from 'antd';
 import { AppstoreTwoTone, HomeTwoTone } from '@ant-design/icons';
 import Api from 'src/api';
 import { css } from '@emotion/react';
 
 interface TopHeaderProps extends RouteComponentProps {
-	extraRightMenuItems?: JSX.Element;
 	extraLeftMenuItems?: JSX.Element;
 }
 
 const TopHeader = (props: TopHeaderProps) => {
-	const { extraRightMenuItems, extraLeftMenuItems } = props;
+	const { extraLeftMenuItems } = props;
 
 	const navigate = useNavigate();
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -38,10 +37,9 @@ const TopHeader = (props: TopHeaderProps) => {
 					flex: 1;
 					display: flex;
 					justify-content: flex-end;
-					padding: 0 20px;
+					padding: 0 20px 0 0;
 				`}
 			>
-				{extraRightMenuItems}
 				{extraLeftMenuItems}
 				<Link
 					to="/dashboard/websites"

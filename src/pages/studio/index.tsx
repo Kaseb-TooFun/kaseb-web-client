@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RouteComponentProps, useParams, navigate, Link } from '@reach/router';
-import { Layout, Breadcrumb, Popover, Dropdown, Menu } from 'antd';
+import { Layout, Breadcrumb, Popover, Dropdown, Menu, message } from 'antd';
 import {
 	UnorderedListOutlined,
 	DesktopOutlined,
@@ -67,13 +67,8 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 			type: ''
 		}
 	});
-	const [isApiFetched, setIsApiFetched] = useState(Boolean(isDemo || false));
-	const [isModuleLoaded, setIsModuleLoaded] = useState(Boolean(false));
-	const [pendingMessage, setPendingMessage] = useState(
-		!isDemo
-			? 'در حال دریافت اطلاعات'
-			: 'در حال یافتن کد کاسب در صفحه مورد نظر'
-	);
+	const [isApiFetched, setIsApiFetched] = useState(isDemo || false);
+	const [isModuleLoaded, setIsModuleLoaded] = useState(false);
 	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
 	const publicUrl = document.location.href.substr(
@@ -85,11 +80,12 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 	);
 	const [href, setHref] = useState(!isDemo ? '' : `${publicUrl}/demopage`);
 	// const breadcrumb = href.split('?')[0].split('/');
+	const iRef = useRef<HTMLIFrameElement>(null);
 	const [sourceSelector, setSourceSelector] = useState('');
 	const [destSelector, setDestSelector] = useState('');
 	const [goalSelector, setGoalSelector] = useState('');
 	const [displayMode, setDisplayMode] = useState('desktop');
-
+	const [isIframeLoading, setIsIframeLoading] = useState(true);
 	const configId = params.configId;
 
 	useEffect(() => {
@@ -102,18 +98,19 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 	}, [iframeUrl]);
 
 	const fetchConfigList = () => {
+		message.loading('در حال دریافت اطلاعات', 1);
 		if (params.websiteId !== 'demo') {
 			Api.website.getWebsite(params.websiteId).then((response) => {
 				if (response.status == 200) {
 					// setData(response.data.website.configs);
 					setIframeUrl(response.data.website.url);
 					if (!configId) {
-						setPendingMessage(
+						message.loading(
 							'در حال یافتن کد کاسب در صفحه مورد نظر'
 						);
 					}
 				} else {
-					setPendingMessage('وبسایت پیدا نشد');
+					message.error('وبسایت پیدا نشد');
 				}
 				setIsApiFetched(true);
 			});
@@ -194,11 +191,11 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 								// }
 							});
 
-							setPendingMessage(
+							message.loading(
 								'در حال یافتن کد کاسب در صفحه مورد نظر'
 							);
 						} else {
-							setPendingMessage('واکنش یافت نشد');
+							message.error('واکنش یافت نشد');
 						}
 						setIsApiFetched(true);
 					});
@@ -207,9 +204,11 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 	};
 
 	const postMessageToIframe = (type: string, payload?: any) => {
-		const frame = document.getElementById('my-iframe') as HTMLIFrameElement;
-		if (iframeUrl)
-			frame.contentWindow?.postMessage({ type, payload }, iframeUrl);
+		if (iRef.current?.src)
+			iRef.current?.contentWindow?.postMessage(
+				{ type, payload },
+				iframeUrl
+			);
 	};
 
 	const onReceiveMessage = (message: MessageEvent) => {
@@ -254,33 +253,6 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 		}
 	};
 
-	const extraRightMenuItems = (
-		<>
-			<div
-				className={`my-header-item`}
-				style={{ float: 'right', margin: '15px 8px' }}
-			>
-				<div
-					style={{
-						color: '#af9b18',
-						direction: 'rtl',
-						display:
-							isApiFetched && isModuleLoaded
-								? 'none'
-								: 'inline-block'
-					}}
-				>
-					<i className={'big spinner loading icon'} style={{}} />
-					<span
-						className={'hide-in-mobile'}
-						style={{ color: 'black', fontWeight: 'bold' }}
-					>
-						{pendingMessage}
-					</span>
-				</div>
-			</div>
-		</>
-	);
 	const extraLeftMenuItems = (
 		<>
 			<div
@@ -298,13 +270,14 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 						flex: 1;
 						display: flex;
 						align-items: center;
-						padding: 0 15px;
+						padding: 0 15px 0 5px;
 						height: 32px;
 						border-radius: 16px;
 						background-color: #eee;
 					`}
 				>
-					<code>{href}</code>
+					{isIframeLoading && <i className="spinner loading icon" />}
+					<code className="ml-2">{href}</code>
 				</div>
 				{/* <Breadcrumb style={{ fontSize: '1.2em' }}>
 					{href
@@ -393,10 +366,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 			className="h-screen"
 			style={{ backgroundColor: 'white' }}
 		>
-			<TopHeader
-				extraRightMenuItems={extraRightMenuItems}
-				extraLeftMenuItems={extraLeftMenuItems}
-			/>
+			<TopHeader extraLeftMenuItems={extraLeftMenuItems} />
 			<Content className="content h-screen w-screen">
 				<div
 					className={`iframe-back-${displayMode}-mode ${
@@ -405,6 +375,7 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 				>
 					{isApiFetched && iframeUrl && (
 						<iframe
+							ref={iRef}
 							title="website"
 							id="my-iframe"
 							src={iframeUrl + '?ignore_saved_reactions=true'}
@@ -413,6 +384,9 @@ const StudioAddEdit = (props: RouteComponentProps) => {
 									? 'studio-iframe-full-width'
 									: ''
 							}`}
+							onLoad={() => {
+								setIsIframeLoading(false);
+							}}
 						/>
 					)}
 				</div>

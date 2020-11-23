@@ -78,7 +78,7 @@ const DashboardContent = (props: RouteComponentProps) => {
 					</div>
 
 					<div>
-						<Link to="/dashboard/websites#add_website">
+						<Link to="/dashboard/websites">
 							<Button className="dashboard-btn" type="primary">
 								اضافه کردن وبسایت
 								<i className={'plus icon'} />

@@ -1,0 +1,42 @@
+.ant-btn {
+	border-radius: 7px;
+}
+
+.anticon {
+	vertical-align: unset;
+}
+
+@media screen and (max-width: 700px) {
+	.hide-in-width-less-than-700px {
+		display: none !important;
+	}
+}
+
+.ant-table-container {
+	overflow-y: auto;
+}
+
+.ant-message-custom-content {
+	display: flex;
+	flex-direction: row-reverse;
+	& > span[role='img'] {
+		margin-right: 0;
+		margin-left: 8px;
+	}
+}
+
+.ant-popover-inner-content {
+	.ant-popover-message {
+		display: flex;
+		flex-direction: row-reverse;
+
+		.ant-popover-message-title {
+			padding-left: 0;
+			padding-right: 22px;
+		}
+	}
+
+	.ant-popover-buttons {
+		text-align: center;
+	}
+}

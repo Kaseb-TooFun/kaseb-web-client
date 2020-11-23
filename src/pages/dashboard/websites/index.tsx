@@ -10,7 +10,8 @@ import {
 	Input,
 	Table,
 	Popconfirm,
-	Modal
+	Modal,
+	Popover
 } from 'antd';
 import {
 	DeleteOutlined,
@@ -19,6 +20,7 @@ import {
 } from '@ant-design/icons';
 import Api from 'src/api';
 import StatisticsModal from 'src/pages/dashboard/components/StatisticsModal';
+import { scrollTo } from 'src/utils';
 const { Column } = Table;
 const { Title } = Typography;
 
@@ -29,11 +31,12 @@ const WebsiteTable = ({
 }: {
 	data: { id: string; title: string; url: string }[];
 	loading: boolean;
-	fetchWebsiteList: () => void;
+	fetchWebsiteList: (addNew?: boolean) => void;
 }) => {
 	const [isVisible, setVisible] = useState(false);
 	const [showStatisticsModal, setShowStatisticsModal] = useState(false);
 	const [websiteId, setWebsiteId] = useState('');
+	const [popoverVisibility, setPopoverVisibility] = useState(true);
 
 	const confirmDelete = (id: string) => {
 		message.loading('در حال حذف وبسایت', 1);
@@ -133,7 +136,6 @@ const WebsiteTable = ({
 				/>
 				<Column
 					title="آدرس وبسایت"
-					// dataIndex="url"
 					key="url"
 					render={(value) =>
 						value.url.substr(0, 60) +
@@ -165,17 +167,35 @@ const WebsiteTable = ({
 									<UnorderedListOutlined />
 								</Button>
 							</Link>
-							<Button
-								className="mr-3 table-btn"
-								type="default"
-								onClick={() => {
-									setWebsiteId(value.id);
-									setVisible(true);
-								}}
+							<Popover
+								content={
+									<div
+										role="button"
+										onClick={() =>
+											setPopoverVisibility(false)
+										}
+										id="get-code-help"
+									>
+										برای استفاده از کاسب کد زیر را به
+										سایتتان اضافه کنید
+									</div>
+								}
+								trigger="click"
+								visible={value.codePopover && popoverVisibility}
+								onVisibleChange={setPopoverVisibility}
 							>
-								دریافت کد
-								<i className="code icon" />
-							</Button>
+								<Button
+									className="mr-3 table-btn"
+									type="default"
+									onClick={() => {
+										setWebsiteId(value.id);
+										setVisible(true);
+									}}
+								>
+									دریافت کد
+									<i className="code icon" />
+								</Button>
+							</Popover>
 							<Button
 								className="mr-3 table-btn"
 								type="primary"
@@ -209,15 +229,24 @@ const WebsiteTable = ({
 const AddSiteForm = ({
 	fetchWebsiteList
 }: {
-	fetchWebsiteList: () => void;
+	fetchWebsiteList: (addNew?: boolean) => void;
 }) => {
 	const [form] = Form.useForm();
 	const [btnLoading, setBtnLoading] = useState(false);
 	const onFormSubmit = () => {
 		setBtnLoading(true);
 		const { title, url } = form.getFieldsValue(['title', 'url']);
+
 		if (!title || !url) {
-			message.error('عنوان و آدرس وبسایت را وارد نمایید', 1);
+			message.error('عنوان و آدرس وبسایت را وارد نمایید', 3);
+			setBtnLoading(false);
+			return;
+		}
+		if (url.substr(0, 8) != 'https://') {
+			message.error(
+				<span dir="rtl">آدرس وبسایت باید با https شروع شود.</span>,
+				5
+			);
 			setBtnLoading(false);
 			return;
 		}
@@ -225,7 +254,7 @@ const AddSiteForm = ({
 		Api.website.add(title, url).then((resposnse) => {
 			if (resposnse.status == 200) {
 				message.success('وبسایت با موفقیت اضافه شد');
-				fetchWebsiteList();
+				fetchWebsiteList(true);
 				form.setFieldsValue({
 					url: '',
 					title: ''
@@ -243,7 +272,6 @@ const AddSiteForm = ({
 
 	return (
 		<Form
-			id={'add_website'}
 			form={form}
 			layout="horizontal"
 			initialValues={{
@@ -257,7 +285,7 @@ const AddSiteForm = ({
 			</Form.Item>
 			<Form.Item label="آدرس وبسایت" name="url">
 				<Input
-					placeholder="http://www.example.com"
+					placeholder="https://www.example.com"
 					type="url"
 					maxLength={2064}
 				/>
@@ -283,10 +311,21 @@ const Websites = (props: RouteComponentProps) => {
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState([]);
 
-	const fetchWebsiteList = () => {
+	const fetchWebsiteList = (addNew = false) => {
 		Api.website.getList().then((response) => {
 			if (response.status == 200) {
-				setData(response.data.websites);
+				const websites = response.data.websites;
+				setData(
+					websites.map((item: any, i: number) => ({
+						...item,
+						codePopover: i == websites.length - 1 && addNew
+					}))
+				);
+				if (addNew) {
+					setTimeout(() => {
+						scrollTo('#get-code-help');
+					}, 1000);
+				}
 			}
 			setLoading(false);
 		});

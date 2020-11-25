@@ -25,3 +25,4 @@ src/styles/tailwind.generated.css
 
 # editor
 .idea
+.eslintcache

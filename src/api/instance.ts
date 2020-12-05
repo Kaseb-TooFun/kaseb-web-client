@@ -22,11 +22,35 @@ if (window._env_) {
 
 instance.interceptors.request.use(
 	(config) => {
-		if (AXIOS_LOG_REQUEST) console.log('axios request:', config);
+		if (AXIOS_LOG_REQUEST) {
+			console.groupCollapsed(
+				`    🚀 [${config.method?.toLocaleUpperCase()}] ${config.url}`
+			);
+			console.log(config);
+			console.groupEnd();
+		}
+		if (window.performance) {
+			// @ts-ignore
+			// eslint-disable-next-line no-param-reassign
+			config.metadata = {
+				url: config.url?.replace(/\?.*/g, ''),
+				method: config.method,
+				time: performance.now()
+			};
+		}
 		return config;
 	},
 	(error) => {
-		if (AXIOS_LOG_REQUEST) console.log('axios request catch:', error);
+		if (AXIOS_LOG_REQUEST) {
+			console.groupCollapsed(
+				`%c${
+					error.request.status
+				} ❌ [${error.request.config.method?.toLocaleUpperCase()}] ${
+					error.request.config.url
+				}`,
+				'color:#e94048;'
+			);
+		}
 		return Promise.reject(error);
 	}
 );
@@ -34,19 +58,61 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
 	(response) => {
 		if (AXIOS_LOG_RESPONSE) {
-			console.log(`axios response ${response.status}:`, response);
+			if (window.performance) {
+				// @ts-ignore
+				const { metadata } = response.config;
+				console.groupCollapsed(
+					`%c${
+						response.status
+					} ✅ [${response.config.method?.toLocaleUpperCase()}] ${
+						response.config.url
+					} ${Math.round(performance.now() - metadata.time)}ms`,
+					'color:#4caf50;'
+				);
+			} else {
+				console.groupCollapsed(
+					`%c${
+						response.status
+					} ✅ [${response.config.method?.toLocaleUpperCase()}] ${
+						response.config.url
+					}`,
+					'color:#4caf50;'
+				);
+			}
+			console.log(response);
+			console.groupEnd();
 		}
 		return response;
 	},
 	(error) => {
 		if (axios.isCancel(error)) {
 			if (AXIOS_LOG_RESPONSE) {
-				console.log('Request canceled');
+				console.log('%cRequest canceled ⛔️', 'color:#ffae00;');
 			}
 			return { status: -1, message: 'Request canceled' };
 		}
 		if (AXIOS_LOG_RESPONSE) {
-			console.log(`axios response catch ${error.request.status}:`, error);
+			if (error.response) {
+				console.groupCollapsed(
+					`%c${
+						error.request.status
+					} 🚧 [${error.response.config.method?.toLocaleUpperCase()}] ${
+						error.response.config.url
+					}`,
+					'color:#e94048;'
+				);
+				console.log(error.response);
+				console.groupEnd();
+			} else {
+				console.groupCollapsed(
+					`%c${error.request.status.toString().padStart(3, '0')} 🚧 ${
+						error.request.responseURL
+					}`,
+					'color:#e94048;'
+				);
+				console.log(error);
+				console.groupEnd();
+			}
 		}
 		if (error.response != undefined) {
 			return { ...error.response, response: error.response };

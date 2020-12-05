@@ -52,7 +52,7 @@ const Login = (props: RouteComponentProps) => {
 		<>
 			<Row justify="center">
 				<img
-					src={`${process.env.PUBLIC_URL}/icons/kaseb.logo.1.png`}
+					src="/icons/kaseb.logo.1.png"
 					width="350px"
 					alt="kaseb logo"
 				/>

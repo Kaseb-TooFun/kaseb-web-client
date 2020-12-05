@@ -71,10 +71,7 @@ const DashboardContent = (props: RouteComponentProps) => {
 					</p>
 
 					<div style={{ display: 'inline-block' }}>
-						<img
-							alt="no goal"
-							src={`${process.env.PUBLIC_URL}/images/no-goal.png`}
-						/>
+						<img alt="no goal" src="/images/no-goal.png" />
 					</div>
 
 					<div>

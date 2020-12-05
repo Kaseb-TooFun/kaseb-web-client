@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Row, Form, Input, message } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { RouteComponentProps, Link, useNavigate } from '@reach/router';
 import Api, { setAxiosToken } from 'src/api';
 import { saveUserToken } from 'src/utils/user';
@@ -56,7 +56,7 @@ const SignUp = (props: RouteComponentProps) => {
 		<Row className="w-screen h-screen p-5 justify-center items-center">
 			{/*<Row justify="center">*/}
 			<img
-				src={`${process.env.PUBLIC_URL}/icons/kaseb.logo.1.png`}
+				src="/icons/kaseb.logo.1.png"
 				width={'350px'}
 				alt="kaseb logo"
 			/>

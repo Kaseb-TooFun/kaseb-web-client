@@ -1,13 +1,24 @@
 const {
 	override,
-	fixBabelImports,
-	disableEsLint,
-	addWebpackModuleRule,
 	useBabelRc,
-	overrideDevServer
+	fixBabelImports,
+	// disableEsLint,
+	overrideDevServer,
+	addWebpackModuleRule
 } = require('customize-cra');
 const path = require('path');
 const fs = require('fs');
+
+const disableEsLint = () => (config) => {
+	config.plugins = config.plugins.filter(
+		(plugin) =>
+			!(
+				(plugin.options && plugin.options.eslintPath) ||
+				plugin.constructor.name === 'ESLintWebpackPlugin'
+			)
+	);
+	return config;
+};
 
 const devConfigServer = () => (config) => {
 	return {

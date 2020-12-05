@@ -1,19 +1,38 @@
 import React, { useState, useEffect, PropsWithChildren, Suspense } from 'react';
 import { Router, useNavigate, RouteComponentProps } from '@reach/router';
+import { css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxRootState } from 'src/redux/reducers';
 import Api, { setAxiosToken } from 'src/api/index';
 import { SET_USER } from 'src/redux/reducers/user';
 import { readUserToken } from 'src/utils/user';
 
-const Login = React.lazy(() => import('src/pages/auth/login'));
-const SignUp = React.lazy(() => import('src/pages/auth/sign-up'));
-const Welcome = React.lazy(() => import('src/pages/welcome'));
+import Login from 'src/pages/auth/login';
+import SignUp from 'src/pages/auth/sign-up';
+import Welcome from 'src/pages/welcome';
+import MyActivityIndicator from 'src/components/MyActivityIndicator';
 const Dashboard = React.lazy(() => import('src/pages/dashboard'));
 const StudioAddEdit = React.lazy(() => import('src/pages/studio'));
 const ActionStatistics = React.lazy(
 	() => import('src/pages/statistics/action')
 );
+
+const LoadingComponent = () => {
+	return (
+		<div
+			css={css`
+				width: 100vw;
+				height: 100vh;
+				background-color: #e4ce3f;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			`}
+		>
+			<MyActivityIndicator size="large" />
+		</div>
+	);
+};
 
 const PrivateRoute = (props: PropsWithChildren<RouteComponentProps>) => {
 	const dispatch = useDispatch();
@@ -53,7 +72,7 @@ const PrivateRoute = (props: PropsWithChildren<RouteComponentProps>) => {
 	return isLoggedIn || user.id > 0 ? (
 		<>{props.children}</>
 	) : (
-		<h1>loading...</h1>
+		<LoadingComponent />
 	);
 };
 
@@ -76,7 +95,7 @@ function App() {
 	}, []);
 
 	return isReady ? (
-		<Suspense fallback={<h1>loading...</h1>}>
+		<Suspense fallback={<LoadingComponent />}>
 			<Router>
 				<Welcome path="/" />
 				<Welcome path="/logout" />
@@ -95,7 +114,7 @@ function App() {
 			</Router>
 		</Suspense>
 	) : (
-		<h1>loading...</h1>
+		<LoadingComponent />
 	);
 }
 

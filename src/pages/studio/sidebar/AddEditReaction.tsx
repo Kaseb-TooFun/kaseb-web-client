@@ -1,82 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { connect, ConnectedProps } from 'react-redux';
 import { ReduxRootState } from 'src/redux/reducers';
 import { setConfig } from 'src/redux/actions/reaction';
-import { Select, Form, Switch, Button, message, Input, Divider } from 'antd';
-import Api from 'src/api';
-import ColorSelector from 'src/pages/studio/components/ColorSelector';
-import AllTriggerOptions from 'src/pages/studio/components/TriggerOptions';
-import AllReactionTypeOptions from 'src/pages/studio/components/ReactionTypeOptions';
-import DestInspector from 'src/pages/studio/components/DestSelectorInspector';
-import CssEditor from 'src/pages/studio/components/CssEditor';
-import GoalStepContent from 'src/pages/studio/components/GoalStepContent';
-import UrlPattersInputs from 'src/pages/studio/components/UrlPatternsInputs';
+import { Button } from 'antd';
 import { css } from '@emotion/react';
 
-const defaultBgColor = '#0cc97a';
-const defaultTitleColor = '#e63f39';
-const defaultTextColor = '#1f76cd';
-const defaultBtnColor = '#fcdc0b';
-const defaultBtnTextColor = '#e63f39';
-
-const darkBaseColor = '#af9b18';
-
-const persianAvailableFonts = [
-	{ key: 'kio-IRANSans', showName: 'ایران سنس' },
-	{ key: 'kio-Sahel', showName: 'ساحل' },
-	{ key: 'kio-Shabnam', showName: 'شبنم' },
-	{ key: 'kio-Vazir', showName: 'وزیر' }
-];
+import Trigger from './steps/Trigger';
+import Animation from './steps/Animation';
+import SelectGoal from './steps/SelectGoal';
+import CardContent from './steps/CardContent';
+import ReactionType from './steps/ReactionType';
+import BannerContent from './steps/BannerContent';
 interface IProps extends RouteComponentProps, ConnectedProps<typeof connector> {
-	// configInitialData: {
-	// 	id: string;
-	// 	name: string;
-	// 	goalType: string;
-	// 	goalLink: string;
-	// 	type: string;
-	// 	values: {
-	// 		title: string;
-	// 		description: string;
-	// 		btnText: string;
-	// 		btnColor: string;
-	// 		bgColor: string;
-	// 		titleColor: string;
-	// 		textColor: string;
-	// 		btnTextColor: string;
-	// 		opacity: string;
-	// 		fontFamily: string;
-	// 		url: string;
-	// 		condition: string;
-	// 		isCloseable: boolean;
-	// 		isRTL: boolean;
-	// 		showOnce: boolean;
-	// 		customStyle: string;
-	// 		template: string;
-	// 		effect: string;
-	// 		sourceSelector: string;
-	// 		destSelector: string;
-	// 		once: boolean;
-	// 		type: string;
-	// 		urlPatterns?: any;
-	// 	};
-	// };
-	// websiteId: string;
 	postMessage: (type: string, payload?: any) => void;
-	// sourceSelector: string;
-	// setSourceSelector: (s: string) => void;
-	// destSelector: string;
-	// setDestSelector: (s: string) => void;
-	// goalSelector: string;
-	// setGoalSelector: (s: string) => void;
-	// isDemo: boolean;
 }
 
-const AddEditReaction = ({ config, setConfig, postMessage }: IProps) => {
+const AddEditReaction = ({ config, postMessage }: IProps) => {
 	const [step, setStep] = useState(0);
 
-	const previewReaction = (data: any) =>
-		postMessage('preview-reaction', data);
+	const nextStep = () => setStep(step + 1);
+
+	const preview = () => postMessage('preview-reaction', config);
 
 	const tabs = [
 		{
@@ -85,16 +30,13 @@ const AddEditReaction = ({ config, setConfig, postMessage }: IProps) => {
 			icon: '/icons/sports_soccer-24px.svg'
 		},
 		{
-			key: 'reaction',
-			title: 'واکنش',
+			key: 'reaction-type',
+			title: 'نوع واکنش',
 			icon: '/icons/twotone-closed_caption-24px.svg'
 		},
 		{
-			key: 'goal',
-			title:
-				// !(reactionType === 'banner' || reactionType === 'modal')
-				'استایل',
-			// : 'محتوا',
+			key: 'style',
+			title: 'استایل',
 			icon: '/icons/twotone-closed_caption-1.svg'
 		},
 		{
@@ -126,7 +68,7 @@ const AddEditReaction = ({ config, setConfig, postMessage }: IProps) => {
 					direction: 'rtl',
 					marginBottom: '10px'
 				}}
-				// onClick={preview}
+				onClick={preview}
 			>
 				<i
 					className={'eye icon'}
@@ -139,6 +81,7 @@ const AddEditReaction = ({ config, setConfig, postMessage }: IProps) => {
 				css={css`
 					display: flex;
 					flex-direction: row-reverse;
+					justify-content: space-around;
 				`}
 			>
 				{tabs.map((s, index) => (
@@ -149,10 +92,14 @@ const AddEditReaction = ({ config, setConfig, postMessage }: IProps) => {
 						css={{
 							margin: '2px',
 							borderRadius: '10px',
-							backgroundColor:
-								index === step ? '#f1ebd4' : 'white',
 							border: 'none',
-							padding: index === step ? '1px 5px' : ''
+							...(index === step
+								? {
+										background: '#f1ebd4'
+								  }
+								: {
+										background: '#f5f5f5'
+								  })
 						}}
 					>
 						{index === step ? (
@@ -170,11 +117,24 @@ const AddEditReaction = ({ config, setConfig, postMessage }: IProps) => {
 			</div>
 			<div className="steps-content">
 				{tabs[step].key == 'goal' && (
-					<GoalStepContent
-						postMessage={postMessage}
-						nextStep={() => setStep(step + 1)}
-					/>
+					<SelectGoal postMessage={postMessage} nextStep={nextStep} />
 				)}
+
+				{tabs[step].key == 'reaction-type' && (
+					<ReactionType nextStep={nextStep} />
+				)}
+
+				{tabs[step].key == 'style' && config.value.type == 'action' && (
+					<Animation nextStep={nextStep} />
+				)}
+				{tabs[step].key == 'style' && config.value.type == 'banner' && (
+					<BannerContent nextStep={nextStep} />
+				)}
+				{tabs[step].key == 'style' && config.value.type == 'modal' && (
+					<CardContent nextStep={nextStep} />
+				)}
+
+				{tabs[step].key == 'trigger' && <Trigger nextStep={nextStep} />}
 			</div>
 		</div>
 	);

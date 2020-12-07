@@ -3,11 +3,7 @@ import { Button, Input } from 'antd';
 import { css } from '@emotion/react';
 import { connect, ConnectedProps } from 'react-redux';
 import { ReduxRootState } from 'src/redux/reducers';
-import {
-	updateConfig,
-	updateReaction,
-	setReactionType
-} from 'src/redux/actions/reaction';
+import { updateConfig, updateReaction } from 'src/redux/actions/reaction';
 import { SearchOutlined } from '@ant-design/icons';
 
 interface IProps extends ConnectedProps<typeof connector> {
@@ -15,9 +11,8 @@ interface IProps extends ConnectedProps<typeof connector> {
 	nextStep: () => void;
 }
 
-function GoalStepContent(props: IProps) {
+function SelectGoal(props: IProps) {
 	const { postMessage, config, nextStep } = props;
-
 	const { goalType, name } = config;
 
 	const [link, setLink] = useState('');
@@ -51,7 +46,7 @@ function GoalStepContent(props: IProps) {
 	}, []);
 
 	return (
-		<div className="goal-container" dir="rtl">
+		<div className="step-container" dir="rtl">
 			<p className="form-message">
 				براساس نیازخود، نوع هدف موردنظر را انتخاب کنید
 			</p>
@@ -88,7 +83,6 @@ function GoalStepContent(props: IProps) {
 							);
 						}}
 					/>
-					<Button onClick={nextStep}>ادامه</Button>
 				</div>
 			)}
 			<div
@@ -138,7 +132,6 @@ function GoalStepContent(props: IProps) {
 							setLink(e.target.value.substr(0, 1024));
 						}}
 					/>
-					<Button onClick={nextStep}>ادامه</Button>
 				</div>
 			)}
 			<div
@@ -201,9 +194,27 @@ function GoalStepContent(props: IProps) {
 							<span className="mr-3">انتخاب</span>
 						</Button>
 					</div>
-					<Button onClick={nextStep}>ادامه</Button>
 				</div>
 			)}
+
+			<div
+				role="button"
+				css={css`
+					background-color: rgb(175, 155, 24);
+					border-radius: 70px;
+					padding: 5px 20px;
+					margin-top: 10px;
+					color: #fff;
+					user-select: none;
+					cursor: pointer;
+					font-size: 18px;
+					color: #fff;
+					text-align: center;
+				`}
+				onClick={nextStep}
+			>
+				ادامه
+			</div>
 		</div>
 	);
 }
@@ -215,4 +226,4 @@ const mapStateToProps = (state: ReduxRootState) => {
 };
 
 const connector = connect(mapStateToProps, { updateConfig, updateReaction });
-export default connector(GoalStepContent);
+export default connector(SelectGoal);

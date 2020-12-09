@@ -19,32 +19,32 @@ stages:
   - tag
   - deploy
 
-yarn-build:
-  image: mhart/alpine-node:12
-  stage: build
-  script:
-   - yarn install
-   - yarn test
-   - CI=false yarn build
-  artifacts:
-    paths:
-      - build
-  rules:
-    - if: $CI_COMMIT_TAG
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-    - if: '$CI_PIPELINE_SOURCE == "chat"'
+# yarn-build:
+#   image: mhart/alpine-node:12
+#   stage: build
+#   script:
+#    - yarn install
+#    - yarn test
+#    - CI=false yarn build
+#   artifacts:
+#     paths:
+#       - build
+#   rules:
+#     - if: $CI_COMMIT_TAG
+#     - if: '$CI_PIPELINE_SOURCE == "web"'
+#     - if: '$CI_PIPELINE_SOURCE == "chat"'
 
 
-docker-build:
-  stage: package
-  script:
-   - docker build -t registry.kaseb.xyz/kaseb/kaseb-web-client .
-   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.kaseb.xyz
-   - docker push registry.kaseb.xyz/kaseb/kaseb-web-client
-  rules:
-    - if: $CI_COMMIT_TAG
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-    - if: '$CI_PIPELINE_SOURCE == "chat"'
+# docker-build:
+#   stage: package
+#   script:
+#    - docker build -t registry.kaseb.xyz/kaseb/kaseb-web-client .
+#    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.kaseb.xyz
+#    - docker push registry.kaseb.xyz/kaseb/kaseb-web-client
+#   rules:
+#     - if: $CI_COMMIT_TAG
+#     - if: '$CI_PIPELINE_SOURCE == "web"'
+#     - if: '$CI_PIPELINE_SOURCE == "chat"'
 
 docker-tag:
   stage: tag
@@ -59,15 +59,20 @@ docker-tag:
 production-deploy:
   stage: deploy
   image: dtzar/helm-kubectl
+  environment:
+    name: production
+    url: https://app.kaseb.xyz/
   script:
     - kubectl -n production set image deployment/client client=registry.kaseb.xyz/kaseb/kaseb-web-client:$CI_COMMIT_TAG
   rules:
     - if: $CI_COMMIT_TAG
-    - if: '$CI_PIPELINE_SOURCE == "chat"'
 
 staging-deploy:
   stage: deploy
   image: dtzar/helm-kubectl
+  environment:
+    name: staging
+    url: https://dev.kaseb.xyz/
   script:
     - kubectl -n staging rollout restart deploy dev-client
   rules:

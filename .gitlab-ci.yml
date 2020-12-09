@@ -59,11 +59,11 @@ docker-tag:
 production-deploy:
   stage: deploy
   image: dtzar/helm-kubectl
-  variables:
-    KUBE_NAMESPACE: production
   environment:
     name: production
     url: https://app.kaseb.xyz/
+    kubernetes:
+      namespace: production
   script:
     - kubectl -n production set image deployment/client client=registry.kaseb.xyz/kaseb/kaseb-web-client:$CI_COMMIT_TAG
   rules:
@@ -72,11 +72,11 @@ production-deploy:
 staging-deploy:
   stage: deploy
   image: dtzar/helm-kubectl
-  variables:
-    KUBE_NAMESPACE: staging
   environment:
     name: staging
     url: https://dev.kaseb.xyz/
+    kubernetes:
+      namespace: staging
   script:
     - kubectl -n staging rollout restart deploy dev-client
   rules:

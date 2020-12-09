@@ -64,8 +64,8 @@ production-deploy:
   environment:
     name: production
     url: https://app.kaseb.xyz/
-    # kubernetes:
-    #   namespace: production
+    kubernetes:
+      namespace: production
   script:
     - kubectl -n production set image deployment/client client=registry.kaseb.xyz/kaseb/kaseb-web-client:$CI_COMMIT_TAG
   rules:
@@ -79,8 +79,8 @@ staging-deploy:
   environment:
     name: staging
     url: https://dev.kaseb.xyz/
-    # kubernetes:
-    #   namespace: staging
+    kubernetes:
+      namespace: staging
   script:
     - kubectl -n staging rollout restart deploy dev-client
   rules:

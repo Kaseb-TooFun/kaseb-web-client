@@ -18,6 +18,9 @@ stages:
   - tag
   - deploy
 
+before_script:
+  - docker info
+
 yarn-build:
   image: mhart/alpine-node:12
   stage: build

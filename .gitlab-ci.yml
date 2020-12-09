@@ -59,6 +59,8 @@ docker-tag:
 production-deploy:
   stage: deploy
   image: dtzar/helm-kubectl
+  variables:
+    KUBE_NAMESPACE: production
   environment:
     name: production
     url: https://app.kaseb.xyz/
@@ -72,6 +74,8 @@ production-deploy:
 staging-deploy:
   stage: deploy
   image: dtzar/helm-kubectl
+  variables:
+    KUBE_NAMESPACE: staging
   environment:
     name: staging
     url: https://dev.kaseb.xyz/

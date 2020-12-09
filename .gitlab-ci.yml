@@ -1,3 +1,4 @@
+image: docker:latest
 services:
   - docker:dind
 
@@ -33,7 +34,6 @@ yarn-build:
 
 
 docker-build:
-  image: docker:latest
   stage: package
   script:
    - docker build -t registry.kaseb.xyz/kaseb/kaseb-web-client .
@@ -45,7 +45,6 @@ docker-build:
     - if: '$CI_PIPELINE_SOURCE == "chat"'
 
 docker-tag:
-  image: docker:latest
   stage: tag
   script:
    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.kaseb.xyz

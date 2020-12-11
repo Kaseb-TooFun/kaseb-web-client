@@ -13,8 +13,8 @@ import Welcome from 'src/pages/welcome';
 import MyActivityIndicator from 'src/components/MyActivityIndicator';
 const Dashboard = React.lazy(() => import('src/pages/dashboard'));
 const StudioAddEdit = React.lazy(() => import('src/pages/studio'));
-const ActionStatistics = React.lazy(
-	() => import('src/pages/statistics/action')
+const Statistics = React.lazy(
+	() => import('src/pages/statistics/website')
 );
 
 const LoadingComponent = () => {
@@ -108,8 +108,9 @@ function App() {
 					<StudioAddEdit path="/:websiteId" />
 					<StudioAddEdit path="/:websiteId/edit/:configId" />
 				</PrivateRoute>
-				<PrivateRoute path="statistics/*">
-					<ActionStatistics path="/action/:configId" />
+				<PrivateRoute path="statistics">
+					<Statistics path="/website/:websiteId" />
+					<Statistics path="/website/:websiteId/action/:actionId" />
 				</PrivateRoute>
 			</Router>
 		</Suspense>

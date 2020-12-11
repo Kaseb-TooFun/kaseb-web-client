@@ -196,17 +196,16 @@ const WebsiteTable = ({
 									<i className="code icon" />
 								</Button>
 							</Popover>
-							<Button
-								className="mr-3 table-btn"
-								type="primary"
-								ghost
-								onClick={() => {
-									setShowStatisticsModal(true);
-								}}
-							>
-								آمار
-								<i className={'chart line icon'} />
-							</Button>
+							<Link to={`/statistics/website/${value.id}`}>
+								<Button
+									className="mr-3 table-btn"
+									type="primary"
+									ghost
+								>
+									آمار
+									<i className={'chart line icon'} />
+								</Button>
+							</Link>
 							<Popconfirm
 								title="مطمئن هستید که این وبسایت حذف شود؟"
 								onConfirm={() => confirmDelete(value.id)}

@@ -8,30 +8,34 @@ import {
 import moment from 'moment-jalaali';
 import { Button, Row, Col, Tabs, Divider } from 'antd';
 import TopHeader from 'src/pages/components/TopHeader';
+import Api from 'src/api';
+
+// import fa from "moment/src/locale/fa";
+moment.locale('fa');
+moment.loadPersian();
 
 const darkBaseColor = '#af9b18';
 chartJsDefaults.global.defaultFontFamily = 'iranyekan';
 
 const demoCountsStatistics = {
-	displayCount: 30640,
-	executeCount: 20480,
-	conversionRate: 67,
-	sessionCount: 10240,
-	seenCount: 5120,
-	closedCount: 5120,
 	clickedCount: 5120,
-	desktopToMobilePercent: 65
+	closedCount: 5120,
+	conversionRate: 67,
+	desktopToAllPercent: 65,
+	executeCount: 20480,
+	pageViewCount: 30640
+	// sessionCount: 10240,
+	// seenCount: 5120
 };
 
 /*  for example
 const last30DayStatistics = [
 	{
-		displayCount: 333,
+		pageViewCount: 333,
 		executeCount: 305,
-		sessionCount: 164,
-		seenCount: 113,
 		closedCount: 130,
 		clickedCount: 140,
+		conversionRate: 50
 	},
 	// 30 element
 ]
@@ -42,7 +46,8 @@ function generateLast30Days() {
 	for (let i = 29; i >= 0; i--) {
 		const date = new Date();
 		date.setDate(date.getDate() - i);
-		dates.push(moment(date).locale('fa').format('dddd DD MMMM YY'));
+		const dateString = moment(date).locale('fa').format('dddd jDD jMMMM jYY');
+		dates.push(dateString);
 	}
 	return dates;
 }
@@ -50,25 +55,20 @@ function generateLast30Days() {
 function generateDemoChartData() {
 	const demoLastSevenDaysCountsStatistics = [];
 	for (let i = 29; i >= 0; i--) {
-		const displayCount = Math.floor(Math.random() * 200) + 200;
+		const pageViewCount = Math.floor(Math.random() * 200) + 200;
 		const executeCount = Math.floor(
-			(Math.random() * displayCount) / 2 + displayCount / 2
+			(Math.random() * pageViewCount) / 2 + pageViewCount / 2
 		);
-		const conversionRate = Math.floor((executeCount / displayCount) * 100);
-		const sessionCount = Math.floor(Math.random() * 200) + 100;
+		const conversionRate = Math.floor((executeCount / pageViewCount) * 100);
 		const data = {
-			displayCount,
+			pageViewCount,
 			executeCount,
 			conversionRate,
-			sessionCount: sessionCount,
-			seenCount: Math.floor(
-				(Math.random() * sessionCount) / 2 + sessionCount / 2
-			),
 			closedCount: Math.floor(
-				(Math.random() * sessionCount) / 2 + sessionCount / 2
+				(Math.random() * pageViewCount) / 2 + pageViewCount / 2
 			),
 			clickedCount: Math.floor(
-				(Math.random() * sessionCount) / 2 + sessionCount / 2
+				(Math.random() * pageViewCount) / 2 + pageViewCount / 2
 			)
 		};
 		demoLastSevenDaysCountsStatistics.push(data);
@@ -76,51 +76,104 @@ function generateDemoChartData() {
 	return demoLastSevenDaysCountsStatistics;
 }
 
-type ActionStatisticsProps = RouteComponentProps;
+type StatisticsProps = RouteComponentProps;
 
-const ActionStatistics = (props: ActionStatisticsProps) => {
+const Statistics = (props: StatisticsProps) => {
 	const [counts, setCounts] = useState({
-		displayCount: 0,
-		executeCount: 0,
-		sessionCount: 0,
-		seenCount: 0,
-		closedCount: 0,
 		clickedCount: 0,
+		closedCount: 0,
 		conversionRate: 0,
-		desktopToMobilePercent: 0
+		desktopToAllPercent: 0,
+		executeCount: 0,
+		pageViewCount: 0
+		// displayCount: 0,
+		// sessionCount: 0,
+		// seenCount: 0
 	});
 
 	const [chartData, setChartData] = useState([]);
 
 	const navigate = useNavigate();
 	const params = useParams();
-	const configId = params.configId;
+	const websiteId = params.websiteId;
+	const actionId = params.actionId;
 
-	const isDemo = configId === 'demo';
-	const [isDataFetched, setIsDataFetched] = useState(false);
+	const isDemo = Boolean(websiteId === 'demo' || actionId === 'demo');
+	const [isTotalDataFetched, setIsTotalDataFetched] = useState(false);
+	const [isDaysDataFetched, setIsDaysDataFetched] = useState(false);
 	const datesLabel = generateLast30Days();
 
 	useEffect(() => {
 		if (isDemo) {
 			setCounts(demoCountsStatistics);
+			setIsTotalDataFetched(true);
 			const demoChartData = generateDemoChartData() as [];
 			setChartData(demoChartData);
-			setIsDataFetched(true);
+			setIsDaysDataFetched(true);
 		} else {
 			// todo: fetch api data
+			if (actionId) {
+				Api.statistics.getActionTotalCounts(websiteId, actionId).then((response) => {
+					if (response.status == 200) {
+						const totalCounts = response.data.total as {
+							clickedCount: number,
+							closedCount: number,
+							conversionRate: number,
+							desktopToAllPercent: number,
+							executeCount: number,
+							pageViewCount: number
+						};
+						setCounts(totalCounts);
+						setIsTotalDataFetched(true);
+					} else {
+
+					}
+				});
+			} else {
+				Api.statistics.getWebsiteTotalCounts(websiteId).then((response) => {
+					if (response.status == 200) {
+						const totalCounts = response.data.total as {
+							clickedCount: number,
+							closedCount: number,
+							conversionRate: number,
+							desktopToAllPercent: number,
+							executeCount: number,
+							pageViewCount: number
+						};
+						setCounts(totalCounts);
+						setIsTotalDataFetched(true);
+					} else {
+
+					}
+				});
+			}
 		}
-	}, []);
+	}, [isDemo]);
 
 	const myHeader = <TopHeader />;
 
-	/// display and execute counts
+	const loadingDataDiv = (
+		<div style={{ verticalAlign: 'middle' }}>
+			<i className="huge grey circle notch loading icon" />
+		</div>
+	);
 
+	const loadingDataWithMessageDiv = (
+		<div style={{ verticalAlign: 'middle' }}>
+			<i className="huge grey circle notch loading icon" />
+			<p style={{ fontSize: '2.5em', marginTop: '40px' }}>
+				در حال دریافت اطلاعات
+			</p>
+		</div>
+	);
+
+	/// display and execute counts
 	const displayExecuteCountsDiv = (
 		<Row>
 			<Col span={24} style={{ float: 'right', direction: 'rtl' }}>
 				<div className={'circular-statistics'} style={{}}>
 					<div className={'circular-statistics-number'}>
-						{counts.displayCount}
+						{counts.pageViewCount}
 					</div>
 					<div className={'circular-statistics-title'}>
 						دفعات نمایش
@@ -149,7 +202,7 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 
 	/// display and execute charts
 
-	const displayExecuteChartDataMonth = {
+	const pageViewAndExecuteChartDataMonth = {
 		labels: datesLabel.slice(datesLabel.length - 30, datesLabel.length + 1),
 		datasets: [
 			{
@@ -179,14 +232,14 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				data: chartData
 					.slice(datesLabel.length - 30, datesLabel.length + 1)
 					.map(
-						(dayData: { displayCount: number }) =>
-							dayData.displayCount
+						(dayData: { pageViewCount: number }) =>
+							dayData.pageViewCount
 					)
 			}
 		]
 	};
 
-	const displayExecuteChartDataWeek = {
+	const pageViewAndExecuteChartDataWeek = {
 		labels: datesLabel.slice(datesLabel.length - 7, datesLabel.length + 1),
 		datasets: [
 			{
@@ -216,8 +269,8 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 				data: chartData
 					.slice(datesLabel.length - 7, datesLabel.length + 1)
 					.map(
-						(dayData: { displayCount: number }) =>
-							dayData.displayCount
+						(dayData: { pageViewCount: number }) =>
+							dayData.pageViewCount
 					)
 			}
 		]
@@ -230,7 +283,7 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 					<Tabs.TabPane tab={'هفت روز گذشته'} key={'1'}>
 						<div>
 							<LineChart
-								data={displayExecuteChartDataWeek}
+								data={pageViewAndExecuteChartDataWeek}
 								// options={options}
 								// width="600" height="250"
 							/>
@@ -242,7 +295,7 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 					<Tabs.TabPane tab={'سی روز گذشته'} key={'2'}>
 						<div>
 							<LineChart
-								data={displayExecuteChartDataMonth}
+								data={pageViewAndExecuteChartDataMonth}
 								// options={options}
 								// width="600" height="250"
 							/>
@@ -258,20 +311,22 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 
 	/// desktop-mobile pie chart
 
-	const desktopToMobileData = [
+	let desktopToMobileData = [
 		{
 			title: 'دسکتاپ',
-			value: counts.desktopToMobilePercent,
+			value: counts.desktopToAllPercent,
 			color: darkBaseColor,
-			textColor: 'black'
-		},
-		{
-			title: 'موبایل',
-			value: 100 - counts.desktopToMobilePercent,
-			color: '#f1dd60',
 			textColor: 'black'
 		}
 	];
+	if (counts.desktopToAllPercent > 0) {
+		desktopToMobileData.push({
+			title: 'موبایل',
+			value: 100 - counts.desktopToAllPercent,
+			color: '#f1dd60',
+			textColor: 'black'
+		});
+	}
 
 	const desktopMobileDiv = (
 		<Row className={'desktop-to-mobile-statistics justify-center'}>
@@ -318,24 +373,24 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 	const sessionCountsDiv = (
 		<Row>
 			<Col span={24} style={{ float: 'right', direction: 'rtl' }}>
-				<div className={'rectangle-statistics'} style={{}}>
-					<div className={'rectangle-statistics-number'}>
-						{counts.sessionCount}
-					</div>
-					<div className={'rectangle-statistics-title'}>
-						<i className={'address book icon'} />
-						نشست(session)
-					</div>
-				</div>
-				<div className={'rectangle-statistics'} style={{}}>
-					<div className={'rectangle-statistics-number'}>
-						{counts.seenCount}
-					</div>
-					<div className={'rectangle-statistics-title'}>
-						<i className={'eye icon'} />
-						مشاهده شده
-					</div>
-				</div>
+				{/*<div className={'rectangle-statistics'} style={{}}>*/}
+				{/*	<div className={'rectangle-statistics-number'}>*/}
+				{/*		{counts.sessionCount}*/}
+				{/*	</div>*/}
+				{/*	<div className={'rectangle-statistics-title'}>*/}
+				{/*		<i className={'address book icon'} />*/}
+				{/*		نشست(session)*/}
+				{/*	</div>*/}
+				{/*</div>*/}
+				{/*<div className={'rectangle-statistics'} style={{}}>*/}
+				{/*	<div className={'rectangle-statistics-number'}>*/}
+				{/*		{counts.seenCount}*/}
+				{/*	</div>*/}
+				{/*	<div className={'rectangle-statistics-title'}>*/}
+				{/*		<i className={'eye icon'} />*/}
+				{/*		مشاهده شده*/}
+				{/*	</div>*/}
+				{/*</div>*/}
 				<div className={'rectangle-statistics'} style={{}}>
 					<div className={'rectangle-statistics-number'}>
 						{counts.closedCount}
@@ -393,35 +448,35 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 						(dayData: { closedCount: number }) =>
 							dayData.closedCount
 					)
-			},
-			{
-				label: 'مشاهده شده',
-				fillColor: 'rgba(46,116,170,0.2)',
-				strokeColor: 'rgba(46,116,170,1)',
-				pointColor: 'rgba(46,116,170,1)',
-				pointStrokeColor: 'rgba(46,116,170,1)',
-				pointHighlightFill: 'rgba(46,116,170,1)',
-				pointHighlightStroke: 'rgba(46,116,170,1)',
-				backgroundColor: 'rgba(100,226,65,0.5)',
-				data: chartData
-					.slice(datesLabel.length - 30, datesLabel.length + 1)
-					.map((dayData: { seenCount: number }) => dayData.seenCount)
-			},
-			{
-				label: 'نشست',
-				fillColor: 'rgba(220,220,220,0.2)',
-				strokeColor: 'rgba(220,220,220,1)',
-				pointColor: 'rgba(220,220,220,1)',
-				pointStrokeColor: '#fff',
-				pointHighlightFill: '#fff',
-				pointHighlightStroke: 'rgba(220,220,220,1)',
-				data: chartData
-					.slice(datesLabel.length - 30, datesLabel.length + 1)
-					.map(
-						(dayData: { sessionCount: number }) =>
-							dayData.sessionCount
-					)
 			}
+			// {
+			// 	label: 'مشاهده شده',
+			// 	fillColor: 'rgba(46,116,170,0.2)',
+			// 	strokeColor: 'rgba(46,116,170,1)',
+			// 	pointColor: 'rgba(46,116,170,1)',
+			// 	pointStrokeColor: 'rgba(46,116,170,1)',
+			// 	pointHighlightFill: 'rgba(46,116,170,1)',
+			// 	pointHighlightStroke: 'rgba(46,116,170,1)',
+			// 	backgroundColor: 'rgba(100,226,65,0.5)',
+			// 	data: chartData
+			// 		.slice(datesLabel.length - 30, datesLabel.length + 1)
+			// 		.map((dayData: { seenCount: number }) => dayData.seenCount)
+			// },
+			// {
+			// 	label: 'نشست',
+			// 	fillColor: 'rgba(220,220,220,0.2)',
+			// 	strokeColor: 'rgba(220,220,220,1)',
+			// 	pointColor: 'rgba(220,220,220,1)',
+			// 	pointStrokeColor: '#fff',
+			// 	pointHighlightFill: '#fff',
+			// 	pointHighlightStroke: 'rgba(220,220,220,1)',
+			// 	data: chartData
+			// 		.slice(datesLabel.length - 30, datesLabel.length + 1)
+			// 		.map(
+			// 			(dayData: { sessionCount: number }) =>
+			// 				dayData.sessionCount
+			// 		)
+			// }
 		]
 	};
 
@@ -459,35 +514,35 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 						(dayData: { closedCount: number }) =>
 							dayData.closedCount
 					)
-			},
-			{
-				label: 'مشاهده شده',
-				fillColor: 'rgba(46,116,170,0.2)',
-				strokeColor: 'rgba(46,116,170,1)',
-				pointColor: 'rgba(46,116,170,1)',
-				pointStrokeColor: 'rgba(46,116,170,1)',
-				pointHighlightFill: 'rgba(46,116,170,1)',
-				pointHighlightStroke: 'rgba(46,116,170,1)',
-				backgroundColor: 'rgba(100,226,65,0.5)',
-				data: chartData
-					.slice(datesLabel.length - 7, datesLabel.length + 1)
-					.map((dayData: { seenCount: number }) => dayData.seenCount)
-			},
-			{
-				label: 'نشست',
-				fillColor: 'rgba(220,220,220,0.2)',
-				strokeColor: 'rgba(220,220,220,1)',
-				pointColor: 'rgba(220,220,220,1)',
-				pointStrokeColor: '#fff',
-				pointHighlightFill: '#fff',
-				pointHighlightStroke: 'rgba(220,220,220,1)',
-				data: chartData
-					.slice(datesLabel.length - 7, datesLabel.length + 1)
-					.map(
-						(dayData: { sessionCount: number }) =>
-							dayData.sessionCount
-					)
 			}
+			// {
+			// 	label: 'مشاهده شده',
+			// 	fillColor: 'rgba(46,116,170,0.2)',
+			// 	strokeColor: 'rgba(46,116,170,1)',
+			// 	pointColor: 'rgba(46,116,170,1)',
+			// 	pointStrokeColor: 'rgba(46,116,170,1)',
+			// 	pointHighlightFill: 'rgba(46,116,170,1)',
+			// 	pointHighlightStroke: 'rgba(46,116,170,1)',
+			// 	backgroundColor: 'rgba(100,226,65,0.5)',
+			// 	data: chartData
+			// 		.slice(datesLabel.length - 7, datesLabel.length + 1)
+			// 		.map((dayData: { seenCount: number }) => dayData.seenCount)
+			// },
+			// {
+			// 	label: 'نشست',
+			// 	fillColor: 'rgba(220,220,220,0.2)',
+			// 	strokeColor: 'rgba(220,220,220,1)',
+			// 	pointColor: 'rgba(220,220,220,1)',
+			// 	pointStrokeColor: '#fff',
+			// 	pointHighlightFill: '#fff',
+			// 	pointHighlightStroke: 'rgba(220,220,220,1)',
+			// 	data: chartData
+			// 		.slice(datesLabel.length - 7, datesLabel.length + 1)
+			// 		.map(
+			// 			(dayData: { sessionCount: number }) =>
+			// 				dayData.sessionCount
+			// 		)
+			// }
 		]
 	};
 
@@ -542,32 +597,25 @@ const ActionStatistics = (props: ActionStatisticsProps) => {
 						marginBottom: '30px'
 					}}
 				>
-					{isDataFetched ? (
+					{
 						<>
-							{displayExecuteCountsDiv}
-							{displayExecuteChartDiv}
+							{isTotalDataFetched? displayExecuteCountsDiv: loadingDataWithMessageDiv}
+							{isDaysDataFetched? displayExecuteChartDiv: <div style={{minHeight: "660px"}}/>}
 							<Divider
 								style={{ backgroundColor: darkBaseColor }}
 							/>
-							{desktopMobileDiv}
+							{isTotalDataFetched? desktopMobileDiv: <div style={{minHeight: "250px"}}/>}
 							<Divider
 								style={{ backgroundColor: darkBaseColor }}
 							/>
-							{sessionCountsDiv}
-							{sessionChartDiv}
+							{isTotalDataFetched? sessionCountsDiv: <div style={{minHeight: "170px"}}/>}
+							{isDaysDataFetched? sessionChartDiv: <div style={{minHeight: "660px"}}/>}
 						</>
-					) : (
-						<div style={{ verticalAlign: 'middle' }}>
-							<i className="huge circle notch loading icon" />
-							<p style={{ fontSize: '2em', marginTop: '40px' }}>
-								در حال دریافت اطلاعات
-							</p>
-						</div>
-					)}
+					}
 				</div>
 			</Row>
 		</>
 	);
 };
 
-export default ActionStatistics;
+export default Statistics;

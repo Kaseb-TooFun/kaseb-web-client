@@ -173,7 +173,7 @@ const TopHeader = (props: TopHeaderProps) => {
 									padding: '3px 0',
 									textAlign: 'right'
 								}}
-								href={'/statistics/action/demo'}
+								href={'/statistics/website/demo'}
 								target={'_blank'}
 								rel={'noopener noreferrer'}
 							>

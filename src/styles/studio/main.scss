@@ -52,7 +52,8 @@ $base-color-dark: #af9b18;
 
 	.sidebar {
 		position: relative;
-		overflow: auto;
+		display: flex;
+		flex-direction: column;
 		width: 340px;
 		min-height: 0;
 		border: 1px solid #eee;
@@ -63,9 +64,13 @@ $base-color-dark: #af9b18;
 			width: 40px;
 			height: 40px;
 			cursor: pointer;
+			margin-top: -10px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			i {
+				 margin: 0;
+			}
 		}
 
 		.sidebar-inner {
@@ -73,7 +78,7 @@ $base-color-dark: #af9b18;
 			align-items: center;
 			flex-direction: column;
 			width: 100%;
-			padding: 10px;
+			padding: 0 10px 10px;
 			flex: 1;
 			min-height: 0;
 		}
@@ -126,49 +131,46 @@ $base-color-dark: #af9b18;
 
 .color-selector {
 	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
+	flex-direction: column;
+
+	.colors-row {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
 
 	.color-btn {
 		border-radius: 50%;
 		border-width: 0;
-		width: 30px;
-		height: 30px;
-		margin: 2px 5px;
-		box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+		width: 24px;
+		height: 24px;
+		margin: 4px;
+		box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 		display: flex;
-		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		span {
-			color: #fff;
-			font-size: 20px;
-		}
+		color: #fff;
+	}
+
+	.color-picker {
+		width: 30px;
+		height: 30px;
+		margin-right: -5px;
+		border: 1px solid #eee;
+		box-shadow: none;
 	}
 
 	.color-show {
-		width: 100px;
-		border-radius: 5px;
-		border: 1px solid black;
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		margin-left: -6px;
 	}
 }
 
 .btn-save {
 	display: inline-block;
 	margin: 10px;
-}
-
-.steps-content {
-	flex: 1;
-	width: 100%;
-	margin-top: 10px;
-	border: 1px solid #e9e9e9;
-	border-radius: 15px;
-	background-color: #fff;
-	padding: 5px;
-	overflow: auto;
-	min-height: 0;
-	color: $base-color-dark;
 }
 
 .steps-action {
@@ -241,8 +243,13 @@ $base-color-dark: #af9b18;
 
 .step-container {
 	flex: 1;
-	overflow: auto;
-	min-height: 0;
+	width: 100%;
+	margin-top: 10px;
+	border: 1px solid #e9e9e9;
+	border-radius: 15px;
+	background-color: #fff;
+	padding: 5px;
+	color: $base-color-dark;
 }
 
 .goal-item {

@@ -21,8 +21,6 @@ const AddEditReaction = ({ config, postMessage }: IProps) => {
 
 	const nextStep = () => setStep(step + 1);
 
-	const preview = () => postMessage('preview-reaction', config);
-
 	const tabs = [
 		{
 			key: 'goal',
@@ -50,33 +48,13 @@ const AddEditReaction = ({ config, postMessage }: IProps) => {
 		<div
 			css={css`
 				display: flex;
+				position: relative;
 				flex-direction: column;
 				align-items: center;
 				min-height: 0;
 				overflow: auto;
 			`}
 		>
-			<Button
-				className="my-btn"
-				css={{
-					borderColor: '#af9b18',
-					fontSize: '15px',
-					fontWeight: 'normal',
-					borderRadius: '15px',
-					width: '8rem',
-					height: '2rem',
-					direction: 'rtl',
-					marginBottom: '10px'
-				}}
-				onClick={preview}
-			>
-				<i
-					className={'eye icon'}
-					style={{ marginLeft: '4px', marginRight: '0' }}
-				/>
-				پیش‌نمایش
-			</Button>
-
 			<div
 				css={css`
 					display: flex;
@@ -115,27 +93,25 @@ const AddEditReaction = ({ config, postMessage }: IProps) => {
 					</Button>
 				))}
 			</div>
-			<div className="steps-content">
-				{tabs[step].key == 'goal' && (
-					<SelectGoal postMessage={postMessage} nextStep={nextStep} />
-				)}
+			{tabs[step].key == 'goal' && (
+				<SelectGoal postMessage={postMessage} nextStep={nextStep} />
+			)}
 
-				{tabs[step].key == 'reaction-type' && (
-					<ReactionType nextStep={nextStep} />
-				)}
+			{tabs[step].key == 'reaction-type' && (
+				<ReactionType nextStep={nextStep} />
+			)}
 
-				{tabs[step].key == 'style' && config.value.type == 'action' && (
-					<Animation nextStep={nextStep} />
-				)}
-				{tabs[step].key == 'style' && config.value.type == 'banner' && (
-					<BannerContent nextStep={nextStep} />
-				)}
-				{tabs[step].key == 'style' && config.value.type == 'modal' && (
-					<CardContent nextStep={nextStep} />
-				)}
+			{tabs[step].key == 'style' && config.value.type == 'action' && (
+				<Animation nextStep={nextStep} />
+			)}
+			{tabs[step].key == 'style' && config.value.type == 'banner' && (
+				<BannerContent nextStep={nextStep} />
+			)}
+			{tabs[step].key == 'style' && config.value.type == 'modal' && (
+				<CardContent nextStep={nextStep} />
+			)}
 
-				{tabs[step].key == 'trigger' && <Trigger nextStep={nextStep} />}
-			</div>
+			{tabs[step].key == 'trigger' && <Trigger nextStep={nextStep} />}
 		</div>
 	);
 };

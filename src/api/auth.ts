@@ -9,7 +9,7 @@ export const login = (username: string, password: string) =>
 	});
 
 export const signup = (username: string, password: string) =>
-	instance.post('api/v1/authenticate/signup', {
+	instance.post('/api/v1/authenticate/signup', {
 		username,
 		password
 	});

@@ -31,14 +31,14 @@ const devConfigServer = () => (config) => {
 		// 	// ca: fs.readFileSync('~/Coding/192.168.8.192-tc.crt')
 		// },
 		proxy: {
-			'/api': {
-				target: 'https://api.mykaseb.ir/api/',
-				pathRewrite: { '^/api': '' },
+			'/dev-api': {
+				target: 'https://devapi.kaseb.xyz/',
+				pathRewrite: { '^/dev-api': '' },
 				secure: true,
 				ws: false,
 				changeOrigin: true,
 				onProxyReq: (proxyReq, req, res) => {
-					proxyReq.setHeader('origin', 'https://app.mykaseb.ir');
+					proxyReq.setHeader('origin', 'https://dev.kaseb.xyz/');
 				},
 				onProxyRes: (proxyRes, req, res) => {
 					proxyRes.headers['access-control-allow-methods'] = '*';

@@ -168,27 +168,16 @@ const ConfigsTable = ({
 									<EditOutlined />
 								</Button>
 							</Link>
-							{/*<Link to={`/statistics/action/${value.id}`}>*/}
-							{/*	<Button*/}
-							{/*		className="mr-3 table-btn"*/}
-							{/*		type="primary"*/}
-							{/*		ghost*/}
-							{/*	>*/}
-							{/*		آمار*/}
-							{/*		<i className={"chart line icon"} />*/}
-							{/*	</Button>*/}
-							{/*</Link>*/}
-							<Button
-								className="mr-3 table-btn"
-								type="primary"
-								ghost
-								onClick={() => {
-									setShowStatisticsModal(true);
-								}}
-							>
-								آمار
-								<i className={'chart line icon'} />
-							</Button>
+							<Link to={`/statistics/website/${params.websiteId}/action/${value.id}`}>
+								<Button
+									className="mr-3 table-btn"
+									type="primary"
+									ghost
+								>
+									آمار
+									<i className={'chart line icon'} />
+								</Button>
+							</Link>
 							<Popconfirm
 								title="مطمئن هستید که این واکنش حذف شود؟"
 								onConfirm={() => confirmDelete(value.id)}

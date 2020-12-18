@@ -91,7 +91,16 @@ const Statistics = (props: StatisticsProps) => {
 		// seenCount: 0
 	});
 
-	const [chartData, setChartData] = useState([]);
+	const [chartData, setChartData] = useState([
+		{
+			pageViewCount: 0,
+			executeCount: 0,
+			conversionRate: 0,
+			closedCount: 0,
+			clickedCount: 0
+		}
+	]
+	);
 
 	const navigate = useNavigate();
 	const params = useParams();
@@ -113,6 +122,7 @@ const Statistics = (props: StatisticsProps) => {
 		} else {
 			// todo: fetch api data
 			if (actionId) {
+				// total counts
 				Api.statistics.getActionTotalCounts(websiteId, actionId).then((response) => {
 					if (response.status == 200) {
 						const totalCounts = response.data.total as {
@@ -129,7 +139,24 @@ const Statistics = (props: StatisticsProps) => {
 
 					}
 				});
+				// days counts
+				Api.statistics.getActionDaysCounts(websiteId, actionId).then((response) => {
+					if (response.status == 200) {
+						const daysCounts = response.data.days as {
+							clickedCount: number,
+							closedCount: number,
+							conversionRate: number,
+							executeCount: number,
+							pageViewCount: number
+						}[];
+						setChartData(daysCounts);
+						setIsDaysDataFetched(true);
+					} else {
+
+					}
+				});
 			} else {
+				// total counts
 				Api.statistics.getWebsiteTotalCounts(websiteId).then((response) => {
 					if (response.status == 200) {
 						const totalCounts = response.data.total as {
@@ -142,6 +169,22 @@ const Statistics = (props: StatisticsProps) => {
 						};
 						setCounts(totalCounts);
 						setIsTotalDataFetched(true);
+					} else {
+
+					}
+				});
+				// days counts
+				Api.statistics.getWebsiteDaysCounts(websiteId).then((response) => {
+					if (response.status == 200) {
+						const daysCounts = response.data.days as {
+							clickedCount: number,
+							closedCount: number,
+							conversionRate: number,
+							executeCount: number,
+							pageViewCount: number
+						}[];
+						setChartData(daysCounts);
+						setIsDaysDataFetched(true);
 					} else {
 
 					}
